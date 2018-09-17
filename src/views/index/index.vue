@@ -1,18 +1,20 @@
 <template>
-  <div id="app">
-    <router-view/>
+  <div>
+    首页
   </div>
 </template>
 
 <script>
   export default {
+    components: {},
     data() {
       return {}
     },
-    methods: {}
+    methods: {},
+    created() {}
   }
 </script>
 
-<style>
+<style lang='less' scoped>
   
 </style>
