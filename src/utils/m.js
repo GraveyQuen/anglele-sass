@@ -52,4 +52,40 @@ export default [{
     "updateUserId": "",
     "url": "/setting/storehouse"
   }]
+}, {
+  "appCode": "AUTH",
+  "createTime": 1536919841000,
+  "createUser": "超管",
+  "createUserId": "4028688165d277f90165d278033d004b",
+  "icon": "",
+  "iconType": 1,
+  "id": "8080807c65d78cb80165d78fa8b90000",
+  "openType": 1,
+  "pId": "",
+  "sortIndex": 1,
+  "status": 1,
+  "title": "人员管理",
+  "updateTime": 1536920895000,
+  "updateUser": "超管",
+  "updateUserId": "",
+  "url": "",
+  "children": [{
+    "appCode": "AUTH",
+    "children": [],
+    "createTime": 1536919879000,
+    "createUser": "超管",
+    "createUserId": "4028688165d277f90165d278033d004b",
+    "icon": "",
+    "iconType": 1,
+    "id": "8080807c65d78cb80165d7903ba20001",
+    "openType": 1,
+    "pId": "8080807c65d78cb80165d78fa8b90000",
+    "sortIndex": 1,
+    "status": 1,
+    "title": "客户管理",
+    "updateTime": 1536920895000,
+    "updateUser": "超管",
+    "updateUserId": "",
+    "url": "/staffManageMent/custom"
+  }]
 }]

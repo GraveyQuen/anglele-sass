@@ -1,12 +1,10 @@
 <template>
   <div class="page-inner">
-    <Card :bordered="true" dis-hover title="计量单位管理">
-      <Button type="primary" slot="extra" class="extra-button" @click="openPanel(false)">新增仓库</Button>
-      <Form :mode="pageApi" :label-width="100" inline>
-        <FormItem label="仓库状态：">
-          <Select v-model="pageApi.status" :clearable="false" style="width: 160px;">
-              <Option v-for="(item,index) in [{id:'0',name:'禁用'},{id:'1',name:'启用'}]" :value="item.id" :key="index">{{ item.name }}</Option>
-            </Select>
+    <Card :bordered="true" dis-hover title="客户管理">
+      <Button type="primary" slot="extra" class="extra-button" @click="openPanel(false)">新增客户</Button>
+      <Form :mode="pageApi" :label-width="0" inline>
+        <FormItem>
+          <Input v-model="dataApi.param" style="width: 300px;" placeholder="请输入客户编号、客户名称或客户账号查询"></Input>
         </FormItem>
         <FormItem>
           <Button type="warning" @click.native="resetFilter">清除</Button>
@@ -15,8 +13,8 @@
       <div class="card-contnet">
         <div class="table-contnet">
           <Row class-name="head">
-            <Col class-name="col" span="4">仓库名称</Col>
-            <Col class-name="col" span="8">仓库地址</Col>
+            <Col class-name="col" span="4">客户名称</Col>
+            <Col class-name="col" span="8">客户地址</Col>
             <Col class-name="col" span="3">仓库状态</Col>
             <Col class-name="col" span="3">排序</Col>
             <Col class-name="col" span="3">备注</Col>
@@ -44,10 +42,19 @@
         </div>
       </div>
     </Card>
-    <Modal :title="this.isEdit ? '编辑计量单位':'新增计量单位'" width="500" v-model="show" :mask-closable="false">
+    <Modal :title="this.isEdit ? '编辑客户':'新增客户'" width="500" v-model="show" :mask-closable="false">
       <Form ref="formModel" :model="dataApi" :rules="rule" :label-width="100">
         <FormItem label="名称：" prop="name">
           <Input v-model="dataApi.name" placeholder="请输入..."></Input>
+        </FormItem>
+        <FormItem label="登录账号：" prop="phone">
+          <Input v-model="dataApi.phone" placeholder="请输入..."></Input>
+        </FormItem>
+        <FormItem label="联系人：" prop="contactPeople">
+          <Input v-model="dataApi.contactPeople" placeholder="请输入..."></Input>
+        </FormItem>
+        <FormItem label="联系人电话：" prop="contactPhone">
+          <Input v-model="dataApi.contactPhone" placeholder="请输入..."></Input>
         </FormItem>
         <FormItem label="地址：">
           <cityPick v-model="city" @on-pick="onPick"></cityPick>
@@ -81,7 +88,7 @@
         pageApi: {
           pageIndex: 1,
           pageSize: 10,
-          status: ''
+          param: ''
         },
         city: [],
         dataApi: {
@@ -94,12 +101,30 @@
           cityId: '',
           cityName: '',
           districtId: '',
-          districtName: ''
+          districtName: '',
+          contactPeople: '',
+          contactPhone: '',
+          phone: ''
         },
         loading: false,
         show: false,
         rule: {
           name: [{
+            required: true,
+            message: '不能为空',
+            trigger: 'blur'
+          }],
+          contactPeople: [{
+            required: true,
+            message: '不能为空',
+            trigger: 'blur'
+          }],
+          contactPhone: [{
+            required: true,
+            message: '不能为空',
+            trigger: 'blur'
+          }],
+          phone: [{
             required: true,
             message: '不能为空',
             trigger: 'blur'
@@ -116,7 +141,7 @@
         return {
           pageIndex: this.pageApi.pageIndex,
           pageSize: this.pageApi.pageSize,
-          status: this.pageApi.status
+          param: this.pageApi.param
         }
       }
     },
@@ -141,7 +166,7 @@
         this.dataApi.districtName = data.districtName;
       },
       getList(params) {
-        this.$http.post(this.$api.findWareHouseList, params).then(res => {
+        this.$http.post(this.$api.findCustomerList, params).then(res => {
           if (res.code === 1000) {
             this.list = res.data.data;
             this.totalCount = res.data.totalCount;
@@ -153,7 +178,7 @@
         this.pageApi = {
           pageIndex: 1,
           pageSize: 10,
-          status: ''
+          param: ''
         }
       },
       // 分页
@@ -174,7 +199,10 @@
             cityId: item.cityId,
             cityName: item.cityName,
             districtId: item.districtId,
-            districtName: item.districtName
+            districtName: item.districtName,
+            phone: item.phone,
+            contactPeople: item.contactPeople,
+            contactPhone: item.contactPhone
           }
           this.city.push(item.provinceId);
           this.city.push(item.cityId);
@@ -190,7 +218,10 @@
             cityId: '',
             cityName: '',
             districtId: '',
-            districtName: ''
+            districtName: '',
+            phone: '',
+            contactPeople: '',
+            contactPhone: ''
           }
           this.city = [];
         }
@@ -202,7 +233,7 @@
           if (valid) {
             this.loading = true;
             let params = this.$clearData(this.dataApi);
-            let paramsUrl = this.isEdit ? this.$api.updateWareHouse : this.$api.saveWareHouse;
+            let paramsUrl = this.isEdit ? this.$api.updateCustomer : this.$api.saveCustomer;
             if (this.isEdit) {
               params.id = this.editItem.id;
             }
@@ -251,7 +282,7 @@
       }
     },
     created() {
-      this.getList(this.pageFilter)
+      // this.getList(this.pageFilter)
     }
   }
 </script>

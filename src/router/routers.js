@@ -39,6 +39,21 @@ export default [{
           title: '仓库管理',
         },
       }]
+    }, {
+      path: '/staffManageMent',
+      name: 'staffManageMent',
+      component: resolve => require(['@/views/staffManageMent/index.vue'], resolve),
+      meta: {
+        title: '人员管理',
+      },
+      children: [{
+        path: '/staffManageMent/custom',
+        name: 'custom',
+        component: resolve => require(['@/views/staffManageMent/custom/index.vue'], resolve),
+        meta: {
+          title: '客户管理',
+        },
+      }]
     }]
   },
   {
