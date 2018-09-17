@@ -2,7 +2,7 @@
   <div class="layout-aside">
     <div class="menu-box">
       <ul>
-        <li v-for="(item,index) in base.menu" :key="index" class="on">
+        <li v-for="(item,index) in menu" :key="index" class="on">
           <a :title="item.title">
             <i class="arrow"></i>
             <span class="node-name">{{item.title}}</span>
@@ -24,18 +24,19 @@
 </template>
 
 <script>
+  import menu from '@/utils/m.js'
   import {
     mapGetters
   } from 'vuex';
   export default {
     data() {
       return {
-        menu: [],
+        menu: menu,
         currentRoute: {}
       }
     },
     computed: {
-      ...mapGetters(['base']),
+      // ...mapGetters(['base']),
     },
     methods: {
   

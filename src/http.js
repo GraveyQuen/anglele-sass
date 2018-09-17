@@ -7,7 +7,7 @@ import axios from 'axios'
 import Qs from 'qs'
 import store from './store/store'
 import * as types from './store/types'
-import router from './router'
+import router from './router/index'
 
 
 // axios 配置

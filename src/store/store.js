@@ -2,6 +2,8 @@ import Vuex from 'vuex'
 import Vue from 'vue'
 import * as types from './types'
 import VueLocalStorage from 'vue-ls';
+import {getBreadCrumbList,getHomeRoute} from '@/utils/tools'
+import routers from '../router/routers'
 
 
 Vue.use(VueLocalStorage);
@@ -11,13 +13,8 @@ export default new Vuex.Store({
     user: undefined,
     base: '',
     authorization: Vue.ls.get('authorization'),
-    pushData: {
-      body: '',
-      code: '',
-      time: '',
-      title: '',
-      type: ''
-    }
+    breadCrumbList: [],
+    homeRoute: getHomeRoute(routers),
   },
   getters: {
     isLogin: state => {
@@ -33,9 +30,6 @@ export default new Vuex.Store({
     },
     base: state => {
       return state.base
-    },
-    pushData: state => {
-      return state.pushData
     }
   },
   mutations: {
@@ -59,10 +53,9 @@ export default new Vuex.Store({
     [types.UPDATE_PRO_INFO]: (state, payload) => {
       state.user.proInfo = payload;
     },
-    // 消息推送commit
-    [types.UPDATE_PUSH_MSG]: (state, payload) => {
-      state.pushData = payload;
-    }
+    setBreadCrumb (state, routeMetched) {
+      state.breadCrumbList = getBreadCrumbList(routeMetched, state.homeRoute)
+    },
   },
   actions: {
     loginOut(context) {
