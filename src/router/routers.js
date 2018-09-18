@@ -40,18 +40,25 @@ export default [{
         },
       }]
     }, {
-      path: '/staffManageMent',
-      name: 'staffManageMent',
-      component: resolve => require(['@/views/staffManageMent/index.vue'], resolve),
+      path: '/staffManage',
+      name: 'staffManage',
+      component: resolve => require(['@/views/staffManage/index.vue'], resolve),
       meta: {
         title: '人员管理',
       },
       children: [{
-        path: '/staffManageMent/custom',
+        path: '/staffManage/custom',
         name: 'custom',
-        component: resolve => require(['@/views/staffManageMent/custom/index.vue'], resolve),
+        component: resolve => require(['@/views/staffManage/custom/index.vue'], resolve),
         meta: {
           title: '客户管理',
+        },
+      },{
+        path: '/staffManage/supplier',
+        name: 'supplier',
+        component: resolve => require(['@/views/staffManage/supplier/index.vue'], resolve),
+        meta: {
+          title: '供应商管理',
         },
       }]
     }]

@@ -86,6 +86,24 @@ export default [{
     "updateTime": 1536920895000,
     "updateUser": "超管",
     "updateUserId": "",
-    "url": "/staffManageMent/custom"
+    "url": "/staffManage/custom"
+  },{
+    "appCode": "AUTH",
+    "children": [],
+    "createTime": 1536919879000,
+    "createUser": "超管",
+    "createUserId": "4028688165d277f90165d278033d004b",
+    "icon": "",
+    "iconType": 1,
+    "id": "8080807c65d78cb80165d7903ba20001",
+    "openType": 1,
+    "pId": "8080807c65d78cb80165d78fa8b90000",
+    "sortIndex": 1,
+    "status": 1,
+    "title": "供应商管理",
+    "updateTime": 1536920895000,
+    "updateUser": "超管",
+    "updateUserId": "",
+    "url": "/staffManage/supplier"
   }]
 }]

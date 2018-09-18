@@ -106,3 +106,40 @@ export const saveCustomer = '/sys/customer/saveCustomer'
  * 客户列表
  */
 export const updateCustomer = '/sys/customer/updateCustomer'
+
+/**
+ * 修改客户状态
+ */
+export const modifyCustomer = '/sys/customer/modifyCustomer'
+
+/**
+ * 重置密码
+ */
+export const defaultPassword = '/sys/customer/defaultPassword'
+
+/**
+ * 查询商户列表
+ */
+export const findBusinessList = '/sys/business/findBusinessList'
+
+/**
+ * 添加商户信息
+ */
+export const saveBusiness = '/sys/business/saveBusiness'
+
+/**
+ * 更新商户信息
+ */
+export const updateBusiness = '/sys/business/updateBusiness'
+
+
+/**
+ * 禁用商户
+ */
+export const delBusiness = '/sys/business/delBusiness'
+
+
+/**
+ * 查询商户绑定账号
+ */
+export const findBusinessUser = '/sys/business/findBusinessUser'

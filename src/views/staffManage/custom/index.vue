@@ -4,7 +4,7 @@
       <Button type="primary" slot="extra" class="extra-button" @click="openPanel(false)">新增客户</Button>
       <Form :mode="pageApi" :label-width="0" inline>
         <FormItem>
-          <Input v-model="dataApi.param" style="width: 300px;" placeholder="请输入客户编号、客户名称或客户账号查询"></Input>
+          <Input v-model="pageApi.param" style="width: 300px;" placeholder="请输入客户编号、客户名称或客户账号查询"></Input>
         </FormItem>
         <FormItem>
           <Button type="warning" @click.native="resetFilter">清除</Button>
@@ -14,22 +14,28 @@
         <div class="table-contnet">
           <Row class-name="head">
             <Col class-name="col" span="4">客户名称</Col>
-            <Col class-name="col" span="8">客户地址</Col>
-            <Col class-name="col" span="3">仓库状态</Col>
-            <Col class-name="col" span="3">排序</Col>
+            <Col class-name="col" span="6">客户地址</Col>
+            <Col class-name="col" span="2">登录账号</Col>
+            <Col class-name="col" span="2">联系人</Col>
+            <Col class-name="col" span="2">联系电话</Col>
+            <Col class-name="col" span="2">状态</Col>
             <Col class-name="col" span="3">备注</Col>
             <Col class-name="col" span="3">操作</Col>
           </Row>
           <Row v-for="(item,index) in list" :key="index">
             <Col class-name="col" span="4">{{item.name}}</Col>
-            <Col class-name="col" span="8">{{`${item.provinceName}${item.cityName}${item.districtName}${item.address}`}}</Col>
-            <Col class-name="col" span="3">
+            <Col class-name="col" span="6">{{`${item.provinceName}${item.cityName}${item.districtName}${item.address}`}}</Col>
+            <Col class-name="col" span="2">{{item.phone}}</Col>
+            <Col class-name="col" span="2"> {{item.contactPeople}}
+            </Col>
+            <Col class-name="col" span="2">{{item.contactPeople}}</Col>
+            <Col class-name="col" span="2">
             <Button size="small" @click="changeStatus(item)">{{item.status === 1 ? '启用':'禁用'}}</Button>
             </Col>
-            <Col class-name="col" span="3">{{item.sortIndex}}</Col>
             <Col class-name="col" span="3">{{item.remark}}</Col>
             <Col class-name="col" span="3">
-            <Button type="warning" size="small" @click="openPanel(true,item)">编辑</Button>
+            <Button type="warning" size="small" @click="openPanel(true,item)" style="margin-right: 10px;">编辑</Button>
+            <Button type="warning" size="small" @click="resetPsd(item)">重置密码</Button>
             </Col>
           </Row>
           </Row>
@@ -53,7 +59,7 @@
         <FormItem label="联系人：" prop="contactPeople">
           <Input v-model="dataApi.contactPeople" placeholder="请输入..."></Input>
         </FormItem>
-        <FormItem label="联系人电话：" prop="contactPhone">
+        <FormItem label="联系电话：" prop="contactPhone">
           <Input v-model="dataApi.contactPhone" placeholder="请输入..."></Input>
         </FormItem>
         <FormItem label="地址：">
@@ -61,9 +67,6 @@
         </FormItem>
         <FormItem label="详细地址：">
           <Input v-model="dataApi.address" placeholder="请输入..."></Input>
-        </FormItem>
-        <FormItem label="排序：">
-          <Input v-model="dataApi.sortIndex" placeholder="请输入..."></Input>
         </FormItem>
         <FormItem label="备注：">
           <Input v-model="dataApi.remark" placeholder="请输入..."></Input>
@@ -93,7 +96,6 @@
         city: [],
         dataApi: {
           name: '',
-          sortIndex: '',
           remark: '',
           address: '',
           provinceId: '',
@@ -191,7 +193,6 @@
           this.editItem = item || {};
           this.dataApi = {
             name: item.name,
-            sortIndex: item.sortIndex,
             remark: item.remark,
             address: item.address,
             provinceId: item.provinceId,
@@ -210,7 +211,6 @@
         } else {
           this.dataApi = {
             name: '',
-            sortIndex: '',
             remark: '',
             address: '',
             provinceId: '',
@@ -261,13 +261,14 @@
         this.loading = false;
         this.$refs[name].resetFields();
       },
+      //  更改客户状态
       changeStatus(item) {
         let status = item.status;
         this.$Modal.confirm({
           title: '更改状态',
-          content: `确定将仓库状态更改为${item.status === 1 ? '禁用':'启用'}`,
+          content: `确定将客户状态更改为${item.status === 1 ? '禁用':'启用'}`,
           onOk: () => {
-            this.$http.post(this.$api.modifyWareHouse, {
+            this.$http.post(this.$api.modifyCustomer, {
               id: item.id
             }).then(res => {
               if (res.code === 1000) {
@@ -279,10 +280,29 @@
             })
           }
         })
+      },
+      // 重置密码
+      resetPsd(item) {
+        this.$Modal.confirm({
+          title: '重置密码',
+          content: '确定将客户重置？',
+          onOk: () => {
+            this.$http.post(this.$api.defaultPassword, {
+              id: item.id
+            }).then(res => {
+              if (res.code === 1000) {
+                this.getList(this.pageFilter);
+                this.$Message.success('重置成功!');
+              } else {
+                this.$Message.error(res.message);
+              }
+            })
+          }
+        })
       }
     },
     created() {
-      // this.getList(this.pageFilter)
+      this.getList(this.pageFilter)
     }
   }
 </script>

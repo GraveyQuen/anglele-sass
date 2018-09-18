@@ -142,7 +142,7 @@
               -webkit-font-smoothing: antialiased;
               -moz-osx-font-smoothing: grayscale;
             }
-            &.current {
+            &.active {
               background: rgb(38, 41, 50, .6);
               color: #fff;
               i {
