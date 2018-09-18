@@ -1,7 +1,7 @@
 <template>
   <div class="page-inner">
     <Card :bordered="true" dis-hover title="供应商管理">
-      <Button type="primary" slot="extra" class="extra-button" @click="openPanel(false)">新增客户</Button>
+      <Button type="primary" slot="extra" class="extra-button" @click="openPanel(false)">新增供应商</Button>
       <Form :mode="pageApi" :label-width="100" inline>
         <FormItem label="供应商名称：">
           <Input v-model="pageApi.name" placeholder="请输入"></Input>
@@ -34,7 +34,7 @@
             <Col class-name="col" span="7">{{item.name}}</Col>
             <Col class-name="col" span="3"> {{item.contactPeople}}
             </Col>
-            <Col class-name="col" span="3">{{item.contactPeople}}</Col>
+            <Col class-name="col" span="3">{{item.contactPhone}}</Col>
             <Col class-name="col" span="2">
             <Button size="small" @click="changeStatus(item)">{{item.status === 1 ? '启用':'禁用'}}</Button>
             </Col>
@@ -89,6 +89,32 @@
         <Button @click="resetStatus('formStatus')">取消</Button>
       </div>
     </Modal>
+    <Modal title="绑定账号" width="500" v-model="detailShow" :mask-closable="false">
+      <Form :label-width="100">
+        <FormItem label="用户名称：">
+          {{accountDetail.userName | emptyHlod}}
+        </FormItem>
+        <FormItem label="手机号：">
+          {{accountDetail.phone | emptyHlod}}
+        </FormItem>
+        <FormItem label="生日：">
+          <div v-if="accountDetail.birth != ''">{{accountDetail.birth | dateformat('yyyy-MM-dd')}}</div>
+          <div v-else>{{accountDetail.birth | emptyHlod}}</div>
+        </FormItem>
+        <FormItem label="性别：">
+          {{accountDetail.sex | emptyHlod}}
+        </FormItem>
+        <FormItem label="头像：">
+          <div v-if="accountDetail.avatar != ''">
+            <img :src="accountDetail.avatar" width="100">
+          </div>
+          <div v-else>暂无</div>
+        </FormItem>
+      </Form>
+      <div slot="footer">
+        <Button @click="detailShow = false">关闭</Button>
+      </div>
+    </Modal>
   </div>
 </template>
 
@@ -113,11 +139,13 @@
           fax: '',
           qq: ''
         },
+        detailShow: false,
         statusShow: false,
         show: false,
         isEdit: false,
         editItem: {},
         loading: false,
+        accountDetail: {},
         statusApi: {
           id: '',
           remark: ''
@@ -165,8 +193,8 @@
       'pageFilter': {
         handler: _.debounce(function(val, oldVal) {
           // 是否是翻页操作
-          if (val.currentPage == oldVal.currentPage)
-            this.pageApi.currentPage = 1;
+          if (val.pageIndex == oldVal.pageIndex)
+            this.pageApi.pageIndex = 1;
           this.getList(this.pageFilter);
         }, 200),
         deep: true
@@ -200,8 +228,21 @@
         this.isEdit = isEdit;
         if (this.isEdit) {
           this.editItem = item || {};
+          this.dataApi = {
+            name: item.name,
+            contactPeople: item.contactPeople,
+            contactPhone: item.contactPhone,
+            fax: item.fax,
+            qq: item.qq
+          }
         } else {
-  
+          this.dataApi = {
+            name: '',
+            contactPeople: '',
+            contactPhone: '',
+            fax: '',
+            qq: ''
+          }
         }
         this.show = true;
       },
@@ -292,7 +333,8 @@
           id: item.id
         }).then(res => {
           if (res.code === 1000) {
-            console.log(res)
+            this.detailShow = true;
+            this.accountDetail = res.data;
           }
         })
       }

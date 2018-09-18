@@ -38,6 +38,13 @@ export default [{
         meta: {
           title: '仓库管理',
         },
+      }, {
+        path: '/setting/classification',
+        name: 'classification',
+        component: resolve => require(['@/views/setting/classification/index.vue'], resolve),
+        meta: {
+          title: '分类管理',
+        },
       }]
     }, {
       path: '/staffManage',
@@ -53,12 +60,48 @@ export default [{
         meta: {
           title: '客户管理',
         },
-      },{
+      }, {
         path: '/staffManage/supplier',
         name: 'supplier',
         component: resolve => require(['@/views/staffManage/supplier/index.vue'], resolve),
         meta: {
           title: '供应商管理',
+        },
+      }]
+    }, {
+      path: '/inventoryManage',
+      name: 'inventoryManage',
+      component: resolve => require(['@/views/inventoryManage/index.vue'], resolve),
+      meta: {
+        title: '库存管理',
+      },
+      children: [{
+        path: '/inventoryManage/products',
+        name: 'products',
+        component: resolve => require(['@/views/inventoryManage/products/index.vue'], resolve),
+        meta: {
+          title: '产品管理',
+        },
+      }, {
+        path: '/inventoryManage/inventoryIn',
+        name: 'inventoryIn',
+        component: resolve => require(['@/views/inventoryManage/inventoryIn/index.vue'], resolve),
+        meta: {
+          title: '入库管理',
+        },
+      }, {
+        path: '/inventoryManage/inventoryOut',
+        name: 'inventoryOut',
+        component: resolve => require(['@/views/inventoryManage/inventoryOut/index.vue'], resolve),
+        meta: {
+          title: '出库管理',
+        },
+      }, {
+        path: '/inventoryManage/wastage',
+        name: 'wastage',
+        component: resolve => require(['@/views/inventoryManage/wastage/index.vue'], resolve),
+        meta: {
+          title: '损耗管理',
         },
       }]
     }]

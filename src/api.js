@@ -68,6 +68,12 @@ export const delUnit = '/sys/unit/delUnit'
 
 
 /**
+ * 查询所有启用的计量单位
+ */
+export const findUnit = '/sys/unit/findUnit'
+
+
+/**
  * 仓库分页查询
  */
 export const findWareHouseList = '/sys/warehouse/findWareHouseList'
@@ -88,6 +94,12 @@ export const updateWareHouse = '/sys/warehouse/updateWareHouse'
  * 保存仓库信息
  */
 export const modifyWareHouse = '/sys/warehouse/modifyWareHouse'
+
+
+/**
+ * 启用仓库查询
+ */
+export const findWareHouse = '/sys/warehouse/findWareHouse'
 
 
 /**
@@ -143,3 +155,51 @@ export const delBusiness = '/sys/business/delBusiness'
  * 查询商户绑定账号
  */
 export const findBusinessUser = '/sys/business/findBusinessUser'
+
+
+/**
+ * 分类列表
+ */
+export const findCategoryList = '/sys/category/findCategoryList'
+
+/**
+ * 保存分类
+ */
+export const saveCategory = '/sys/category/saveCategory'
+
+/**
+ * 更新分类
+ */
+export const updateCategory = '/sys/category/updateCategory'
+
+
+/**
+ * 查询所有有效的分类
+ */
+export const findAllCategory = '/sys/category/findAllCategory'
+
+
+
+/**
+ * 删除分类
+ */
+export const delCategory = '/sys/category/delCategory'
+
+
+/**
+ * 新增产品
+ */
+export const saveProduct = '/sys/product/saveProduct'
+
+
+
+/**
+ * 编辑产品
+ */
+export const updateProduct = '/sys/product/updateProduct'
+
+
+/**
+ * 查询产品列表
+ */
+export const findProductList = '/sys/product/findProductList'

@@ -151,8 +151,8 @@
       'pageFilter': {
         handler: _.debounce(function(val, oldVal) {
           // 是否是翻页操作
-          if (val.currentPage == oldVal.currentPage)
-            this.pageApi.currentPage = 1;
+          if (val.pageIndex == oldVal.pageIndex)
+            this.pageApi.pageIndex = 1;
           this.getList(this.pageFilter);
         }, 200),
         deep: true
