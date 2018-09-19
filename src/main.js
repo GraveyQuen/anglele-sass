@@ -5,7 +5,7 @@ import 'iview/dist/styles/iview.css';
 import router from './router/index'
 import store from './store/store'
 import clickoutside from './directives/clickoutside'
-import * as filters from './filters/index' //过滤器
+import * as filters from './utils/filters' //过滤器
 import axios from './http'
 import * as api from './api'
 import _ from 'lodash'

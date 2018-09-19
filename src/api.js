@@ -6,6 +6,12 @@ export const upload = 'http://192.168.0.252:8081/auth/file/upload'
 
 
 /**
+ * oss后端签名接口
+ */
+export const ossPolicy = '/api/oss/policy'
+
+
+/**
  * 登录
  */
 export const login = '/auth/login'
@@ -203,3 +209,9 @@ export const updateProduct = '/sys/product/updateProduct'
  * 查询产品列表
  */
 export const findProductList = '/sys/product/findProductList'
+
+
+/**
+ * 产品删除
+ */
+export const delProduct = '/sys/product/delProduct'

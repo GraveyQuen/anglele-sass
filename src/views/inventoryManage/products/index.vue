@@ -8,18 +8,18 @@
         </FormItem>
         <FormItem label="所属分类：">
           <Select v-model="pageApi.categoryId" style="width: 160px;">
-                              <Option v-for="(item,index) in categoryList" :value="item.id" :key="index">{{ item.name }}</Option>
-                            </Select>
+                  <Option v-for="(item,index) in categoryList" :value="item.id" :key="index">{{ item.name }}</Option>
+                </Select>
         </FormItem>
         <FormItem label="所属仓库：">
           <Select v-model="pageApi.wareHouseId" style="width: 160px;">
-                              <Option v-for="(item,index) in storeList" :value="item.id" :key="index">{{ item.name }}</Option>
-                            </Select>
+                  <Option v-for="(item,index) in storeList" :value="item.id" :key="index">{{ item.name }}</Option>
+                </Select>
         </FormItem>
         <FormItem label="状态：">
           <Select v-model="pageApi.status" style="width: 160px;">
-                              <Option v-for="(item,index) in [{name:'上架',id: 1},{name:'下架',id: 0}]" :value="item.id" :key="index">{{ item.name }}</Option>
-                            </Select>
+                  <Option v-for="(item,index) in [{name:'上架',id: 1},{name:'下架',id: 0}]" :value="item.id" :key="index">{{ item.name }}</Option>
+                </Select>
         </FormItem>
         <FormItem label="最近更新人：">
           <Input v-model="pageApi.updateUser" placeholder="请输入..."></Input>
@@ -38,24 +38,25 @@
     <Modal :title="this.isEdit ? '编辑产品':'新增产品'" width="800" v-model="show" :mask-closable="false">
       <Form ref="formModel" :model="dataApi" :rules="rule" :label-width="100" class="product-form">
         <div class="product-img">
-          <div class="product-img-title">产品图片</div>
-          <div class="product-img-main">产品图片</div>
+          <div class="product-img-title">产品图片:</div>
+          <div class="product-img-main">
+          </div>
         </div>
         <FormItem label="名称：" prop="name">
           <Input v-model="dataApi.name" placeholder="请输入..."></Input>
         </FormItem>
         <FormItem label="所属分类：" prop="categoryId">
           <Select v-model="dataApi.categoryId">
-              <Option v-for="(item,index) in categoryList" :value="item.id" :key="index">{{ item.name }}</Option>
-            </Select>
+                        <Option v-for="(item,index) in categoryList" :value="item.id" :key="index">{{ item.name }}</Option>
+                      </Select>
         </FormItem>
         <FormItem label="单价：" prop="price">
           <Input v-model.number="dataApi.price" placeholder="请输入..."></Input>
         </FormItem>
         <FormItem label="计量单位：" prop="unit">
           <Select v-model="dataApi.unit">
-              <Option v-for="(item,index) in unitList" :value="item.cName" :key="index">{{ item.cName }}</Option>
-            </Select>
+                        <Option v-for="(item,index) in unitList" :value="item.cName" :key="index">{{ item.cName }}</Option>
+                      </Select>
         </FormItem>
         <FormItem label="排序：" prop="sortIndex">
           <Input v-model.number="dataApi.sortIndex" placeholder="请输入..."></Input>
@@ -88,7 +89,7 @@
 <script>
   import {
     dateformat
-  } from '@/filters/index'
+  } from '@/utils/filters'
   export default {
     data() {
       return {
@@ -357,6 +358,25 @@
           }
         })
       },
+      //  删除产品
+      deleteItem(item) {
+        this.$Modal.confirm({
+          title: '删除确认',
+          content: '此操作将无法撤销,是否继续？',
+          onOk: () => {
+            this.$http.post(this.$api.delProduct, {
+              id: item.id
+            }).then(res => {
+              if (res.code === 1000) {
+                this.getList(this.pageFilter);
+                this.$Message.success('删除成功!');
+              } else {
+                this.$Message.error(res.message);
+              }
+            })
+          }
+        })
+      },
       // 取消保存新增、编辑产品
       reset(name) {
         Object.keys(this.dataApi).forEach(key => [
@@ -406,11 +426,14 @@
   .product-form {
     max-width: 400px;
     position: relative;
-    .product-img{
+    .product-img {
       position: absolute;
       left: 420px;
       top: 0;
       width: 340px;
+    }
+    .product-img-main {
+      margin-bottom: 15px;
     }
   }
 </style>
