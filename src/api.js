@@ -2,7 +2,7 @@ let host = window.location.host;
 /**
  * 上传文件
  */
-export const upload = 'http://192.168.0.252:8081/auth/file/upload'
+export const upload = 'http://192.168.0.191:8080/auth/file/upload'
 
 
 /**
@@ -215,3 +215,40 @@ export const findProductList = '/sys/product/findProductList'
  * 产品删除
  */
 export const delProduct = '/sys/product/delProduct'
+
+
+/**
+ * 商品入库新增
+ */
+export const wareHouseIn = '/sys/wareHouseIn/in'
+
+/**
+ * 商品入库新增
+ */
+export const wareHouseupdateIn = '/sys/wareHouseIn/updateIn'
+
+
+/**
+ * 入库列表
+ */
+export const wareHouseInPage = '/sys/wareHouseIn/page'
+
+/**
+ * 供应商待客开单
+ */
+export const businessSaveOrder = '/sys/order/businessSaveOrder'
+
+/**
+ * 删除入库单
+ */
+export const wareHouseInDelete = '/sys/wareHouseIn/delete'
+
+/**
+ * 取消入库单
+ */
+export const wareHouseInCancel = '/sys/wareHouseIn/cancel'
+
+/**
+ * 损耗单列表
+ */
+export const findWastageList = '/sys/wastage/findWastageList'

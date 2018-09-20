@@ -59,7 +59,7 @@
       picCodeUrl() {
         let host = "";
         if (window.location.hostname == "localhost")
-          host = "http://192.168.0.252:8081";
+          host = "http://192.168.0.191:8080";
         return host + this.$api.captcha + "?r=" + this.random;
       }
     },
@@ -69,7 +69,7 @@
       },
       setUser(data) {
         this.$store.commit(types.LOGIN, data);
-        let redirect = decodeURIComponent(this.$route.query.redirect || '/index');
+        let redirect = decodeURIComponent(this.$route.query.redirect || '/home');
         this.$router.push({
           path: redirect
         })

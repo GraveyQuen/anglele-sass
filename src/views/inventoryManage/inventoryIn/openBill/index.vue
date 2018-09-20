@@ -1,0 +1,280 @@
+<template>
+  <div class="openBill">
+    <!-- 已添加的货物列表 -->
+    <Card class="goods-list" dis-hover title="入库开单">
+      <div class="base-info">
+        <Form :model="baseApi" ref="baseForm" :rules="baseRule" :label-width="110" inline>
+          <FormItem label="开单日期：">
+            <DatePicker type="date" placeholder="选择日期" placement="bottom-end" v-model="baseApi.newOrderDate" style="width: 200px"></DatePicker>
+          </FormItem>
+          <FormItem label="仓库名称：" prop="wareHouseId">
+            <Select v-model="baseApi.wareHouseId" style="width: 180px;">
+                    <Option v-for="(item,index) in storeList" :value="item.id" :key="index">{{ item.name }}</Option>
+                  </Select>
+          </FormItem>
+          <FormItem label="入库类型：" prop="inType">
+            <Select v-model="baseApi.inType" style="width: 180px;">
+                    <Option v-for="(item,index) in [{id:1,name: '采购入库'},{id:2,name: '退货入库'},{id:3,name:'其他入库'}]" :value="item.id" :key="index">{{ item.name }}</Option>
+                  </Select>
+          </FormItem>
+          <FormItem label="送货人：">
+            <Input v-model="baseApi.driver" placeholder="请输入" style="width: 180px;"></Input>
+          </FormItem>
+          <FormItem label="送货人联系方式：">
+            <Input v-model="baseApi.driverPhone" placeholder="请输入" style="width: 180px;"></Input>
+          </FormItem>
+          <FormItem label="备注：">
+            <Input v-model="baseApi.remark" placeholder="请输入" style="width: 180px;"></Input>
+          </FormItem>
+        </Form>
+      </div>
+      <div class="goods-info">
+        <div class="add-goods">
+          <Button type="primary" @click="show = true">选择产品</Button>
+        </div>
+        <Table ref="goodsTable" border :columns="goodsHeader" :data="goodsList" style="max-width: 752px;">
+          <!-- 入库数量 -->
+          <template slot="num" slot-scope="props">
+                  <Form :ref="'formRow'+props.idx" :model="props.row">
+                    <FormItem prop="num" :rules="{required: true, message: '请输入数量', trigger: 'blur'}">
+                      <Input v-model="props.row.num" size="small" style="width:80px;"></Input>{{props.row.unit}}
+                    </FormItem>
+                  </Form>
+</template>
+          <!-- 成本价 -->
+<template slot="cost" slot-scope="props">
+  <Form :model="props.row">
+    <FormItem>
+      <Input v-model="props.row.cost" style="width:60px;" size="small"></Input>元/{{props.row.unit}}
+    </FormItem>
+  </Form>
+  </Form>
+</template>
+           <!-- 操作 -->
+<template slot="action" slot-scope="props">
+  <Poptip @on-ok="delRow(props.idx)" confirm title="确认删除此条产品？" transfer>
+    <Button type="warning" size="small">删除</Button>
+  </Poptip>
+</template>
+        </Table>
+      </div>
+      <div class="bottom-options">
+        <div class="btn-block">
+        <Button type="primary" @click="save(1,'baseForm')">保存</Button>
+        </div>
+        <div class="btn-block">
+        <Button type="warning" @click="save(0,'baseForm')">暂存</Button>
+        </div>
+        <div class="btn-block">
+        <Button @click="goback">返回</Button>
+        </div>
+      </div>
+    </Card>
+    <Modal title="选择产品" width="600" v-model="show" :mask-closable="false">
+      <selectGoods v-if="show" @on-select="onselect"></selectGoods>
+      <div slot="footer">
+        <Button type="primary" @click="chooseGoods">选择</Button>
+        <Button @click="resetGoods">取消</Button>
+      </div>
+    </Modal>
+  </div>
+</template>
+
+<script>
+  import selectGoods from '../../../components/selectGoods/index'
+  export default {
+    components: {
+      selectGoods
+    },
+    data() {
+      return {
+        baseApi: {
+          wareHouseId: '',
+          remark: '',
+          newOrderDate: '',
+          inType: '',
+          driver: '',
+          driverPhone: '',
+          status: '',
+          wareHouseInItem: []
+        },
+        baseRule: {
+          wareHouseId: [{
+            required: true,
+            message: '不能为空',
+            trigger: 'change'
+          }]
+        },
+        date: '',
+        formRow: {},
+        selectGoods: [],
+        show: false,
+        goodsList: [],
+        act: false,  // 用于触发渲染
+        storeList: [],
+        goodsHeader: [{
+          title: '产品名称',
+          key: 'name',
+          maxWidth: 150
+        }, {
+          title: '所属分类',
+          key: 'categoryName',
+          maxWidth: 150
+        }, {
+          title: '入库数量',
+          key: 'nums',
+          maxWidth: 140,
+          render: (h, params) => {
+            this.goodsList[params.index] = params.row
+            return h(
+              'div',
+              this.$refs.goodsTable.$scopedSlots.num({
+                row: params.row,
+                idx: params.row._index
+              })
+            )
+          }
+        }, {
+          title: '成本价',
+          key: 'cost',
+          maxWidth: 130,
+          render: (h, params) => {
+            return h(
+              'div',
+              this.$refs.goodsTable.$scopedSlots.cost({
+                row: params.row,
+                idx: params.row._index
+              })
+            )
+          }
+        }, {
+          title: '操作',
+          key: 'action',
+          maxWidth: 180,
+          render: (h, params) => {
+            return h(
+              'div',
+              this.$refs.goodsTable.$scopedSlots.action({
+                idx: params.row._index
+              })
+            )
+          }
+        }]
+      }
+    },
+    computed: {
+      isEdit() {
+        return this.$route.query.status === 1; // 1新增2编辑
+      }
+    },
+    watch:{
+      'baseApi.newOrderDate'(val){
+        this.date = val.getTime()
+      }
+    },
+    methods: {
+      // 返回
+      goback() {
+        this.$router.go(-1);
+      },
+      onselect(data) {
+        this.selectGoods = [...data];
+        this.$nextTick(() => {
+          this.act = !this.act;
+        })
+      },
+      // 选择产品
+      chooseGoods() {
+        if (this.selectGoods.length > 0) {
+          this.goodsList = [...this.selectGoods];
+          this.show = false;
+        } else {
+          this.$Message.error('请选择产品')
+        }
+      },
+      // 取消选择产品
+      resetGoods() {
+        this.show = false;
+      },
+      /** 删除行 */
+      delRow(idx) {
+        this.goodsList.splice(idx, 1)
+        this.$nextTick(() => {
+          this.act = !this.act
+        })
+      },
+      // 所有仓库
+      getWareHouse() {
+        this.$http.post(this.$api.findWareHouse).then(res => {
+          if (res.code === 1000) {
+            this.storeList = res.data;
+          }
+        })
+      },
+      /// 保存编辑
+      save(status, name) {
+        this.$refs[name].validate((valid) => {
+          if (valid) {
+            if (this.goodsList.length > 0) {
+              for (let i = 0, len = this.goodsList.length; i < len; i++) {
+                this.$refs['formRow' + i].validate(valid => {
+                  if (valid) { 
+                    console.log(valid)
+                    const params = this.$clearData(this.baseApi);
+                    params.wareHouseInItem = JSON.stringify(this.selectGoods);
+                    params.status = status;
+                    params.newOrderDate = params.newOrderDate != '' ? this.date : '';
+                    const urlApi = this.isEdit ? this.$api.wareHouseIn : this.$api.wareHouseupdateIn;
+                    // this.$http.post(urlApi, params).then(res => {
+                    //   if (res.code === 1000) {
+                    //     this.$Message.success('保存成功');
+                    //     this.$router.go(-1);
+                    //   } else {
+                    //     this.$Message.error(res.message)
+                    //   }
+                    // })
+                  } else {
+                    this.$Message.error('表单验证失败')
+                  }
+                })
+              }
+            } else {
+              this.$Message.error('请选择货物')
+            }
+          } else {
+            this.$Message.error('表单验证失败')
+          }
+        })
+  
+      }
+    },
+    created() {
+      this.getWareHouse();
+    },
+    mounted() {
+      this.$nextTick(() => {
+        this.act = !this.act;
+      })
+    }
+  }
+</script>
+
+<style lang='less' scoped>
+  .openBill {
+    .goods-list {
+      margin-bottom: 15px;
+    }
+    .goods-info {
+      .add-goods {
+        padding-bottom: 15px;
+      }
+    }
+    .bottom-options {
+      padding: 20px 0;
+      .btn-block {
+        display: inline-block;
+        margin-right: 20px;
+      }
+    }
+  }
+</style>

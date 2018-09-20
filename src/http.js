@@ -14,8 +14,8 @@ import router from './router/index'
 // axios.defaults.timeout = 20000;
 if (process.env.NODE_ENV == 'development')
   axios.defaults.baseURL = 'http://192.168.0.252:8081';
-// axios.defaults.baseURL = 'http://192.168.0.160:8080'; //胡
-axios.defaults.baseURL = 'http://192.168.0.15:8080'; //陈
+axios.defaults.baseURL = 'http://192.168.0.191:8080'; //胡
+// axios.defaults.baseURL = 'http://192.168.0.15:8080'; //陈
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'; //配置请求头
 axios.defaults.withCredentials = true;
 
@@ -38,7 +38,7 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(response => {
   LoadingBar.finish();
   if (response.data.code === 403) {
-    if (router.currentRoute.name != 'index') {
+    if (router.currentRoute.name != 'home') {
       Modal.confirm({
         content: response.data.message,
         onOk() {

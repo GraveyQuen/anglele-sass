@@ -40,6 +40,7 @@
         <div class="product-img">
           <div class="product-img-title">产品图片:</div>
           <div class="product-img-main">
+            <uploadFile single :showPreview="true" v-model="dataApi.productImg"></uploadFile>
           </div>
         </div>
         <FormItem label="名称：" prop="name">
@@ -90,7 +91,11 @@
   import {
     dateformat
   } from '@/utils/filters'
+  import uploadFile from '@/components/upload/index'
   export default {
+    components:{
+      uploadFile
+    },
     data() {
       return {
         pageApi: {
@@ -433,7 +438,7 @@
       width: 340px;
     }
     .product-img-main {
-      margin-bottom: 15px;
+      padding: 15px 0;
     }
   }
 </style>
