@@ -252,3 +252,28 @@ export const wareHouseInCancel = '/sys/wareHouseIn/cancel'
  * 损耗单列表
  */
 export const findWastageList = '/sys/wastage/findWastageList'
+
+
+/**
+ * 损耗单查询
+ */
+export const findWastage = '/sys/wastage/findWastage'
+
+
+/**
+ * 生成损耗单
+ */
+export const saveWastage = '/sys/wastage/saveWastage'
+
+
+/**
+ * 编辑损耗单
+ */
+export const updateWastage = '/sys/wastage/updateWastage'
+
+
+
+/**
+ * 订单分页
+ */
+export const orderPage = '/sys/order/page'

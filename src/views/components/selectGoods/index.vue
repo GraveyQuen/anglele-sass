@@ -41,6 +41,12 @@
 
 <script>
   export default {
+    props:{
+      id:{
+        type: String,
+        default: ''
+      }
+    },
     data() {
       return {
         pageApi: {
@@ -66,12 +72,12 @@
           pageSize: this.pageApi.pageSize,
           status: this.pageApi.status,
           categoryId: this.pageApi.categoryId,
-          wareHouseId: this.pageApi.wareHouseId,
+          wareHouseId: this.id,
           updateUser: this.pageApi.updateUser
         }
       },
       isAll() {
-        return this.selectList.length === this.list.length;
+        return this.selectList.length > 0 ? this.selectList.length === this.list.length ? true:false :false;
       }
     },
     watch: {
@@ -92,7 +98,7 @@
           pageSize: 10,
           name: '',
           categoryId: '',
-          wareHouseId: '',
+          wareHouseId: this.id,
           status: '',
           updateUser: ''
         }
@@ -104,6 +110,7 @@
             el.cost = '';
             el.isCheck = false;
             el.productId = el.id;
+            el.totalMoney = '';
             delete el.businessId;
             delete el.id;
             delete el.categoryId;

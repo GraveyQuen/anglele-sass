@@ -9,13 +9,13 @@
           </FormItem>
           <FormItem label="仓库名称：" prop="wareHouseId">
             <Select v-model="baseApi.wareHouseId" style="width: 180px;">
-                    <Option v-for="(item,index) in storeList" :value="item.id" :key="index">{{ item.name }}</Option>
-                  </Select>
+                      <Option v-for="(item,index) in storeList" :value="item.id" :key="index">{{ item.name }}</Option>
+                    </Select>
           </FormItem>
           <FormItem label="入库类型：" prop="inType">
             <Select v-model="baseApi.inType" style="width: 180px;">
-                    <Option v-for="(item,index) in [{id:1,name: '采购入库'},{id:2,name: '退货入库'},{id:3,name:'其他入库'}]" :value="item.id" :key="index">{{ item.name }}</Option>
-                  </Select>
+                      <Option v-for="(item,index) in [{id:1,name: '采购入库'},{id:2,name: '退货入库'},{id:3,name:'其他入库'}]" :value="item.id" :key="index">{{ item.name }}</Option>
+                    </Select>
           </FormItem>
           <FormItem label="送货人：">
             <Input v-model="baseApi.driver" placeholder="请输入" style="width: 180px;"></Input>
@@ -30,16 +30,16 @@
       </div>
       <div class="goods-info">
         <div class="add-goods">
-          <Button type="primary" @click="show = true">选择产品</Button>
+          <Button type="primary" @click="chooseProducts">选择产品</Button>
         </div>
         <Table ref="goodsTable" border :columns="goodsHeader" :data="goodsList" style="max-width: 752px;">
           <!-- 入库数量 -->
           <template slot="num" slot-scope="props">
-                  <Form :ref="'formRow'+props.idx" :model="props.row">
-                    <FormItem prop="num" :rules="{required: true, message: '请输入数量', trigger: 'blur'}">
-                      <Input v-model="props.row.num" size="small" style="width:80px;"></Input>{{props.row.unit}}
-                    </FormItem>
-                  </Form>
+                    <Form :ref="'formRow'+props.idx" :model="props.row">
+                      <FormItem prop="num" :rules="{required: true, message: '请输入数量', trigger: 'blur'}">
+                        <Input v-model="props.row.num" size="small" style="width:80px;"></Input>{{props.row.unit}}
+                      </FormItem>
+                    </Form>
 </template>
           <!-- 成本价 -->
 <template slot="cost" slot-scope="props">
@@ -110,7 +110,7 @@
         selectGoods: [],
         show: false,
         goodsList: [],
-        act: false,  // 用于触发渲染
+        act: false, // 用于触发渲染
         storeList: [],
         goodsHeader: [{
           title: '产品名称',
@@ -165,10 +165,22 @@
     computed: {
       isEdit() {
         return this.$route.query.status === 1; // 1新增2编辑
+      },
+      isOk() {
+        let isOk = true;
+        this.goodsList.map(el => {
+          if (el.num === '') {
+            isOk = false
+          }
+        })
+        return isOk;
+      },
+      hasWareHouse(){
+        return this.baseApi.wareHouseId != ''
       }
     },
-    watch:{
-      'baseApi.newOrderDate'(val){
+    watch: {
+      'baseApi.newOrderDate' (val) {
         this.date = val.getTime()
       }
     },
@@ -182,6 +194,13 @@
         this.$nextTick(() => {
           this.act = !this.act;
         })
+      },
+      chooseProducts(){
+        if(this.hasWareHouse){
+          this.show = true;
+        }else{
+          this.$Message.error('请先选择仓库')
+        }
       },
       // 选择产品
       chooseGoods() {
@@ -207,6 +226,11 @@
       getWareHouse() {
         this.$http.post(this.$api.findWareHouse).then(res => {
           if (res.code === 1000) {
+            res.data.map((el,index) =>{
+              if(index === 0){
+                this.baseApi.wareHouseId = el.id;
+              }
+            })
             this.storeList = res.data;
           }
         })
@@ -216,27 +240,22 @@
         this.$refs[name].validate((valid) => {
           if (valid) {
             if (this.goodsList.length > 0) {
-              for (let i = 0, len = this.goodsList.length; i < len; i++) {
-                this.$refs['formRow' + i].validate(valid => {
-                  if (valid) { 
-                    console.log(valid)
-                    const params = this.$clearData(this.baseApi);
-                    params.wareHouseInItem = JSON.stringify(this.selectGoods);
-                    params.status = status;
-                    params.newOrderDate = params.newOrderDate != '' ? this.date : '';
-                    const urlApi = this.isEdit ? this.$api.wareHouseIn : this.$api.wareHouseupdateIn;
-                    // this.$http.post(urlApi, params).then(res => {
-                    //   if (res.code === 1000) {
-                    //     this.$Message.success('保存成功');
-                    //     this.$router.go(-1);
-                    //   } else {
-                    //     this.$Message.error(res.message)
-                    //   }
-                    // })
+              if (this.isOk) {
+                const params = this.$clearData(this.baseApi);
+                params.wareHouseInItem = JSON.stringify(this.goodsList);
+                params.status = status;
+                params.newOrderDate = params.newOrderDate != '' ? this.date : '';
+                const urlApi = this.isEdit ? this.$api.wareHouseupdateIn : this.$api.wareHouseIn;
+                this.$http.post(urlApi, params).then(res => {
+                  if (res.code === 1000) {
+                    this.$Message.success('保存成功');
+                    this.$router.go(-1);
                   } else {
-                    this.$Message.error('表单验证失败')
+                    this.$Message.error(res.message)
                   }
                 })
+              } else {
+                this.$Message.error('表单验证失败')
               }
             } else {
               this.$Message.error('请选择货物')
