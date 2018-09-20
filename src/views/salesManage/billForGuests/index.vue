@@ -55,7 +55,7 @@
         </div>
       </Form>
     </Card>
-    <Modal title="选择产品" width="600" v-model="show" :mask-closable="false">
+    <Modal title="选择产品" width="800" v-model="show" :mask-closable="false">
       <selectGoods v-if="show" @on-select="onselect"></selectGoods>
       <div slot="footer">
         <Button type="primary" @click="chooseGoods">选择</Button>

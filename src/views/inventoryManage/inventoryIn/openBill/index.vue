@@ -70,7 +70,7 @@
         </div>
       </div>
     </Card>
-    <Modal title="选择产品" width="600" v-model="show" :mask-closable="false">
+    <Modal title="选择产品" width="800" v-model="show" :mask-closable="false">
       <selectGoods v-if="show" @on-select="onselect"></selectGoods>
       <div slot="footer">
         <Button type="primary" @click="chooseGoods">选择</Button>
@@ -164,7 +164,7 @@
     },
     computed: {
       isEdit() {
-        return this.$route.query.status === 1; // 1新增2编辑
+        return this.$route.query.status === 2; // 1新增2编辑
       },
       isOk() {
         let isOk = true;

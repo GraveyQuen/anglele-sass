@@ -23,7 +23,7 @@ export const inStatus = (val) => {
   }
 }
 
-//  入库状态
+//  订单状态
 export const orderStatus = (val) => {
   switch (val * 1) {
     case 1:

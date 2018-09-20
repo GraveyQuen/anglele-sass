@@ -277,3 +277,14 @@ export const updateWastage = '/sys/wastage/updateWastage'
  * 订单分页
  */
 export const orderPage = '/sys/order/page'
+
+
+/**
+ * 订单取消
+ */
+export const orderCancel = '/sys/order/cancel'
+
+/**
+ * 单个订单
+ */
+export const findOneOrder = '/sys/order/findOneOrder'

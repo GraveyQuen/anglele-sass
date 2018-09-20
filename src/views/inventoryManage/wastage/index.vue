@@ -91,7 +91,7 @@
           <Button @click="reset('formModel')">取消</Button>
         </div>
     </Modal>
-    <Modal title="选择产品" width="600" v-model="pshow" :mask-closable="false">
+    <Modal title="选择产品" width="800" v-model="pshow" :mask-closable="false">
       <selectGoods v-if="pshow" @on-select="onselect"></selectGoods>
       <div slot="footer">
         <Button type="primary" @click="chooseGoods">选择</Button>
