@@ -101,7 +101,7 @@
                 <Col class-name="col" :span="detailItem.order.status === 5 ? 4 : 8">下单数量</Col>
                 <Col class-name="col" :span="detailItem.order.status === 5 ? 4 : 8">下单金额小计</Col>
                 <Col class-name="col" span="4" v-if="detailItem.order.status === 5">实单数量</Col>
-                <Col class-name="col" span="4" v-if="detailItem.order.status === 5">实单数量小计</Col>
+                <Col class-name="col" span="4" v-if="detailItem.order.status === 5">实单金额</Col>
               </Row>
               <Row v-for="(item,index) in detailItem.orderItem" :key="index">
                 <Col class-name="col" span="4">{{item.productName}}</Col>

@@ -175,7 +175,7 @@
           }
         }, {
           title: '成本价',
-          key: 'price',
+          key: 'cost',
           minWidth: 120,
           render: (h, params) => {
             let str = params.row.cost != '' ? `${params.row.cost}/${params.row.unit}` : '暂无';
@@ -183,16 +183,26 @@
           }
         }, {
           title: '排序',
-          key: 'price',
+          key: 'sortIndex',
           minWidth: 100,
         }, {
           title: '总库存数',
           key: 'total',
           minWidth: 120,
+          render: (h, params) => {
+            let str = `${params.row.total}/${params.row.unit}`;
+            return h('div', str)
+          }
         }, {
           title: '仓库库存',
-          key: 'total',
+          key: 'wareHouseProductSet',
           minWidth: 120,
+          render: (h, params) => {
+            params.row.wareHouseProductSet.map(el =>{
+              console.log(el)
+              return h('div',el.num)
+            })
+          }
         }, {
           title: '库存预警',
           key: 'warnNum',

@@ -109,11 +109,11 @@
         tableHeader: [{
           title: '出库单号',
           key: 'id',
-          minWidth: 150
+          minWidth: 220
         }, {
           title: '订单单号',
           key: 'orderId',
-          minWidth: 150
+          minWidth: 220
         }, {
           title: '客户名称',
           key: 'customerName',
