@@ -12,7 +12,3 @@
     methods: {}
   }
 </script>
-
-<style>
-  
-</style>

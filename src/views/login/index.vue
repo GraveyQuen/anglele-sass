@@ -11,6 +11,12 @@
         <Input v-model="loginApi.code" placeholder="请输入..."></Input>
         <img :src="picCodeUrl" @click="getUid()">
       </FormItem>
+      <FormItem label="角色：">
+        <Select v-model="loginApi.roleCode" style="width: 200px;">
+          <Option v-for="(item,index) in [{value: 'ADMIN',name:'超管'},{value: 'super',name:'超超管'},{value: 'FINANCIAL',name: '财务'},{value:'SELLER',name:'SELLER'}]" :value="item.value" :key="index">{{ item.name }}</Option>
+        </Select>
+        </FormItem>
+      </FormItem>
       <FormItem>
         <Button type="primary" @click="submit('formModel')">Submit</Button>
         <Button @click="reset('formModel')" style="margin-left: 8px">Reset</Button>
@@ -32,7 +38,7 @@
           password: '',
           code: '',
           r: '',
-          roleCode: 'super'
+          roleCode: ''
         },
         random: '',
         rule: {
