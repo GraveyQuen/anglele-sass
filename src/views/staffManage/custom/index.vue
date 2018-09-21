@@ -4,7 +4,7 @@
       <Button type="primary" slot="extra" class="extra-button" @click="openPanel(false)">新增客户</Button>
       <Form :mode="pageApi" :label-width="0" inline>
         <FormItem>
-          <Input v-model="pageApi.param" style="width: 300px;" placeholder="请输入客户编号、客户名称或客户账号查询"></Input>
+          <Input v-model="pageApi.param" style="width: 300px;" placeholder="请输入客户名称或客户账号查询"></Input>
         </FormItem>
         <FormItem>
           <Button type="warning" @click.native="resetFilter">清除</Button>
@@ -62,10 +62,10 @@
         <FormItem label="联系电话：" prop="contactPhone">
           <Input v-model="dataApi.contactPhone" placeholder="请输入..."></Input>
         </FormItem>
-        <FormItem label="地址：">
+        <FormItem label="地址：" prop="cityName">
           <cityPick v-model="city" @on-pick="onPick"></cityPick>
         </FormItem>
-        <FormItem label="详细地址：">
+        <FormItem label="详细地址：" prop="address">
           <Input v-model="dataApi.address" placeholder="请输入..."></Input>
         </FormItem>
         <FormItem label="配送仓库：">
@@ -136,6 +136,16 @@
             required: true,
             message: '不能为空',
             trigger: 'blur'
+          }],
+          address:[{
+            required: true,
+            message: '不能为空',
+            trigger: 'blur'
+          }],
+          cityName:[{
+            required: true,
+            message: '不能为空',
+            trigger: 'change'
           }]
         },
         list: [],

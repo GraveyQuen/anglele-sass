@@ -79,7 +79,7 @@
           <Row v-for="(item,index) in detailItem.wareHouseInItems" :key="index">
             <Col class-name="col" span="6">{{item.productName}}</Col>
             <Col class-name="col" span="6">{{item.productCategory}}</Col>
-            <Col class-name="col" span="6">{{item.num}}</Col>
+            <Col class-name="col" span="6">{{item.num}}{{item.unit}}</Col>
             <Col class-name="col" span="6">{{item.cost}}</Col>
           </Row>
         </div></div>
@@ -121,7 +121,7 @@
         tableHeader: [{
           title: '入库单号',
           key: 'id',
-          minWidth: 150
+          minWidth: 210
         }, {
           title: '仓库名称',
           key: 'wareHouseName',

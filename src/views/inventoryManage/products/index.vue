@@ -178,7 +178,7 @@
           key: 'price',
           minWidth: 120,
           render: (h, params) => {
-            let str = `${params.row.cost}/${params.row.unit}`;
+            let str = params.row.cost != '' ? `${params.row.cost}/${params.row.unit}` : '暂无';
             return h('div', str)
           }
         }, {

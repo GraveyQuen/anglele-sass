@@ -25,7 +25,7 @@
           <Col class-name="col" span="3"><span class="iconfont" @click="checkItem(item,index)" :class="item.isCheck ? 'icon-yduifuxuankuangxuanzhong':'icon-yduifuxuankuang'"></span></Col>
           <Col class-name="col" span="7">{{item.name}}</Col>
           <Col class-name="col" span="7">{{item.categoryName}}</Col>
-          <Col class-name="col" span="7">{{item.total}}</Col>
+          <Col class-name="col" span="7">{{item.total}}{{item.unit}}</Col>
         </Row>
         </Row>
         <Row v-if="list.length == 0">

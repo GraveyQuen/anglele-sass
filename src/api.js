@@ -2,7 +2,14 @@ let host = window.location.host;
 /**
  * 上传文件
  */
-export const upload = 'http://192.168.0.191:8080/auth/file/upload'
+let uploadHost = '';
+if (process.env.NODE_ENV == 'development') {
+    uploadHost = 'http://192.168.0.252:8082'
+} else {
+  uploadHost = ''
+}
+
+export const upload =  uploadHost + '/auth/file/upload'
 
 
 /**
@@ -269,6 +276,19 @@ export const findWastage = '/sys/wastage/findWastage'
  * 生成损耗单
  */
 export const saveWastage = '/sys/wastage/saveWastage'
+
+
+
+/**
+ * 损耗单取消
+ */
+export const cancelWastage = '/sys/wastage/cancelWastage'
+
+
+/**
+ * 删除损耗单
+ */
+export const delWastage = '/sys/wastage/delWastage'
 
 
 /**

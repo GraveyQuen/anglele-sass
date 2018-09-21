@@ -38,8 +38,8 @@
           <template slot="action" slot-scope="props">
                             <Button type="warning" size="small" style="margin-right:8px;" v-if="props.row.status === 0" @click="openPanel(true,props.row)">编辑</Button>
                             <Button type="success" size="small" style="margin-right:8px;" v-if="props.row.status === 1 || props.row.status === 2" @click="detail(props.row)">查看</Button>
-                            <Button type="error" size="small" style="margin-right:8px;" v-if="props.row.status === 0" >删除</Button>
-                            <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1" >取消</Button>
+                            <Button type="error" size="small" style="margin-right:8px;" v-if="props.row.status === 0" @click="delWastage(props.row)">删除</Button>
+                            <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1" @click="cancelWastage(props.row)">取消</Button>
 </template>
         </Table>
         <div class="paging">
@@ -190,6 +190,9 @@
           {
             title: '现有库存',
             key: 'total',
+            render: (h,params) =>{
+              return h('div',`${params.row.total}${params.row.unit}`)
+            }
           },
           {
             title: '售价',
@@ -202,7 +205,7 @@
             title: '损耗数量',
             key: 'num',
             render: (h,params) =>{
-              return h('div',`${params.row.num}/${params.row.unit}`)
+              return h('div',`${params.row.num}${params.row.unit}`)
             }
           },
           {
@@ -210,7 +213,7 @@
             key: 'wast',
             maxWidth: 100,
             render: (h,params) =>{
-              return h('div',`${params.row.wast}/元`)
+              return h('div',`${params.row.wast}元`)
             }
           }
         ],
@@ -225,7 +228,11 @@
         }, {
           title: '现有库存',
           key: 'total',
-          maxWidth: 100
+          maxWidth: 100,
+          render: (h, params) => {
+            let str = `${params.row.total}${params.row.unit}`
+            return h('div', str)
+          }
         }, {
           title: '售价',
           key: 'price',
@@ -489,6 +496,44 @@
       detail(item) {
         this.detailShow = true;
         this.getItem(item, false);
+      },
+      // 取消损耗单
+      cancelWastage(item){
+        this.$Modal.confirm({
+          title: '取消损耗',
+          content: '确认取消损耗单？',
+          onOk: () => {
+            this.$http.post(this.$api.cancelWastage, {
+              id: item.id
+            }).then(res => {
+              if (res.code === 1000) {
+                this.getList(this.pageFilter);
+                this.$Message.success('取消成功!');
+              } else {
+                this.$Message.error(res.message);
+              }
+            })
+          }
+        })
+      },
+      // 删除损耗单
+      delWastage(item){
+        this.$Modal.confirm({
+          title: '删除损耗单',
+          content: '确认删除损耗单？',
+          onOk: () => {
+            this.$http.post(this.$api.delWastage, {
+              id: item.id
+            }).then(res => {
+              if (res.code === 1000) {
+                this.getList(this.pageFilter);
+                this.$Message.success('删除成功');
+              } else {
+                this.$Message.error(res.message);
+              }
+            })
+          }
+        })
       }
     },
     created() {
