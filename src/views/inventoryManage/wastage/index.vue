@@ -68,19 +68,19 @@
           <div class="choose-product-table">
             <Table ref="productTable" border :columns="goodsHeader" :data="dataApi.items">
               <!-- 操作 -->
-<template slot="action" slot-scope="props">
-  <Poptip @on-ok="delProductRow(props.idx)" confirm title="确认删除此条产品？" transfer>
-    <Button type="warning" size="small">删除</Button>
-  </Poptip>
-</template>
-                <!-- 损失数量 -->
-<template slot="num" slot-scope="props">
-  <Form :ref="'formRow'+props.idx" :model="props.row">
-    <FormItem prop="num" :rules="{required: true, message: '请输入数量', trigger: 'blur'}">
-      <Input v-model="props.row.num" size="small" style="width:60px;" placeholder="请输入"></Input>{{props.row.unit}}
-    </FormItem>
-  </Form>
-</template>
+            <template slot="action" slot-scope="props">
+              <Poptip @on-ok="delProductRow(props.idx)" confirm title="确认删除此条产品？" transfer>
+                <Button type="warning" size="small">删除</Button>
+              </Poptip>
+            </template>
+                            <!-- 损失数量 -->
+            <template slot="num" slot-scope="props">
+              <Form :ref="'formRow'+props.idx" :model="props.row">
+                <FormItem prop="num" :rules="{required: true, message: '请输入数量', trigger: 'blur'}">
+                  <Input v-model="props.row.num" size="small" style="width:60px;" placeholder="请输入"></Input>{{props.row.unit}}
+                </FormItem>
+              </Form>
+            </template>
             </Table>
           </div>
         </div>
@@ -171,6 +171,7 @@
         detailShow: false,
         editItem: {},
         selectProduct: [],
+        date: '',
         rule: {
           wareHouseId: [{
             required: true,
@@ -346,6 +347,11 @@
           this.getList(this.pageFilter);
         }, 200),
         deep: true
+      },
+      'dataApi.newOrderDate' (val) {
+        if(val != ''){
+          this.date = val.getTime()
+        }
       }
     },
     methods: {
@@ -450,6 +456,7 @@
                 let params = this.$clearData(this.dataApi);
                 params.items = JSON.stringify(params.items);
                 params.status = st;
+                params.newOrderDate = this.date;
                 if (this.isEdit) {
                   params.id = this.editItem.id
                 };

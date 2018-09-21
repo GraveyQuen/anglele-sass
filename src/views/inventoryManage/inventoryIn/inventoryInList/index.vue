@@ -1,7 +1,7 @@
 <template>
   <div class="page-inner">
     <Card :bordered="true" dis-hover title="入库管理">
-      <Button type="primary" slot="extra" class="extra-button" @click="openBill(false,1)">新增入库</Button>
+      <Button type="primary" slot="extra" class="extra-button" @click="openBill(1)">新增入库</Button>
       <Form :mode="pageApi" :label-width="110" inline>
         <FormItem label="入库单号：">
           <Input v-model="pageApi.id" placeholder="请输入" style="width: 200px;"></Input>
@@ -14,18 +14,18 @@
         </FormItem>
         <FormItem label="仓库名称：">
           <Select v-model="pageApi.wareHouseId" style="width: 200px;">
-                    <Option v-for="(item,index) in storeList" :value="item.id" :key="index">{{ item.name }}</Option>
-                  </Select>
+                      <Option v-for="(item,index) in storeList" :value="item.id" :key="index">{{ item.name }}</Option>
+                    </Select>
         </FormItem>
         <FormItem label="入库类型：">
           <Select v-model="pageApi.inType" style="width: 200px;">
-                    <Option v-for="(item,index) in [{name:'采购入库',id: 1},{name:'退货入库',id: 2},{name:'其他入库',id: 3}]" :value="item.id" :key="index">{{ item.name }}</Option>
-                  </Select>
+                      <Option v-for="(item,index) in [{name:'采购入库',id: 1},{name:'退货入库',id: 2},{name:'其他入库',id: 3}]" :value="item.id" :key="index">{{ item.name }}</Option>
+                    </Select>
         </FormItem>
         <FormItem label="入库状态：">
           <Select v-model="pageApi.status" style="width: 200px;">
-                    <Option v-for="(item,index) in [{name:'完成',id: 1},{name:'暂存',id: 0},{name:'取消',id: 9}]" :value="item.id" :key="index">{{ item.name }}</Option>
-                  </Select>
+                      <Option v-for="(item,index) in [{name:'完成',id: 1},{name:'暂存',id: 0},{name:'取消',id: 9}]" :value="item.id" :key="index">{{ item.name }}</Option>
+                    </Select>
         </FormItem>
         <FormItem label="开单日期：">
           <DatePicker type="daterange" placement="bottom-end" v-model="dateValue" placeholder="选择日期" style="width: 200px"></DatePicker>
@@ -44,10 +44,10 @@
         <Table width="100%" ref="goodsTable" :columns="tableHeader" border :data="list">
           <!-- 操作 -->
           <template slot="action" slot-scope="props">
-                  <Button type="warning" size="small" style="margin-right:8px;" v-if="props.row.status === 0">编辑</Button>
-                  <Button type="success" size="small" style="margin-right:8px;" v-if="props.row.status === 1 || props.row.status === 9" @click="inDetail(props.row)">查看</Button>
-                  <Button type="error" size="small" style="margin-right:8px;" v-if="props.row.status === 0" @click="del(props.row)">删除</Button>
-                  <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1" @click="cancel(props.row)">取消</Button>
+                    <Button type="warning" size="small" style="margin-right:8px;" v-if="props.row.status === 0" @click="openBill(2,props.row.id)">编辑</Button>
+                    <Button type="success" size="small" style="margin-right:8px;" v-if="props.row.status === 1 || props.row.status === 9" @click="inDetail(props.row)">查看</Button>
+                    <Button type="error" size="small" style="margin-right:8px;" v-if="props.row.status === 0" @click="del(props.row)">删除</Button>
+                    <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1" @click="cancel(props.row)">取消</Button>
 </template>
         </Table>
         <div class="paging">
@@ -121,7 +121,7 @@
         tableHeader: [{
           title: '入库单号',
           key: 'id',
-          minWidth: 120
+          minWidth: 150
         }, {
           title: '仓库名称',
           key: 'wareHouseName',
@@ -227,19 +227,20 @@
     },
     methods: {
       // 入库开单
-      openBill(isEdit, status) {
-        if (isEdit) {
+      openBill(status, id) {
+        if (!id) {
           this.$router.push({
             name: 'openBill',
             query: {
               status: status
             }
           })
-        } else {
+        }else{
           this.$router.push({
             name: 'openBill',
             query: {
-              status: status
+              status: status,
+              id: id
             }
           })
         }
@@ -261,8 +262,8 @@
           orderDateBegin: '',
           orderDateEnd: ''
         }
-        this.dateValue = ['',''];
-        this.dateValue2 = ['',''];
+        this.dateValue = ['', ''];
+        this.dateValue2 = ['', ''];
       },
       getList(params) {
         this.$http.post(this.$api.wareHouseInPage, params).then(res => {
@@ -284,13 +285,13 @@
           }
         })
       },
-       /// 查看详情
+      /// 查看详情
       inDetail(item) {
         this.detailItem = Object.assign({}, item);
         this.show = true;
       },
       //删除
-      del(item){
+      del(item) {
         this.$Modal.confirm({
           title: '确认删除入库单',
           content: '此操作将无法撤销,是否继续？',
@@ -309,7 +310,7 @@
         })
       },
       // 取消 
-      cancel(item){
+      cancel(item) {
         this.$Modal.confirm({
           title: '确认取消入库单',
           content: '此操作将无法撤销,是否继续？',

@@ -68,6 +68,11 @@
         <FormItem label="详细地址：">
           <Input v-model="dataApi.address" placeholder="请输入..."></Input>
         </FormItem>
+        <FormItem label="配送仓库：">
+          <Select v-model="dataApi.defaultWareHouseId">
+            <Option v-for="(item,index) in storeList" :value="item.id" :key="index">{{ item.name }}</Option>
+          </Select>
+        </FormItem>
         <FormItem label="备注：">
           <Input v-model="dataApi.remark" placeholder="请输入..."></Input>
         </FormItem>
@@ -106,7 +111,8 @@
           districtName: '',
           contactPeople: '',
           contactPhone: '',
-          phone: ''
+          phone: '',
+          defaultWareHouseId: ''
         },
         loading: false,
         show: false,
@@ -135,7 +141,8 @@
         list: [],
         totalCount: 0,
         isEdit: false,
-        editItem: {}
+        editItem: {},
+        storeList: []
       }
     },
     computed: {
@@ -203,7 +210,8 @@
             districtName: item.districtName,
             phone: item.phone,
             contactPeople: item.contactPeople,
-            contactPhone: item.contactPhone
+            contactPhone: item.contactPhone,
+            defaultWareHouseId: item.defaultWareHouseId
           }
           this.city.push(item.provinceId);
           this.city.push(item.cityId);
@@ -224,6 +232,7 @@
             contactPhone: ''
           }
           this.city = [];
+          this.setWareHouse();
         }
         this.show = true;
       },
@@ -256,6 +265,7 @@
         Object.keys(this.dataApi).forEach(key => [
           this.dataApi[key] = ''
         ])
+        this.setWareHouse()
         this.city = [];
         this.show = false;
         this.loading = false;
@@ -299,10 +309,26 @@
             })
           }
         })
+      },
+      setWareHouse() {
+        this.storeList.map((el, index) => {
+          // 默认绑定第一个仓库
+          if (index === 0) this.dataApi.defaultWareHouseId = el.id;
+        })
+      },
+      // 所有仓库
+      getWareHouse() {
+        this.$http.post(this.$api.findWareHouse).then(res => {
+          if (res.code === 1000) {
+            this.storeList = res.data;
+            this.setWareHouse()
+          }
+        })
       }
     },
     created() {
-      this.getList(this.pageFilter)
+      this.getList(this.pageFilter);
+      this.getWareHouse();
     }
   }
 </script>

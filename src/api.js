@@ -249,6 +249,11 @@ export const wareHouseInDelete = '/sys/wareHouseIn/delete'
 export const wareHouseInCancel = '/sys/wareHouseIn/cancel'
 
 /**
+ * 入库单详情
+ */
+export const wareHouseInDetail = '/sys/wareHouseIn/detail'
+
+/**
  * 损耗单列表
  */
 export const findWastageList = '/sys/wastage/findWastageList'
@@ -288,3 +293,39 @@ export const orderCancel = '/sys/order/cancel'
  * 单个订单
  */
 export const findOneOrder = '/sys/order/findOneOrder'
+
+/**
+ * 订单确认
+ */
+export const wareHouseOrderOut = '/sys/wareHouseOut/out'
+
+
+/**
+ * 订单确认
+ */
+export const wareHouseOrderPage = '/sys/wareHouseOut/page'
+
+
+
+/**
+ * 出库单详情
+ */
+export const wareHouseOutDetail = '/sys/wareHouseOut/detail'
+
+
+/**
+ * 出库确认
+ */
+export const wareHouseOutconfirmOut = '/sys/wareHouseOut/confirmOut'
+
+/**
+ * 货品出库
+ */
+export const wareHouseOutproductOut = '/sys/wareHouseOut/productOut'
+
+/**
+ * 完成出库单
+ */
+export const wareHouseOutfinishOut = '/sys/wareHouseOut/finishOut'
+
+

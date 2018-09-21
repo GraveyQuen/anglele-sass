@@ -20,13 +20,13 @@
         </FormItem>
         <FormItem label="下单方式：">
           <Select v-model="pageApi.orderType" style="width: 200px;">
-                        <Option v-for="(item,index) in [{value: 1,name:'自主下单'},{value: 2,name: '代客下单'}]" :value="item.value" :key="index">{{ item.name }}</Option>
-                      </Select>
+                    <Option v-for="(item,index) in [{value: 1,name:'自主下单'},{value: 2,name: '代客下单'}]" :value="item.value" :key="index">{{ item.name }}</Option>
+                  </Select>
         </FormItem>
         <FormItem label="状态：">
           <Select v-model="pageApi.status" style="width: 200px;">
-                        <Option v-for="(item,index) in orderStatus" :value="item.value" :key="index">{{ item.name }}</Option>
-                      </Select>
+                    <Option v-for="(item,index) in orderStatus" :value="item.value" :key="index">{{ item.name }}</Option>
+                  </Select>
         </FormItem>
         <FormItem label="下单日期：">
           <DatePicker type="daterange" placement="bottom-end" v-model="dateValue" placeholder="选择日期" style="width: 200px"></DatePicker>
@@ -45,10 +45,10 @@
         <Table width="100%" ref="orderTable" :columns="tableHeader" border :data="list">
           <!-- 操作 -->
           <template slot="action" slot-scope="props">
-              <Button type="warning" size="small" style="margin-right:8px;" v-if="props.row.status === 4">完成</Button>
-              <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看</Button>
-              <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1">确认</Button>
-              <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1 || props.row.status === 2 || props.row.status === 3 || props.row.status === 4" @click="cancelOrder(props.row)">取消</Button>
+                      <Button type="warning" size="small" style="margin-right:8px;" v-if="props.row.status === 4" @click="overOrder(props.row)">完成订单</Button>
+                      <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看订单</Button>
+                      <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1" @click="confirm(props.row)">确认订单</Button>
+                      <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1 || props.row.status === 2 || props.row.status === 3 || props.row.status === 4" @click="cancelOrder(props.row)">取消订单</Button>
 </template>
         </Table>
         <div class="paging">
@@ -71,17 +71,17 @@
       <div class="order-detail" v-if="detailItem.order">
         <div class="order-detail-title">
           <span>基本信息</span>
-          <span>订单单号：{{detailItem.order.id}}</span>
-          <span>订单状态：{{detailItem.order.status | orderStatus}}</span>
-          <span>下单金额：￥{{detailItem.order.amount}}</span>
-          <span>{{detailItem.order.realAmount != '' ? `实单金额：￥${detailItem.order.realAmount}`:''}}</span>
         </div>
         <div class="order-detail-main">
           <Row class="order-row">
-            <Col span="6" class="order-row-col">客户名称：{{detailItem.order.customerName}}</Col>
-            <Col span="6" class="order-row-col">下单日期：{{detailItem.order.createTime | dateformat}}</Col>
-            <Col span="6" class="order-row-col">客户联系人：{{detailItem.order.contactPeople}}</Col>
-            <Col span="6" class="order-row-col">客户联系方式：{{detailItem.order.contactPhone}}</Col>
+            <Col span="8" class="order-row-col">客户名称：{{detailItem.order.customerName}}</Col>
+            <Col span="8" class="order-row-col">订单单号：{{detailItem.order.id}}</Col>
+            <Col span="8" class="order-row-col">下单金额：￥{{detailItem.order.amount}}</Col>
+            <Col span="8" class="order-row-col">订单状态：{{detailItem.order.status | orderStatus}}</Col>
+            <Col span="8" class="order-row-col">下单日期：{{detailItem.order.createTime | dateformat}}</Col>
+            <Col span="8" class="order-row-col">客户联系人：{{detailItem.order.contactPeople}}</Col>
+            <Col span="8" class="order-row-col">客户联系方式：{{detailItem.order.contactPhone}}</Col>
+            <Col span="8" class="order-row-col">{{detailItem.order.realAmount != '' ? `实单金额：￥${detailItem.order.realAmount}`:''}}</Col>
           </Row>
           <Row class="order-row">
             <Col span="10" class="order-row-col">送货地址：{{detailItem.order.address}}</Col>
@@ -108,7 +108,7 @@
                 <Col class-name="col" span="4">￥{{item.price}}</Col>
                 <Col class-name="col" :span="detailItem.order.status === 5 ? 4 : 8">{{item.num}}/{{item.unit}}</Col>
                 <Col class-name="col" :span="detailItem.order.status === 5 ? 4 : 8">￥{{item.totalPrice}}</Col>
-                <Col class-name="col" span="4" v-if="detailItem.order.status === 5">{{item.realNum}}}</Col>
+                <Col class-name="col" span="4" v-if="detailItem.order.status === 5">{{item.realNum}}</Col>
                 <Col class-name="col" span="4" v-if="detailItem.order.status === 5">{{item.realTotalPrice}}</Col>
               </Row>
             </div>
@@ -118,6 +118,23 @@
       </div>
       <div slot="footer">
         <Button @click="show = false">关闭</Button>
+      </div>
+    </Modal>
+    <Modal title="完成订单" width="800" v-model="overShow" :mask-closable="false">
+      <div class="">请仔细核对订单中的产品实际销售数量后进行确认</div>
+      <Table ref="overTable" border :columns="goodsHeader" :data="overApi.outItems" style="width: 100%;">
+        <!-- 实单数量 -->
+<template slot="realNum" slot-scope="props">
+  <Form :ref="'formRow'+props.idx" :model="props.row">
+    <FormItem prop="realNum" :rules="{required: true, message: '请输入数量', trigger: 'blur'}">
+      <Input v-model="props.row.realNum" size="small" placeholder="请输入" style="width:60px;"></Input>{{props.row.unit}}
+    </FormItem>
+  </Form>
+</template>
+      </Table>
+      <div slot="footer">
+        <Button type="primary" @click="overSubmit" :loading="loading">保存</Button>
+        <Button @click="overReset">取消</Button>
       </div>
     </Modal>
   </div>
@@ -150,6 +167,12 @@
         },
         detailItem: {},
         cancelShow: false,
+        overShow: false,
+        act: false, // 更新渲染
+        overApi: {
+          id: '',
+          outItems: []
+        },
         cancelApi: {
           id: '',
           cancelReason: ''
@@ -186,6 +209,54 @@
         list: [],
         totalCount: 0,
         show: false,
+        formRow: {},
+        goodsHeader: [{
+          title: '产品名称',
+          key: 'productName',
+          maxWidth: 150
+        }, {
+          title: '所属分类',
+          key: 'productCategory',
+          maxWidth: 150
+        }, {
+          title: '单价',
+          key: 'price',
+          maxWidth: 150,
+          render: (h, params) => {
+            let str = `${params.row.price}/${params.row.unit}`;
+            return h('div', str)
+          }
+        }, {
+          title: '下单数量',
+          key: 'num',
+          maxWidth: 150,
+          render: (h, params) => {
+            let str = `${params.row.num}${params.row.unit}`;
+            return h('div', str)
+          }
+        }, {
+          title: '实单数量',
+          key: 'realNum',
+          maxWidth: 140,
+          render: (h, params) => {
+            this.overApi.outItems[params.index] = params.row
+            return h(
+              'div',
+              this.$refs.overTable.$scopedSlots.realNum({
+                row: params.row,
+                idx: params.row._index
+              })
+            )
+          }
+        }, {
+          title: '金额',
+          key: 'totalPrice',
+          maxWidth: 150,
+          render: (h, params) => {
+            let str = `￥${params.row.totalPrice}`;
+            return h('div', str)
+          }
+        }],
         tableHeader: [{
           title: '订单编号',
           key: 'id',
@@ -261,7 +332,7 @@
         }, {
           title: '操作',
           key: 'action',
-          minWidth: 190,
+          minWidth: 260,
           fixed: 'right',
           render: (h, params) => {
             return h(
@@ -339,12 +410,18 @@
       changePage(page) {
         this.pageApi.pageIndex = page;
       },
-      getItem(item) {
+      getItem(item, key) {
         this.$http.post(this.$api.findOneOrder, {
           id: item.id
         }).then(res => {
           if (res.code === 1000) {
-            this.detailItem = Object.assign({}, res.data)
+            this.detailItem = Object.assign({}, res.data);
+            if (key === 'over') { //完成订单
+              res.data.orderItem.map(el => {
+                el.realNum = el.num;
+              })
+              this.overApi.outItems = [...this.detailItem.orderItem]
+            }
           }
         })
       },
@@ -382,10 +459,44 @@
         this.cancelShow = false,
           this.loading = false;
         this.$refs[name].resetFields();
+      },
+      //  确认订单      
+      confirm(item) {
+        this.getItem(item, 'confirm')
+      },
+      // 完成订单
+      overOrder(item) {
+        this.getItem(item, 'over')
+        this.overShow = true;
+        this.overApi.id = item.id;
+      },
+      // 确认完成订单
+      overSubmit() {
+        this.loading = true;
+        let params = this.$clearData(this.overApi);
+        params.outItems = JSON.stringify(params.outItems)
+        this.$http.post(this.$api.wareHouseOutfinishOut, params).then(res => {
+          if (res.code === 1000) {
+            this.overShow = false;
+            this.$Message.success('确认成功')
+            this.getList(this.pageFilter)
+          } else {
+            this.$Message.error(res.message)
+          }
+          this.loading = false;
+        })
+      },
+      overReset(){
+        this.overShow = false;
       }
     },
     created() {
       this.getList(this.pageFilter);
+    },
+    mounted() {
+      this.$nextTick(() => {
+        this.act = !this.act;
+      })
     }
   }
 </script>
