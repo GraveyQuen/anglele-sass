@@ -28,8 +28,9 @@
 <script>
   import * as types from '@/store/types'
   import {
-    getuuId
+    getuuId,getToken
   } from '@/utils/tools'
+  const token = getToken()
   export default {
     data() {
       return {
@@ -65,7 +66,7 @@
       picCodeUrl() {
         let host = "";
         if (window.location.hostname == "localhost")
-          host = "http://192.168.0.15:8080";
+          host = "http://192.168.0.252:8082";
         return host + this.$api.captcha + "?r=" + this.random;
       }
     },
@@ -75,7 +76,7 @@
       },
       setUser(data) {
         this.$store.commit(types.LOGIN, data);
-        let redirect = decodeURIComponent(this.$route.query.redirect || '/home');
+        let redirect = decodeURIComponent(this.$route.query.redirect || '/');
         this.$router.push({
           path: redirect
         })

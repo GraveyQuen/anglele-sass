@@ -70,6 +70,23 @@ export const outStatus = (val) => {
       break;
   }
 }
+//  结算状态
+export const settlementStatus = (val) => {
+  switch (val * 1) {
+    case 0:
+      return '未结算'
+      break;
+    case 1:
+      return '预结算'
+      break;
+    case 2:
+      return '已结算'
+      break;
+    default:
+      return ''
+      break;
+  }
+}
 
 // 空值转换
 export const emptyHlod = (value, payload = '-') => {

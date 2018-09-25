@@ -224,7 +224,6 @@
               el.categoryName = el.productCategory;
             })
             this.goodsList = [...res.data.wareHouseInItems]
-            console.log(res)
           }
         })
       },

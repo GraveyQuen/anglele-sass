@@ -8,18 +8,18 @@
         </FormItem>
         <FormItem label="所属分类：">
           <Select v-model="pageApi.categoryId" style="width: 160px;">
-                  <Option v-for="(item,index) in categoryList" :value="item.id" :key="index">{{ item.name }}</Option>
-                </Select>
+                    <Option v-for="(item,index) in categoryList" :value="item.id" :key="index">{{ item.name }}</Option>
+                  </Select>
         </FormItem>
         <FormItem label="所属仓库：">
           <Select v-model="pageApi.wareHouseId" style="width: 160px;">
-                  <Option v-for="(item,index) in storeList" :value="item.id" :key="index">{{ item.name }}</Option>
-                </Select>
+                    <Option v-for="(item,index) in storeList" :value="item.id" :key="index">{{ item.name }}</Option>
+                  </Select>
         </FormItem>
         <FormItem label="状态：">
           <Select v-model="pageApi.status" style="width: 160px;">
-                  <Option v-for="(item,index) in [{name:'上架',id: 1},{name:'下架',id: 0}]" :value="item.id" :key="index">{{ item.name }}</Option>
-                </Select>
+                    <Option v-for="(item,index) in [{name:'上架',id: 1},{name:'下架',id: 0}]" :value="item.id" :key="index">{{ item.name }}</Option>
+                  </Select>
         </FormItem>
         <FormItem label="最近更新人：">
           <Input v-model="pageApi.updateUser" placeholder="请输入..."></Input>
@@ -29,7 +29,13 @@
         </FormItem>
       </Form>
       <div class="card-contnet">
-        <Table width="100%" :columns="tableHeader" :data="list"></Table>
+        <Table width="100%" ref="productTable" :columns="tableHeader" :data="list">
+          <template slot="wareHouseProductSet" slot-scope="props">
+            <div v-for="(item,index) in props.row.wareHouseProductSet" :key="index">
+              <div>{{item.num}}</div>
+            </div>
+          </template>
+        </Table>
         <div class="paging">
           <Page class="page-count" size="small" show-elevator :total="totalCount" show-total :current="pageApi.pageIndex" :page-size="pageApi.pageSize" @on-change="changePage"></Page>
         </div>
@@ -93,7 +99,7 @@
   } from '@/utils/filters'
   import uploadFile from '@/components/upload/index'
   export default {
-    components:{
+    components: {
       uploadFile
     },
     data() {
@@ -198,10 +204,12 @@
           key: 'wareHouseProductSet',
           minWidth: 120,
           render: (h, params) => {
-            params.row.wareHouseProductSet.map(el =>{
-              console.log(el)
-              return h('div',el.num)
-            })
+            return h(
+              'div',
+              this.$refs.productTable.$scopedSlots.wareHouseProductSet({
+                row: params.row
+              })
+            )
           }
         }, {
           title: '库存预警',

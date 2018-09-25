@@ -4,7 +4,7 @@ export default [{
   name: 'login',
   component: resolve => require(['@/views/login/index.vue'], resolve),
   meta: {
-    title: 'Login - 登录',
+    title: '登录',
     hideInMenu: true
   }
 }, {
@@ -13,8 +13,7 @@ export default [{
   redirect: '/home',
   component: Main,
   meta: {
-    hideInMenu: true,
-    notCache: true
+    hideInMenu: true
   },
   children: [{
     path: '/home',
@@ -22,8 +21,14 @@ export default [{
     component: resolve => require(['@/views/index/index.vue'], resolve),
     meta: {
       title: '首页',
-      hideInMenu: true,
-      notCache: true
+      hideInMenu: true
+    }
+  },{
+    path: '/account/userInfo',
+    name: 'userInfo',
+    component: resolve => require(['@/views/account/userInfo/user/index.vue'], resolve),
+    meta: {
+      title: '用户信息',
     }
   }, {
     path: '/setting',
@@ -95,8 +100,7 @@ export default [{
       name: 'inventory',
       component: resolve => require(['@/views/inventoryManage/inventoryIn/index.vue'], resolve),
       meta: {
-        hideInMenu: true,
-        notCache: true
+        hideInMenu: true
       },
       redirect: '/inventoryManage/inventoryIn/inventoryList',
       children: [{

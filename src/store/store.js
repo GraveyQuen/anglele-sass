@@ -39,7 +39,7 @@ export default new Vuex.Store({
     },
     [types.LOGOUT]: (state) => {
       Vue.ls.remove('authorization');
-      state.authorization = undefined;
+      state.authorization = '';
       state.user = undefined;
       state.base = '';
     },

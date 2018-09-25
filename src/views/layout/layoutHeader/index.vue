@@ -3,14 +3,15 @@
     <a class="logo" href="/bg/index">
       <img :src="userInfo ? userInfo.avatar:''">
     </a>
-    <ul>
+    <ul class="header-ul">
       <li class="hasChild">
         <Dropdown @on-click="onClick">
           <a href="javascript:void(0)">
-                      {{userInfo ? userInfo.userName : ''}}
-                      <Icon type="ios-arrow-down"></Icon>
-                  </a>
+                    {{userInfo ? userInfo.roleName : ''}}
+                    <Icon type="ios-arrow-down"></Icon>
+                </a>
           <DropdownMenu slot="list">
+            <DropdownItem name="account">账户管理</DropdownItem>
             <DropdownItem name="logOut">退出登录</DropdownItem>
           </DropdownMenu>
         </Dropdown>
@@ -39,6 +40,8 @@
         if (data === 'logOut') {
           this.loginOut();
           window.location.href = '/bg/login';
+        } else if(data === 'account'){
+          this.$router.push({name: 'userInfo'})
         }
       }
     }
@@ -75,24 +78,18 @@
         vertical-align: middle;
       }
     }
-    ul {
+    .header-ul {
       text-align: right;
       padding-right: 20px;
-      li {
-        list-style: none;
-        display: inline-block;
-        position: relative;
+      .hasChild {
+        line-height: 50px;
         a {
-          display: inline-block;
-          height: 50px;
-          padding: 0 24px;
           color: #fff;
-          font-size: 14px;
-          line-height: 50px;
-          &:hover {
-            background: rgb(22, 22, 27, .7);
-            color: #fff;
-          }
+        }
+      }
+      ul {
+        li {
+          text-align: center;
         }
       }
     }

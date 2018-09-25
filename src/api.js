@@ -349,3 +349,17 @@ export const wareHouseOutproductOut = '/sys/wareHouseOut/productOut'
 export const wareHouseOutfinishOut = '/sys/wareHouseOut/finishOut'
 
 
+/**
+ * 结算列表
+ */
+export const settlementPage = '/sys/settlement/page'
+
+
+/**
+ * 结算
+ */
+export const toSettle = '/sys/settlement/toSettle'
+
+
+
+
