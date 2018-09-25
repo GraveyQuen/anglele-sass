@@ -143,13 +143,64 @@ export default [{
       meta: {
         title: '订单管理',
       },
-    },{
+    }, {
       path: '/salesManage/billForGuests',
       name: 'billForGuests',
       component: resolve => require(['@/views/salesManage/billForGuests/index.vue'], resolve),
       meta: {
         title: '代客开单',
       },
+    }]
+  }, {
+    path: '/financeManage',
+    name: 'financeManage',
+    component: resolve => require(['@/views/financeManage/index.vue'], resolve),
+    meta: {
+      title: '财务管理',
+    },
+    children: [{
+      path: '/financeManage/financeOrder',
+      name: 'financeOrder',
+      component: resolve => require(['@/views/financeManage/financeOrder/index.vue'], resolve),
+      meta: {
+        title: '订单管理',
+      },
+    }]
+  }, {
+    path: '/statisticsManage',
+    name: 'statisticsManage',
+    component: resolve => require(['@/views/statisticsManage/index.vue'], resolve),
+    meta: {
+      title: '数据分析',
+    },
+    children: [{
+      path: '/statisticsManage/transactionData',
+      name: 'transactionData',
+      component: resolve => require(['@/views/statisticsManage/transactionData/index.vue'], resolve),
+      meta: {
+        title: '交易汇总报表',
+      }
+    }, {
+      path: '/statisticsManage/productSaleData',
+      name: 'productSaleData',
+      component: resolve => require(['@/views/statisticsManage/productSaleData/index.vue'], resolve),
+      meta: {
+        title: '产品销售报表',
+      }
+    }, {
+      path: '/statisticsManage/hotSaleData',
+      name: 'hotSaleData',
+      component: resolve => require(['@/views/statisticsManage/hotSaleData/index.vue'], resolve),
+      meta: {
+        title: '热门销售报表',
+      }
+    }, {
+      path: '/statisticsManage/inventoryData',
+      name: 'inventoryData',
+      component: resolve => require(['@/views/statisticsManage/inventoryData/index.vue'], resolve),
+      meta: {
+        title: '库存货品报表',
+      }
     }]
   }]
 }]
