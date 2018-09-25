@@ -28,9 +28,8 @@
 <script>
   import * as types from '@/store/types'
   import {
-    getuuId,getToken
+    getuuId
   } from '@/utils/tools'
-  const token = getToken()
   export default {
     data() {
       return {

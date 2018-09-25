@@ -15,7 +15,7 @@ import router from './router/index'
 if (process.env.NODE_ENV == 'development')
   axios.defaults.baseURL = 'http://192.168.0.252:8082';
   // axios.defaults.baseURL = 'http://192.168.0.191:8080'; //胡
-  // axios.defaults.baseURL = 'http://192.168.0.154:8080'; //陈
+  axios.defaults.baseURL = 'http://192.168.0.154:8080'; //陈
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'; //配置请求头
 axios.defaults.withCredentials = true;
 
