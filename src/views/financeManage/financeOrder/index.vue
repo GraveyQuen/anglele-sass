@@ -28,8 +28,8 @@
         </FormItem>
         <FormItem label="状态：" v-if="pageApi.tab === 1">
           <Select v-model="pageApi.settlementStatus" style="width: 200px;">
-                        <Option v-for="(item,index) in orderStatus" :value="item.id" :key="index">{{ item.name }}</Option>
-                      </Select>
+              <Option v-for="(item,index) in orderStatus" :value="item.id" :key="index">{{ item.name }}</Option>
+            </Select>
         </FormItem>
         <FormItem label="预结算时间：" v-if="pageApi.tab === 3 || pageApi.tab === 4">
           <DatePicker type="daterange" placement="bottom-end" v-model="dateValue2" placeholder="选择日期" style="width: 200px"></DatePicker>
@@ -54,7 +54,7 @@
         </div>
         <allTable :lists="list" v-show="pageApi.tab === 1"></allTable>
         <unsettledTable :lists="list" v-show="pageApi.tab === 2" @on-change="unsettledChange"></unsettledTable>
-        <preSettledTable :lists="list" v-show="pageApi.tab === 3"></preSettledTable>
+        <preSettledTable :lists="list" v-show="pageApi.tab === 3" @on-cancel="cancelSettle"></preSettledTable>
         <div class="paging">
           <Page class="page-count" size="small" show-elevator :total="totalCount" show-total :current="pageApi.pageIndex" :page-size="pageApi.pageSize" @on-change="changePage"></Page>
         </div>
@@ -64,7 +64,7 @@
 </template>
 
 <script>
-  import tabs from './parts/tab'  //  tab切换
+  import tabs from './parts/tab' //  tab切换
   import allTable from './parts/allTable' //全部
   import unsettledTable from './parts/unsettledTable.vue' //  未结算
   import preSettledTable from './parts/preSettledTable.vue' //  预结算
@@ -183,6 +183,10 @@
       changePage(page) {
         this.pageApi.pageIndex = page;
       },
+      /// 取消结算 刷新列表
+      cancelSettle() {
+        this.getList(this.pageFilter)
+      },
       unsettledChange(data) {
         this.settleApi.orderIds = [...data]
       },
@@ -222,7 +226,7 @@
             this.pageApi.tab = data === 1 ? 4 : 3
           },
           onCancel: () => {
-
+  
           }
         })
       }

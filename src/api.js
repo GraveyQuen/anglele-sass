@@ -360,6 +360,12 @@ export const settlementPage = '/sys/settlement/page'
  */
 export const toSettle = '/sys/settlement/toSettle'
 
+/**
+ * 取消结算
+ */
+export const settleCancel = '/sys/settlement/cancel'
+
+
 
 
 
