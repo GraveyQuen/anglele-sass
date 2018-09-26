@@ -215,6 +215,10 @@
           title: '库存预警',
           key: 'warnNum',
           minWidth: 120,
+          render: (h, params) => {
+            let str = params.row.warnNum !='' ? `${params.row.warnNum}${params.row.unit}` : '未设置';
+            return h('div', str)
+          }
         }, {
           title: '产品描述',
           key: 'productDes',

@@ -108,8 +108,8 @@
                 <Col class-name="col" span="4">{{item.price}}元/{{item.unit}}</Col>
                 <Col class-name="col" :span="detailItem.order.status === 5 ? 4 : 8">{{item.num}}{{item.unit}}</Col>
                 <Col class-name="col" :span="detailItem.order.status === 5 ? 4 : 8">￥{{item.totalPrice}}</Col>
-                <Col class-name="col" span="4" v-if="detailItem.order.status === 5">{{item.realNum}}</Col>
-                <Col class-name="col" span="4" v-if="detailItem.order.status === 5">{{item.realTotalPrice}}</Col>
+                <Col class-name="col" span="4" v-if="detailItem.order.status === 5">{{item.realNum}}{{item.unit}}</Col>
+                <Col class-name="col" span="4" v-if="detailItem.order.status === 5">￥{{item.realTotalPrice}}</Col>
               </Row>
             </div>
           </div>

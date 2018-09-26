@@ -165,7 +165,7 @@
           <Input v-model="userApi.phone" placeholder="请输入..."></Input>
         </FormItem>
         <FormItem label="密码：" prop="password">
-          <Input v-model="userApi.password" type="password" placeholder="请输入..."></Input>
+          <Input v-model="userApi.password" :disabled="userEdit" type="password" placeholder="请输入..."></Input>
         </FormItem>
         <FormItem label="所属角色：" prop="roleCode">
           <Select v-model="userApi.roleCode">

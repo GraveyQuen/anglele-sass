@@ -7,7 +7,7 @@
       <li class="hasChild">
         <Dropdown @on-click="onClick">
           <a href="javascript:void(0)">
-                    {{userInfo ? userInfo.roleName : ''}}
+                    {{userInfo ? userInfo.userName : ''}}
                     <Icon type="ios-arrow-down"></Icon>
                 </a>
           <DropdownMenu slot="list">

@@ -80,7 +80,7 @@
             <Col class-name="col" span="6">{{item.productName}}</Col>
             <Col class-name="col" span="6">{{item.productCategory}}</Col>
             <Col class-name="col" span="6">{{item.num}}{{item.unit}}</Col>
-            <Col class-name="col" span="6">{{item.cost}}/{{item.unit}}</Col>
+            <Col class-name="col" span="6">{{item.cost}}元/{{item.unit}}</Col>
           </Row>
         </div></div>
         </div>
