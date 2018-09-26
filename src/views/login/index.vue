@@ -90,7 +90,7 @@
             this.$http.post(this.$api.login, params).then(res => {
               if (res.code === 1000) {
                 this.setUser({
-                  authorization: res.data,
+                  authorization: res.data.token,
                 });
                 this.$Notice.success({
                   title: '登录成功！',

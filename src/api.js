@@ -21,7 +21,7 @@ export const ossPolicy = '/api/oss/policy'
 /**
  * 登录
  */
-export const login = '/auth/login'
+export const login = '/api/login'
 
 /**
  * 获取验证码

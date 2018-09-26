@@ -59,6 +59,11 @@
         <FormItem label="详细地址：" prop="address">
           <Input v-model="dataApi.address" placeholder="请输入..."></Input>
         </FormItem>
+        <FormItem label="仓库管理员：" prop="wareHouseManId">
+          <Select v-model="dataApi.wareHouseManId" multiple :clearable="false" style="width: 100%;">
+            <Option v-for="(item,index) in roleList" :value="item.userId" :key="index">{{ item.userName }}</Option>
+          </Select>
+        </FormItem>
         <FormItem label="排序：">
           <InputNumber :min="1" v-model.number="dataApi.sortIndex" style="width:100%;"></InputNumber>
         </FormItem>
@@ -75,6 +80,9 @@
 </template>
 
 <script>
+import {
+    mapGetters
+  } from 'vuex'
   import cityPick from '@/components/cityPick/index'
   export default {
     components: {
@@ -99,7 +107,8 @@
           cityId: '',
           cityName: '',
           districtId: '',
-          districtName: ''
+          districtName: '',
+          wareHouseManId: []
         },
         loading: false,
         show: false,
@@ -118,15 +127,23 @@
             required: true,
             message: '不能为空',
             trigger: 'blur'
+          }],
+          wareHouseManId:[{
+            required: true,
+            message: '不能为空',
+            trigger: 'change',
+            type: 'array'
           }]
         },
         list: [],
         totalCount: 0,
         isEdit: false,
-        editItem: {}
+        editItem: {},
+        roleList: []
       }
     },
     computed: {
+      ...mapGetters(['base']),
       pageFilter() {
         return {
           pageIndex: this.pageApi.pageIndex,
@@ -145,6 +162,9 @@
           this.getList(this.pageFilter);
         }, 200),
         deep: true
+      },
+      base(){
+        this.findBusinessUser();
       }
     },
     methods: {
@@ -191,7 +211,8 @@
             cityId: item.cityId,
             cityName: item.cityName,
             districtId: item.districtId,
-            districtName: item.districtName
+            districtName: item.districtName,
+            wareHouseManId: item.wareHouseManId != '' ? item.wareHouseManId.split(',') : []
           }
           this.city.push(item.provinceId);
           this.city.push(item.cityId);
@@ -207,7 +228,8 @@
             cityId: '',
             cityName: '',
             districtId: '',
-            districtName: ''
+            districtName: '',
+            wareHouseManId: []
           }
           this.city = [];
         }
@@ -219,6 +241,7 @@
           if (valid) {
             this.loading = true;
             let params = this.$clearData(this.dataApi);
+            params.wareHouseManId = params.wareHouseManId.toString();
             let paramsUrl = this.isEdit ? this.$api.updateWareHouse : this.$api.saveWareHouse;
             if (this.isEdit) {
               params.id = this.editItem.id;
@@ -242,6 +265,8 @@
         Object.keys(this.dataApi).forEach(key => [
           this.dataApi[key] = ''
         ])
+        this.dataApi.sortIndex = 0;
+        this.dataApi.wareHouseManId = [];
         this.city = [];
         this.show = false;
         this.loading = false;
@@ -283,9 +308,17 @@
             })
           }
         })
+      },
+      findBusinessUser(){
+        this.$http.post(this.$api.findBusinessUser,{id: this.base.loginInfo.extraInfo.businessId,roleCode:'WAREHOUSE_KEEPER'}).then(res =>{
+          if(res.code === 1000){
+            this.roleList = res.data;
+          }
+        })
       }
     },
     created() {
+      this.findBusinessUser();
       this.getList(this.pageFilter)
     }
   }
