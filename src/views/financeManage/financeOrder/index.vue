@@ -55,6 +55,7 @@
         <allTable :lists="list" v-show="pageApi.tab === 1"></allTable>
         <unsettledTable :lists="list" v-show="pageApi.tab === 2" @on-change="unsettledChange"></unsettledTable>
         <preSettledTable :lists="list" v-show="pageApi.tab === 3" @on-cancel="cancelSettle"></preSettledTable>
+        <settledTable :lists ="list" v-show="pageApi.tab === 4" @on-cancel="cancelSettle"></settledTable>
         <div class="paging">
           <Page class="page-count" size="small" show-elevator :total="totalCount" show-total :current="pageApi.pageIndex" :page-size="pageApi.pageSize" @on-change="changePage"></Page>
         </div>
@@ -66,14 +67,16 @@
 <script>
   import tabs from './parts/tab' //  tab切换
   import allTable from './parts/allTable' //全部
-  import unsettledTable from './parts/unsettledTable.vue' //  未结算
-  import preSettledTable from './parts/preSettledTable.vue' //  预结算
+  import unsettledTable from './parts/unsettledTable' //  未结算
+  import preSettledTable from './parts/preSettledTable' //  预结算
+  import settledTable from './parts/settledTable' //  已结算
   export default {
     components: {
       tabs,
       allTable,
       unsettledTable,
-      preSettledTable
+      preSettledTable,
+      settledTable
     },
     data() {
       return {
@@ -208,25 +211,13 @@
             params.finish = data;
             this.$http.post(this.$api.toSettle, params).then(res => {
               if (res.code === 1000) {
-                // this.getList(this.pageFilter);
-                // this.$Message.success('成功!');
-                this.successConfirm(data);
+                this.settleApi.orderIds = [];
+                this.$Message.success(`批量${data === 1 ? '结算成功':'预结算成功'}`);
+                this.getList(this.pageFilter);
               } else {
                 this.$Message.error(res.message);
               }
             })
-          }
-        })
-      },
-      successConfirm(data) {
-        this.$Modal.confirm({
-          title: '操作执行成功',
-          content: `是否进入${data === 1 ? '结算页面':'预结算页面'}进行查看？`,
-          onOk: () => {
-            this.pageApi.tab = data === 1 ? 4 : 3
-          },
-          onCancel: () => {
-  
           }
         })
       }

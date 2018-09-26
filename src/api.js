@@ -365,6 +365,17 @@ export const toSettle = '/sys/settlement/toSettle'
  */
 export const settleCancel = '/sys/settlement/cancel'
 
+/**
+ * 完成结算
+ */
+export const settleFinish = '/sys/settlement/finish'
+
+
+/**
+ * 修改结算单编号
+ */
+export const changeSettlementId = '/sys/settlement/changeSettlementId'
+
 
 
 

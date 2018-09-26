@@ -106,7 +106,7 @@
               <Row v-for="(item,index) in detailItem.orderItem" :key="index">
                 <Col class-name="col" span="4">{{item.productName}}</Col>
                 <Col class-name="col" span="4">￥{{item.price}}</Col>
-                <Col class-name="col" :span="detailItem.order.status === 5 ? 4 : 8">{{item.num}}/{{item.unit}}</Col>
+                <Col class-name="col" :span="detailItem.order.status === 5 ? 4 : 8">{{item.num}}{{item.unit}}</Col>
                 <Col class-name="col" :span="detailItem.order.status === 5 ? 4 : 8">￥{{item.totalPrice}}</Col>
                 <Col class-name="col" span="4" v-if="detailItem.order.status === 5">{{item.realNum}}</Col>
                 <Col class-name="col" span="4" v-if="detailItem.order.status === 5">{{item.realTotalPrice}}</Col>

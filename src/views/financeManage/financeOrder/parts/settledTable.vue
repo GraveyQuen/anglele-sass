@@ -3,14 +3,13 @@
   
     <Table class="fake-table-header" ref="settledTable" :columns="tableHeader" :data="[]">
       <template slot="action" slot-scope="props">
-      <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看</Button>
-      <Button type="warning" size="small"  @click="cancelSettled(props.row)">取消结算</Button>
+        <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看</Button>
+        <Button type="warning" size="small"  @click="updateId(props.row)">更新结算单号</Button>
 </template>
   </Table>
   <Table class="real-table-body" ref ="settledRow" stripe highlight-row :show-header="false" :columns="fakeHead" :data="listData">
-     <template slot="options" slot-scope="props">
-      <Button type="success" size="small" style="margin-right:8px;" @click="print(props.row)">打印</Button>
-      <Button type="warning" size="small"  @click="okSettled(props.row)">完成结算</Button>
+<template slot="options" slot-scope="props">
+  <Button type="success" size="small" style="margin-right:8px;" @click="print(props.row)">打印</Button>
 </template>
   </Table>
     <Modal title="订单详情" width="800" v-model="show" :mask-closable="false">
@@ -18,6 +17,17 @@
       <div slot="footer">
         <Button @click="show = false">取消</Button>
     </div>
+    </Modal>
+    <Modal title="更新结算单号" width="500" v-model="updateShow" :mask-closable="false">
+      <Form ref="formCancel" :model="updateApi" :rules="updateRule" :label-width="100">
+        <FormItem label="结算单号：" prop="settlementId">
+          <Input v-model="updateApi.settlementId" placeholder="请输入..."></Input>
+        </FormItem>
+      </Form>
+      <div slot="footer">
+        <Button type="primary" @click="updateSubmit('formCancel')" :loading="loading">确认</Button>
+        <Button @click="updateReset('formCancel')">取消</Button>
+      </div>
     </Modal>
   </div>
 </template>
@@ -40,6 +50,18 @@
     data() {
       return {
         isCancel: false,
+        updateApi: {
+          orderId: '',
+          settlementId: ''
+        },
+        updateRule: {
+          settlementId: [{
+            required: true,
+            message: '不能为空',
+            trigger: 'blur'
+          }]
+        },
+        loading: false,
         tableHeader: [{
           title: '订单编号',
           key: 'id',
@@ -129,7 +151,8 @@
           }
         ],
         show: false,
-        detailItem: {}
+        detailItem: {},
+        updateShow: false
       }
     },
     computed: {
@@ -149,44 +172,41 @@
         this.show = true;
         this.detailItem = Object.assign({}, item)
       },
-      // 取消结算
-      cancelSettled(item) {
-        this.$Modal.confirm({
-          title: '取消结算确认',
-          content: `是否确认取消结算？`,
-          onOk: () => {
-            this.$http.post(this.$api.settleCancel, {
-              orderId: item.id
-            }).then(res => {
+      // 更新结算
+      updateId(item) {
+        this.updateShow = true;
+        this.updateApi.orderId = item.id;
+      },
+      updateSubmit(name) {
+        this.$refs[name].validate((valid) => {
+          if (valid) {
+            this.loading = true;
+            let params = this.$clearData(this.updateApi);
+            this.$http.post(this.$api.changeSettlementId, params).then(res => {
               if (res.code === 1000) {
                 this.$emit('on-cancel', !this.isCancel)
-              } else {
+                this.updateShow = false;
+                this.$Message.success('更新成功');
+              }else{
                 this.$Message.error(res.message);
               }
+              this.loading = false;
             })
+          } else {
+            this.$Message.error('结算单号不能为空')
           }
         })
       },
-      // 完成结算
-      okSettled(item){
-        this.$Modal.confirm({
-          title: '完成结算确认',
-          content: `是否确认完成结算？`,
-          onOk: () => {
-            this.$http.post(this.$api.settleFinish, {
-              settlementId: item.id
-            }).then(res => {
-              if (res.code === 1000) {
-                this.$emit('on-cancel', !this.isCancel)
-              } else {
-                this.$Message.error(res.message);
-              }
-            })
-          }
+      updateReset(name) {
+        Object.keys(this.updateApi).forEach(key =>{
+          this.updateApi[key] = '';
         })
+        this.loading = false;
+        this.updateShow = false;
+        this.$refs[name].resetFields();
       },
       // 打印
-      print(item){
+      print(item) {
         console.log(item)
       },
     }

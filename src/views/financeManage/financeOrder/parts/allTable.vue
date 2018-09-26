@@ -6,6 +6,12 @@
         <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看</Button>
       </template>
     </Table>
+    <Modal title="订单详情" width="800" v-model="show" :mask-closable="false">
+      <detailPage :order="detailItem"></detailPage>
+      <div slot="footer">
+        <Button @click="show = false">取消</Button>
+      </div>
+    </Modal>
   </div>
 </template>
 
@@ -14,7 +20,11 @@
     dateformat,
     settlementStatus
   } from '@/utils/filters'
+  import detailPage from './detailPage.vue'
   export default {
+    components: {
+      detailPage
+    },
     props: {
       lists: {
         type: Array
@@ -98,10 +108,17 @@
               })
             )
           }
-        }]
+        }],
+        detailItem: {},
+        show: false
       }
     },
-    methods: {}
+    methods: {
+      detail(item){
+        this.show = true;
+        this.detailItem = Object.assign({},item)
+      }
+    }
   }
 </script>
 
