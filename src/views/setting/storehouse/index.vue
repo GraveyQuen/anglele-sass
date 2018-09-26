@@ -8,6 +8,9 @@
                 <Option v-for="(item,index) in [{id:'0',name:'禁用'},{id:'1',name:'启用'}]" :value="item.id" :key="index">{{ item.name }}</Option>
               </Select>
         </FormItem>
+        <FormItem label="仓库名称：">
+          <Input v-model="pageApi.wareHouseName" placeholder="请输入..."></Input>
+        </FormItem>
         <FormItem>
           <Button type="warning" @click.native="resetFilter">清除</Button>
         </FormItem>
@@ -82,7 +85,8 @@
         pageApi: {
           pageIndex: 1,
           pageSize: 10,
-          status: ''
+          status: '',
+          wareHouseName: ''
         },
         city: [],
         dataApi: {
@@ -127,7 +131,8 @@
         return {
           pageIndex: this.pageApi.pageIndex,
           pageSize: this.pageApi.pageSize,
-          status: this.pageApi.status
+          status: this.pageApi.status,
+          wareHouseName: this.pageApi.wareHouseName
         }
       }
     },
@@ -164,7 +169,8 @@
         this.pageApi = {
           pageIndex: 1,
           pageSize: 10,
-          status: ''
+          status: '',
+          wareHouseName: ''
         }
       },
       // 分页

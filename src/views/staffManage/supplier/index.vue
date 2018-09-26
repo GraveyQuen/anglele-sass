@@ -14,8 +14,8 @@
         </FormItem>
         <FormItem label="状态：">
           <Select v-model="pageApi.status" style="width: 200px;">
-              <Option v-for="(item,index) in [{id: 1,name: '启用'},{id: 2,name:'禁用'}]" :value="item.id" :key="index">{{ item.name }}</Option>
-            </Select>
+                      <Option v-for="(item,index) in [{id: 1,name: '启用'},{id: 2,name:'禁用'}]" :value="item.id" :key="index">{{ item.name }}</Option>
+                    </Select>
         </FormItem>
         <FormItem>
           <Button type="warning" @click.native="resetFilter">清除</Button>
@@ -118,9 +118,83 @@
         <Button @click="detailShow = false">关闭</Button>
       </div>
     </Modal>
-    <Modal title="用户管理" width="900" v-model="userShow" :mask-closable="false">
+    <Modal title="用户管理" width="1000" v-model="userShow" :mask-closable="false">
+      <div class="user-options">
+        <Button type="primary" @click="addNew(false)">新增用户</Button>
+      </div>
+      <div class="page-inner">
+        <div class="card-contnet">
+          <div class="table-contnet">
+            <Row class-name="head">
+              <Col class-name="col" span="4">登录账号</Col>
+              <Col class-name="col" span="3">昵称</Col>
+              <Col class-name="col" span="3">真实名称</Col>
+              <Col class-name="col" span="3">角色</Col>
+              <Col class-name="col" span="3">性别</Col>
+              <Col class-name="col" span="3">生日</Col>
+              <Col class-name="col" span="5">操作</Col>
+            </Row>
+            <Row v-for="(item,index) in userList" :key="index">
+              <Col class-name="col" span="4">{{item.phone}}</Col>
+              <Col class-name="col" span="3">{{item.userName}}</Col>
+              <Col class-name="col" span="3"> {{item.realName}}</Col>
+              <Col class-name="col" span="3">{{item.roleCode | toRole}}</Col>
+              <Col class-name="col" span="3">{{item.sex | toSex}}</Col>
+              <Col class-name="col" span="3" v-if="item.birth != ''">{{item.birth | dateformat('yyyy-MM-dd')}}</Col>
+              <Col class-name="col" span="3" v-else></Col>
+              <Col class-name="col" span="5">
+              <Button type="warning" size="small" @click="addNew(true,item)" style="margin:0 10px;">编辑</Button>
+              <Button type="warning" size="small" @click="delUser(item)">删除</Button>
+              </Col>
+            </Row>
+            </Row>
+            <Row v-if="list.length == 0">
+              <Col class-name="col" span="24">暂无数据</Col>
+            </Row>
+          </div>
+        </div>
+      </div>
+      <div></div>
       <div slot="footer">
         <Button @click="userShow = false">关闭</Button>
+      </div>
+    </Modal>
+    <Modal :title="this.userEdit ? '编辑客户':'新增客户'" width="500" v-model="userEditshow" :mask-closable="false">
+      <Form ref="formUser" :model="userApi" :rules="useRule" :label-width="100">
+        <FormItem label="登录账号：" prop="phone">
+          <Input v-model="userApi.phone" placeholder="请输入..."></Input>
+        </FormItem>
+        <FormItem label="密码：" prop="password">
+          <Input v-model="userApi.password" type="password" placeholder="请输入..."></Input>
+        </FormItem>
+        <FormItem label="所属角色：" prop="roleCode">
+          <Select v-model="userApi.roleCode">
+              <Option v-for="(item,index) in [{value: 'ADMIN',name:'管理员'},{value: 'FINANCIAL',name: '财务'},{value:'WAREHOUSE_KEEPER',name:'库管'}]" :value="item.value" :key="index">{{ item.name }}</Option>
+            </Select>
+        </FormItem>
+        <FormItem label="昵称：" prop="userName">
+          <Input v-model="userApi.userName" placeholder="请输入..."></Input>
+        </FormItem>
+        <FormItem label="真实姓名：" prop="realName">
+          <Input v-model="userApi.realName" placeholder="请输入..."></Input>
+        </FormItem>
+        <FormItem label="性别：">
+          <RadioGroup v-model="userApi.sex">
+            <Radio v-for="(item,index) in [{id:0,name: '女'},{id:1,name: '男'},{id:2,name: '未知'}]" :key="index" :label="item.id">
+              <span>{{item.name}}</span>
+            </Radio>
+          </RadioGroup>
+        </FormItem>
+        <FormItem label="生日：">
+          <DatePicker v-model="userApi.birth" type="date" placeholder="请选择" style="width: 100%"></DatePicker>
+        </FormItem>
+        <FormItem label="备注：">
+          <Input v-model="userApi.remark" placeholder="请输入..."></Input>
+        </FormItem>
+      </Form>
+      <div slot="footer">
+        <Button type="primary" @click="userSubmit('formUser')">保存</Button>
+        <Button @click="useReset('formUser')">取消</Button>
       </div>
     </Modal>
   </div>
@@ -183,6 +257,33 @@
             trigger: 'blur'
           }]
         },
+        useRule: {
+          phone: [{
+            required: true,
+            message: '不能为空',
+            trigger: 'blur'
+          }],
+          password:[{
+            required: true,
+            message: '不能为空',
+            trigger: 'blur'
+          }],
+          roleCode:[{
+            required: true,
+            message: '不能为空',
+            trigger: 'change'
+          }],
+          userName:[{
+            required: true,
+            message: '不能为空',
+            trigger: 'blur'
+          }],
+          realName:[{
+            required: true,
+            message: '不能为空',
+            trigger: 'blur'
+          }]
+        },
         userShow: false,
         userApi: {
           businessId: '',
@@ -194,10 +295,13 @@
           roleCode: '',
           birth: '',
           qq: '',
-          remark: '',
-          wareHouseId: ''
+          remark: ''
         },
-        userList: []
+        userList: [],
+        userEdit: false,
+        userEditshow: false,
+        userEditItem: {},
+        businessId: ''
       }
     },
     computed: {
@@ -210,6 +314,9 @@
           contactPhone: this.pageApi.contactPhone,
           status: this.pageApi.status
         }
+      },
+      birthDate(){
+        return this.userApi.birth != '' ? this.userApi.birth.getTime() : ''
       }
     },
     watch: {
@@ -221,6 +328,26 @@
           this.getList(this.pageFilter);
         }, 200),
         deep: true
+      }
+    },
+    filters: {
+      toSex(val){
+        return ['女','男','未知'][val]
+      },
+      toRole(val){
+        switch (val) {
+          case 'ADMIN':
+            return '管理员'
+            break;
+          case 'FINANCIAL':
+            return '财务'
+            break;
+          case 'WAREHOUSE_KEEPER':
+            return '库管'
+            break;
+          default:
+            break;
+        }
       }
     },
     methods: {
@@ -363,15 +490,102 @@
       },
       //   用户管理
       userManage(item) {
+        this.businessId = item.id;
         this.userShow = true;
+        this.getUserList(item.id)
+      },
+      getUserList(id){
         this.$http.post(this.$api.findBusinessUser, {
-          id: item.id
+          id: id
         }).then(res => {
           if (res.code === 1000) {
             this.userList = res.data;
           }
         })
       },
+      addNew(userEdit, item) {
+        this.userEdit = userEdit;
+        if (this.userEdit) {
+          this.userEditItem = Object.assign({}, item)
+          this.userApi = {
+            businessId: item.businessId,
+            phone: item.phone,
+            userName: item.userName,
+            password: item.password,
+            sex: item.sex,
+            realName: item.realName,
+            roleCode: item.roleCode,
+            birth: item.birth != '' ? new Date(item.birth) : '',
+            remark: item.remark
+          }
+        } else {
+          this.userApi = {
+            businessId: '',
+            phone: '',
+            userName: '',
+            password: '',
+            sex: 2,
+            realName: '',
+            roleCode: '',
+            birth: '',
+            remark: ''
+          }
+        }
+        this.userEditshow = true;
+      },
+      // 删除用户
+      delUser(item) {
+        this.$Modal.confirm({
+          title: '删除提示',
+          content: '确定删除用户？',
+          onOk: () => {
+            this.$http.post(this.$api.businessDeleteUser, {
+              userId: item.userId
+            }).then(res => {
+              if (res.code === 1000) {
+                this.getUserList(item.businessId)
+                this.$Message.success('删除成功!');
+              } else {
+                this.$Message.error(res.message);
+              }
+            })
+          }
+        })
+      },
+      userSubmit(name) {
+        this.$refs[name].validate((valid) => {
+          if (valid) {
+            this.loading = true;
+            let params = this.$clearData(this.userApi);
+            params.birth = this.birthDate;
+            if (!this.userEdit) {
+              params.password = this.$md5(params.password)
+              params.businessId = this.businessId;
+            }
+            this.$http.post(this.$api.businessAddUser, params).then(res => {
+              if (res.code === 1000) {
+                this.getUserList(params.businessId)
+                this.$Message.success(this.userEdit ? '编辑成功' : '保存成功')
+                this.userEditshow = false;
+              } else {
+                this.$Message.error(res.message);
+              }
+              this.loading = false;
+            })
+          } else {
+            this.$Message.error('表单验证失败');
+          }
+        })
+      },
+      useReset(name) {
+        Object.keys(this.userApi).forEach(key => {
+          this.userApi[key] = '';
+        })
+        this.userApi.sex = 2;
+        this.userEditshow = false;
+        this.loading = false;
+        this.$refs[name].resetFields();
+      }
     },
     created() {
       this.getList(this.pageFilter)
@@ -381,4 +595,8 @@
 
 <style lang='less' scoped>
   @import url('../../../assets/less/base.less');
+  .user-options {
+    text-align: right;
+    margin-bottom: 15px;
+  }
 </style>

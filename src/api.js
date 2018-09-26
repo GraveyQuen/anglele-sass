@@ -181,6 +181,11 @@ export const findBusinessUser = '/sys/business/findBusinessUser'
 export const businessAddUser = '/sys/business/addUser'
 
 /**
+ * 商户删除用户
+ */
+export const businessDeleteUser = '/sys/business/deleteUser'
+
+/**
  * 分类列表
  */
 export const findCategoryList = '/sys/category/findCategoryList'
