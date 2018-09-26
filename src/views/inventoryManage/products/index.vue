@@ -32,7 +32,7 @@
         <Table width="100%" ref="productTable" :columns="tableHeader" :data="list">
           <template slot="wareHouseProductSet" slot-scope="props">
             <div v-for="(item,index) in props.row.wareHouseProductSet" :key="index">
-              <div>{{item.num}}{{item.unit}}</div>
+              <div>{{item.wareHouseName}}：{{item.num}}{{item.unit}}</div>
             </div>
           </template>
         </Table>
@@ -202,7 +202,7 @@
         }, {
           title: '仓库库存',
           key: 'wareHouseProductSet',
-          minWidth: 120,
+          minWidth: 200,
           render: (h, params) => {
             return h(
               'div',
@@ -217,7 +217,11 @@
           minWidth: 120,
           render: (h, params) => {
             let str = params.row.warnNum !='' ? `${params.row.warnNum}${params.row.unit}` : '未设置';
-            return h('div', str)
+            return h('div',{
+              style: {
+                color: '#ed4014'
+              }
+            }, str)
           }
         }, {
           title: '产品描述',

@@ -159,7 +159,7 @@
         <Button @click="userShow = false">关闭</Button>
       </div>
     </Modal>
-    <Modal :title="this.userEdit ? '编辑客户':'新增客户'" width="500" v-model="userEditshow" :mask-closable="false">
+    <Modal :title="this.userEdit ? '编辑用户':'新增用户'" width="500" v-model="userEditshow" :mask-closable="false">
       <Form ref="formUser" :model="userApi" :rules="useRule" :label-width="100">
         <FormItem label="登录账号：" prop="phone">
           <Input v-model="userApi.phone" placeholder="请输入..."></Input>

@@ -3,13 +3,13 @@
     <Card :bordered="true" dis-hover title="仓库管理">
       <Button type="primary" slot="extra" class="extra-button" @click="openPanel(false)">新增仓库</Button>
       <Form :mode="pageApi" :label-width="100" inline>
+        <FormItem label="仓库名称：">
+          <Input v-model="pageApi.wareHouseName" placeholder="请输入..."></Input>
+        </FormItem>
         <FormItem label="仓库状态：">
           <Select v-model="pageApi.status" :clearable="false" style="width: 160px;">
                 <Option v-for="(item,index) in [{id:'0',name:'禁用'},{id:'1',name:'启用'}]" :value="item.id" :key="index">{{ item.name }}</Option>
               </Select>
-        </FormItem>
-        <FormItem label="仓库名称：">
-          <Input v-model="pageApi.wareHouseName" placeholder="请输入..."></Input>
         </FormItem>
         <FormItem>
           <Button type="warning" @click.native="resetFilter">清除</Button>
