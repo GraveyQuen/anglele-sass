@@ -28,7 +28,7 @@
             <Col class-name="col" span="2">{{item.phone}}</Col>
             <Col class-name="col" span="2"> {{item.contactPeople}}
             </Col>
-            <Col class-name="col" span="2">{{item.contactPeople}}</Col>
+            <Col class-name="col" span="2">{{item.contactPhone}}</Col>
             <Col class-name="col" span="2">
             <Button size="small" @click="changeStatus(item)">{{item.status === 1 ? '启用':'禁用'}}</Button>
             </Col>

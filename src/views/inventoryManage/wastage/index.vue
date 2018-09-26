@@ -109,6 +109,9 @@
         <FormItem label="仓库：">
           {{editItem.warehouseName}}
         </FormItem>
+        <FormItem label="状态：">
+          {{editItem.status | toStatus}}
+        </FormItem>
         <FormItem label="备注：">
           {{editItem.remark}}
         </FormItem>
@@ -186,13 +189,6 @@
           {
             title: '分类名称',
             key: 'categoryName',
-          },
-          {
-            title: '现有库存',
-            key: 'total',
-            render: (h,params) =>{
-              return h('div',`${params.row.total}${params.row.unit}`)
-            }
           },
           {
             title: '售价',
@@ -343,6 +339,11 @@
           }
         })
         return isOk;
+      }
+    },
+    filters:{
+      toStatus(val){
+        return ['暂存', '完成', '取消'][val]
       }
     },
     watch: {

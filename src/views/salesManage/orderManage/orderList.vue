@@ -78,7 +78,7 @@
             <Col span="8" class="order-row-col">订单单号：{{detailItem.order.id}}</Col>
             <Col span="8" class="order-row-col">下单金额：￥{{detailItem.order.amount}}</Col>
             <Col span="8" class="order-row-col">订单状态：{{detailItem.order.status | orderStatus}}</Col>
-            <Col span="8" class="order-row-col">下单日期：{{detailItem.order.createTime | dateformat}}</Col>
+            <Col span="8" class="order-row-col">下单日期：{{detailItem.order.createTime | dateformat('yyyy-MM-dd')}}</Col>
             <Col span="8" class="order-row-col">客户联系人：{{detailItem.order.contactPeople}}</Col>
             <Col span="8" class="order-row-col">客户联系方式：{{detailItem.order.contactPhone}}</Col>
             <Col span="8" class="order-row-col">{{detailItem.order.realAmount != '' ? `实单金额：￥${detailItem.order.realAmount}`:''}}</Col>
@@ -105,7 +105,7 @@
               </Row>
               <Row v-for="(item,index) in detailItem.orderItem" :key="index">
                 <Col class-name="col" span="4">{{item.productName}}</Col>
-                <Col class-name="col" span="4">￥{{item.price}}</Col>
+                <Col class-name="col" span="4">{{item.price}}元/{{item.unit}}</Col>
                 <Col class-name="col" :span="detailItem.order.status === 5 ? 4 : 8">{{item.num}}{{item.unit}}</Col>
                 <Col class-name="col" :span="detailItem.order.status === 5 ? 4 : 8">￥{{item.totalPrice}}</Col>
                 <Col class-name="col" span="4" v-if="detailItem.order.status === 5">{{item.realNum}}</Col>
@@ -312,7 +312,7 @@
           key: 'updateUser',
           minWidth: 120
         }, {
-          title: '最近操作时间',
+          title: '最近更新时间',
           key: 'updateTime',
           render: (h, params) => {
             return h('div', dateformat(params.row.updateTime))
@@ -502,7 +502,7 @@
           name: '已确认'
         }, {
           value: 3,
-          name: '配送中'
+          name: '配货中'
         }, {
           value: 4,
           name: '配送中'

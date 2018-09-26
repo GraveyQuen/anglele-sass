@@ -114,6 +114,11 @@ export const modifyWareHouse = '/sys/warehouse/modifyWareHouse'
  */
 export const findWareHouse = '/sys/warehouse/findWareHouse'
 
+/**
+ * 仓库删除
+ */
+export const deleteWareHouse = '/sys/warehouse/deleteWareHouse'
+
 
 /**
  * 客户列表
@@ -169,6 +174,11 @@ export const delBusiness = '/sys/business/delBusiness'
  */
 export const findBusinessUser = '/sys/business/findBusinessUser'
 
+
+/**
+ * 商户添加用户
+ */
+export const businessAddUser = '/sys/business/addUser'
 
 /**
  * 分类列表
@@ -375,6 +385,7 @@ export const settleFinish = '/sys/settlement/finish'
  * 修改结算单编号
  */
 export const changeSettlementId = '/sys/settlement/changeSettlementId'
+
 
 
 

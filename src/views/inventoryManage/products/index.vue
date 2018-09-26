@@ -32,7 +32,7 @@
         <Table width="100%" ref="productTable" :columns="tableHeader" :data="list">
           <template slot="wareHouseProductSet" slot-scope="props">
             <div v-for="(item,index) in props.row.wareHouseProductSet" :key="index">
-              <div>{{item.num}}</div>
+              <div>{{item.num}}{{item.unit}}</div>
             </div>
           </template>
         </Table>
@@ -196,7 +196,7 @@
           key: 'total',
           minWidth: 120,
           render: (h, params) => {
-            let str = `${params.row.total}/${params.row.unit}`;
+            let str = `${params.row.total}${params.row.unit}`;
             return h('div', str)
           }
         }, {

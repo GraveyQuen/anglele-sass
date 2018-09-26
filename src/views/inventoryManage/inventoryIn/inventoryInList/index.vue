@@ -58,13 +58,13 @@
     <Modal title="入库单详情" width="800" v-model="show" :mask-closable="false">
       <div class="in-detail">
         <Row>
-          <Col class="in-col" span="6">开单日期:{{detailItem.newOrderDate}}</Col>
-          <Col class="in-col" span="6">类型:{{detailItem.inType | inCategray}}</Col>
-          <Col class="in-col" span="6">送货人:{{detailItem.driver}}</Col>
-          <Col class="in-col" span="6">送货人联系方式:{{detailItem.driverPhone}}</Col>
-          <Col class="in-col" span="6">开单人:{{detailItem.createUser}}</Col>
-          <Col class="in-col" span="6">仓库:{{detailItem.wareHouseName}}</Col>
-          <Col class="in-col" span="6">备注:{{detailItem.remark}}</Col>
+          <Col class="in-col" span="6">开单日期：{{detailItem.newOrderDate}}</Col>
+          <Col class="in-col" span="6">类型：{{detailItem.inType | inCategray}}</Col>
+          <Col class="in-col" span="6">送货人：{{detailItem.driver}}</Col>
+          <Col class="in-col" span="6">送货人联系方式：{{detailItem.driverPhone}}</Col>
+          <Col class="in-col" span="6">开单人：{{detailItem.createUser}}</Col>
+          <Col class="in-col" span="6">仓库：{{detailItem.wareHouseName}}</Col>
+          <Col class="in-col" span="6">备注：{{detailItem.remark}}</Col>
         </Row>
         <div class="in-title">入库产品列表</div>
         <div class="page-inner">
@@ -80,7 +80,7 @@
             <Col class-name="col" span="6">{{item.productName}}</Col>
             <Col class-name="col" span="6">{{item.productCategory}}</Col>
             <Col class-name="col" span="6">{{item.num}}{{item.unit}}</Col>
-            <Col class-name="col" span="6">{{item.cost}}</Col>
+            <Col class-name="col" span="6">{{item.cost}}/{{item.unit}}</Col>
           </Row>
         </div></div>
         </div>
@@ -293,8 +293,8 @@
       //删除
       del(item) {
         this.$Modal.confirm({
-          title: '确认删除入库单',
-          content: '此操作将无法撤销,是否继续？',
+          title: '删除入库单',
+          content: '确认是否删除暂存入库单？',
           onOk: () => {
             this.$http.post(this.$api.wareHouseInDelete, {
               id: item.id
@@ -312,15 +312,15 @@
       // 取消 
       cancel(item) {
         this.$Modal.confirm({
-          title: '确认取消入库单',
-          content: '此操作将无法撤销,是否继续？',
+          title: '取消入库单',
+          content: '入库单取消后，商品库存会被扣减，确认是否继续？',
           onOk: () => {
             this.$http.post(this.$api.wareHouseInCancel, {
               id: item.id
             }).then(res => {
               if (res.code === 1000) {
                 this.getList(this.pageFilter);
-                this.$Message.success('删除成功!');
+                this.$Message.success('取消成功!');
               } else {
                 this.$Message.error(res.message);
               }

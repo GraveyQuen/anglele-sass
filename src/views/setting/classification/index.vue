@@ -9,7 +9,7 @@
         <FormItem label="分类代码：">
           <Input v-model="pageApi.code" placeholder="请输入"></Input>
         </FormItem>
-        <FormItem label="更新人：">
+        <FormItem label="最近更新人：">
           <Input v-model="pageApi.updateUser" placeholder="请输入"></Input>
         </FormItem>
         <FormItem>
@@ -51,7 +51,7 @@
         </div>
       </div>
     </Card>
-    <Modal :title="this.isEdit ? '编辑分类':'新增新增'" width="500" v-model="show" :mask-closable="false">
+    <Modal :title="this.isEdit ? '编辑分类':'新增分类'" width="500" v-model="show" :mask-closable="false">
       <Form ref="formModel" :model="dataApi" :rules="rule" :label-width="100">
         <FormItem label="分类名称：" prop="name">
           <Input v-model="dataApi.name" placeholder="请输入..."></Input>
@@ -67,7 +67,7 @@
           </RadioGroup>
         </FormItem>
         <FormItem label="排序：" prop="sortIndex">
-          <Input v-model="dataApi.sortIndex" placeholder="请输入..."></Input>
+          <InputNumber :min="1" v-model.number="dataApi.sortIndex" style="width:100%;"></InputNumber>
         </FormItem>
         <FormItem label="备注：">
           <Input v-model="dataApi.remark" placeholder="请输入..."></Input>
@@ -97,7 +97,7 @@
         dataApi: {
           name: '',
           code: '',
-          sortIndex: '',
+          sortIndex: 0,
           remark: '',
           status: 1
         },
@@ -110,7 +110,8 @@
           sortIndex: [{
             required: true,
             message: '不能为空',
-            trigger: 'blur'
+            trigger: 'blur',
+            type: 'number'
           }]
         },
         show: false,
@@ -170,7 +171,7 @@
           this.dataApi = {
             name: item.name,
             code: item.code,
-            sortIndex: item.sortIndex.toString(),
+            sortIndex: item.sortIndex,
             status: item.status,
             remark: item.remark
           }
@@ -178,7 +179,7 @@
           this.dataApi = {
             name: '',
             code: '',
-            sortIndex: '',
+            sortIndex: 0,
             status: 1,
             remark: ''
           }

@@ -13,7 +13,7 @@
       </FormItem>
       <FormItem label="角色：">
         <Select v-model="loginApi.roleCode" style="width: 200px;">
-          <Option v-for="(item,index) in [{value: 'ADMIN',name:'超管'},{value: 'super',name:'超超管'},{value: 'FINANCIAL',name: '财务'},{value:'SELLER',name:'SELLER'}]" :value="item.value" :key="index">{{ item.name }}</Option>
+          <Option v-for="(item,index) in [{value: 'super',name:'平台管理员'},{value: 'ADMIN',name:'超管'},{value: 'FINANCIAL',name: '财务'},{value:'SELLER',name:'SELLER'}]" :value="item.value" :key="index">{{ item.name }}</Option>
         </Select>
         </FormItem>
       </FormItem>

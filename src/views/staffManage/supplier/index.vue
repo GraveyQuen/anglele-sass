@@ -13,7 +13,9 @@
           <Input v-model="pageApi.contactPhone" placeholder="请输入"></Input>
         </FormItem>
         <FormItem label="状态：">
-          <Input v-model="pageApi.status" placeholder="请输入"></Input>
+          <Select v-model="pageApi.status" style="width: 200px;">
+              <Option v-for="(item,index) in [{id: 1,name: '启用'},{id: 2,name:'禁用'}]" :value="item.id" :key="index">{{ item.name }}</Option>
+            </Select>
         </FormItem>
         <FormItem>
           <Button type="warning" @click.native="resetFilter">清除</Button>
@@ -26,9 +28,9 @@
             <Col class-name="col" span="3">联系人</Col>
             <Col class-name="col" span="3">联系电话</Col>
             <Col class-name="col" span="2">状态</Col>
-            <Col class-name="col" span="3">传真</Col>
-            <Col class-name="col" span="3">QQ</Col>
-            <Col class-name="col" span="3">操作</Col>
+            <Col class-name="col" span="2">传真</Col>
+            <Col class-name="col" span="2">QQ</Col>
+            <Col class-name="col" span="5">操作</Col>
           </Row>
           <Row v-for="(item,index) in list" :key="index">
             <Col class-name="col" span="7">{{item.name}}</Col>
@@ -38,11 +40,12 @@
             <Col class-name="col" span="2">
             <Button size="small" @click="changeStatus(item)">{{item.status === 1 ? '启用':'禁用'}}</Button>
             </Col>
-            <Col class-name="col" span="3">{{item.fax}}</Col>
-            <Col class-name="col" span="3">{{item.qq}}</Col>
-            <Col class-name="col" span="3">
-            <Button type="warning" size="small" @click="openPanel(true,item)" style="margin-right: 10px;">编辑</Button>
-            <Button type="warning" size="small" @click="bindAccount(item)">查看绑定账号</Button>
+            <Col class-name="col" span="2">{{item.fax}}</Col>
+            <Col class-name="col" span="2">{{item.qq}}</Col>
+            <Col class-name="col" span="5">
+            <Button type="warning" size="small" @click="openPanel(true,item)">编辑</Button>
+            <Button type="warning" size="small" @click="bindAccount(item)" style="margin:0 10px;">查看</Button>
+            <Button type="warning" size="small" @click="userManage(item)">用户管理</Button>
             </Col>
           </Row>
           </Row>
@@ -115,6 +118,11 @@
         <Button @click="detailShow = false">关闭</Button>
       </div>
     </Modal>
+    <Modal title="用户管理" width="900" v-model="userShow" :mask-closable="false">
+      <div slot="footer">
+        <Button @click="userShow = false">关闭</Button>
+      </div>
+    </Modal>
   </div>
 </template>
 
@@ -174,7 +182,22 @@
             message: '不能为空',
             trigger: 'blur'
           }]
-        }
+        },
+        userShow: false,
+        userApi: {
+          businessId: '',
+          phone: '',
+          userName: '',
+          password: '',
+          sex: 2,
+          realName: '',
+          roleCode: '',
+          birth: '',
+          qq: '',
+          remark: '',
+          wareHouseId: ''
+        },
+        userList: []
       }
     },
     computed: {
@@ -337,7 +360,18 @@
             this.accountDetail = res.data;
           }
         })
-      }
+      },
+      //   用户管理
+      userManage(item) {
+        this.userShow = true;
+        this.$http.post(this.$api.findBusinessUser, {
+          id: item.id
+        }).then(res => {
+          if (res.code === 1000) {
+            this.userList = res.data;
+          }
+        })
+      },
     },
     created() {
       this.getList(this.pageFilter)

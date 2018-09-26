@@ -5,8 +5,8 @@
       <Form :mode="pageApi" :label-width="100" inline>
         <FormItem label="仓库状态：">
           <Select v-model="pageApi.status" :clearable="false" style="width: 160px;">
-              <Option v-for="(item,index) in [{id:'0',name:'禁用'},{id:'1',name:'启用'}]" :value="item.id" :key="index">{{ item.name }}</Option>
-            </Select>
+                <Option v-for="(item,index) in [{id:'0',name:'禁用'},{id:'1',name:'启用'}]" :value="item.id" :key="index">{{ item.name }}</Option>
+              </Select>
         </FormItem>
         <FormItem>
           <Button type="warning" @click.native="resetFilter">清除</Button>
@@ -31,7 +31,8 @@
             <Col class-name="col" span="3">{{item.sortIndex}}</Col>
             <Col class-name="col" span="3">{{item.remark}}</Col>
             <Col class-name="col" span="3">
-            <Button type="warning" size="small" @click="openPanel(true,item)">编辑</Button>
+            <Button type="warning" size="small" @click="openPanel(true,item)" style="margin-right: 10px;">编辑</Button>
+            <Button type="error" size="small" @click="del(item)">删除</Button>
             </Col>
           </Row>
           </Row>
@@ -44,19 +45,19 @@
         </div>
       </div>
     </Card>
-    <Modal :title="this.isEdit ? '编辑计量单位':'新增计量单位'" width="500" v-model="show" :mask-closable="false">
+    <Modal :title="this.isEdit ? '编辑仓库':'新增仓库'" width="500" v-model="show" :mask-closable="false">
       <Form ref="formModel" :model="dataApi" :rules="rule" :label-width="100">
         <FormItem label="名称：" prop="name">
           <Input v-model="dataApi.name" placeholder="请输入..."></Input>
         </FormItem>
-        <FormItem label="地址：">
+        <FormItem label="地址：" prop="cityName">
           <cityPick v-model="city" @on-pick="onPick"></cityPick>
         </FormItem>
-        <FormItem label="详细地址：">
+        <FormItem label="详细地址：" prop="address">
           <Input v-model="dataApi.address" placeholder="请输入..."></Input>
         </FormItem>
         <FormItem label="排序：">
-          <Input v-model="dataApi.sortIndex" placeholder="请输入..."></Input>
+          <InputNumber :min="1" v-model.number="dataApi.sortIndex" style="width:100%;"></InputNumber>
         </FormItem>
         <FormItem label="备注：">
           <Input v-model="dataApi.remark" placeholder="请输入..."></Input>
@@ -86,7 +87,7 @@
         city: [],
         dataApi: {
           name: '',
-          sortIndex: '',
+          sortIndex: 0,
           remark: '',
           address: '',
           provinceId: '',
@@ -100,6 +101,16 @@
         show: false,
         rule: {
           name: [{
+            required: true,
+            message: '不能为空',
+            trigger: 'blur'
+          }],
+          cityName: [{
+            required: true,
+            message: '不能为空',
+            trigger: 'change'
+          }],
+          address: [{
             required: true,
             message: '不能为空',
             trigger: 'blur'
@@ -182,7 +193,7 @@
         } else {
           this.dataApi = {
             name: '',
-            sortIndex: '',
+            sortIndex: 0,
             remark: '',
             address: '',
             provinceId: '',
@@ -242,6 +253,24 @@
               if (res.code === 1000) {
                 this.getList(this.pageFilter);
                 this.$Message.success('更改成功!');
+              } else {
+                this.$Message.error(res.message);
+              }
+            })
+          }
+        })
+      },
+      del(item) {
+        this.$Modal.confirm({
+          title: '删除提示',
+          content: '确认删除该仓库？',
+          onOk: () => {
+            this.$http.post(this.$api.deleteWareHouse, {
+              id: item.id
+            }).then(res => {
+              if (res.code === 1000) {
+                this.getList(this.pageFilter);
+                this.$Message.success('删除成功!');
               } else {
                 this.$Message.error(res.message);
               }
