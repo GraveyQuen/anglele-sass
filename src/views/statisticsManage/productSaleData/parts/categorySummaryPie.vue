@@ -8,7 +8,7 @@
             </Select>
         </FormItem>
         <FormItem>
-          <DatePicker type="daterange" :options="daterange" placement="bottom-start" v-model="dateValue" placeholder="选择日期" style="width: 200px"></DatePicker>
+          <DatePicker type="daterange" :options="daterange" placement="bottom-end" v-model="dateValue" placeholder="选择日期" style="width: 200px"></DatePicker>
         </FormItem>
         <FormItem>
           <Button type="warning" @click.native="resetFilter">清除</Button>

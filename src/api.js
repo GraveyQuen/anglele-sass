@@ -415,6 +415,20 @@ export const producrSummaryPieCategory = '/sys/dataStatistics/producrSummaryPieC
 export const productSummary = '/sys/dataStatistics/productSummary'
 
 
+// 货品库存管理
+export const productWareHouse = '/sys/dataStatistics/productWareHouse'
+
+
+// 货品出入库分析
+export const pruductInOut = '/sys/dataStatistics/pruductInOut'
+
+
+// 热门销售统计
+export const hotSaleSummary = '/sys/dataStatistics/hotSaleSummary'
+
+
+// 热门销售统计详情
+export const hotSaleSummaryInfo = '/sys/dataStatistics/hotSaleSummaryInfo'
 
 
 
