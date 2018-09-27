@@ -10,9 +10,11 @@
   "dependencies": {
     "axios": "^0.18.0",
     "dateformat-util": "^1.0.5",
+    "echarts": "^4.2.0-rc.1",
     "iview": "^3.1.2",
     "js-md5": "^0.7.3",
     "lodash": "^4.17.10",
+    "v-charts": "^1.17.10",
     "vue": "^2.5.17",
     "vue-ls": "^3.2.0",
     "vue-router": "^3.0.1",

@@ -10,12 +10,14 @@ import axios from './http'
 import * as api from './api'
 import _ from 'lodash'
 import md5 from 'js-md5'
+import VCharts from 'v-charts'
 
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
 
 Vue.directive('clickoutside', clickoutside);
+Vue.use(VCharts)
 Vue.use(iView);
 
 

@@ -12,3 +12,8 @@
     methods: {}
   }
 </script>
+<style lang='less'>
+ body{
+   background: #ebf1f5!important;
+ } 
+</style>

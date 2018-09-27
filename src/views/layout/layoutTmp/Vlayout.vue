@@ -20,7 +20,9 @@
   import layoutHeader from '../layoutHeader/index'
   import layoutAside from '../layoutAside/index.vue'
   import breadCrumb from '../components/bread-crumb/bread-crumb.vue'
+  import push from '@/utils/push.js'
   export default {
+    mixins: [push],
     components: {
       layoutHeader,
       layoutAside,
@@ -42,23 +44,37 @@
         this.$http.post(this.$api.findCurrentUser).then(res => {
           if (res.code === 1000) {
             this.$store.commit(types.SET_USER_INFO, res.data);
+            document.addEventListener('visibilitychange', () => {
+              let isHidden = document.hidden;
+              if (isHidden) {
+                this.isFocus = false;
+              } else {
+                this.isFocus = true;
+                document.title = this.titleInit;
+                window.clearInterval(this.stl);
+                if (!this.isNotice) {
+                  this.notify(this.msg)
+                }
+              }
+            });
+            this.initScoket();
           }
         })
       },
-      getSet() {
-        this.$http.post(this.$api.authSettings).then(res => {
-          if (res.code === 1000) {
-            // console.log(res)
-          }
-        })
-      }
+      // getSet() {
+      //   this.$http.post(this.$api.authSettings).then(res => {
+      //     if (res.code === 1000) {
+      //       console.log(res)
+      //     }
+      //   })
+      // }
     },
     mounted() {
       this.setBreadCrumb(this.$route.matched)
     },
     created() {
       this.getUserInfo();
-      this.getSet();
+      // this.getSet();
     }
   }
 </script>
@@ -73,11 +89,9 @@
       left: 150px;
       right: 0;
       top: 50px;
-      bottom: 0;
       padding: 15px;
       min-width: 1000px;
       margin: 0;
-      background: #ebf1f5;
     }
   }
 </style>

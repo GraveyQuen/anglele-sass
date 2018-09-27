@@ -126,8 +126,8 @@
         <!-- 实单数量 -->
 <template slot="realNum" slot-scope="props">
   <Form :ref="'formRow'+props.idx" :model="props.row">
-    <FormItem prop="realNum" :rules="{required: true, message: '请输入数量', trigger: 'blur'}">
-      <Input v-model="props.row.realNum" size="small" placeholder="请输入" style="width:60px;"></Input>{{props.row.unit}}
+    <FormItem prop="realNum" :rules="{required: true, message: '请输入数量', trigger: 'blur', type: 'number'}">
+      <Input v-model.number="props.row.realNum" size="small" placeholder="请输入" style="width:60px;"></Input>{{props.row.unit}}
     </FormItem>
   </Form>
 </template>

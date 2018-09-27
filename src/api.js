@@ -8,6 +8,7 @@ if (process.env.NODE_ENV == 'development') {
 } else {
   uploadHost = ''
 }
+export const ws = 'wss://192.168.0.252:8000/ws'
 
 export const upload =  uploadHost + '/auth/file/upload'
 
@@ -398,6 +399,21 @@ export const changeSettlementId = '/sys/settlement/changeSettlementId'
 // 数据统计
 
 export const summaryStatistics = '/sys/dataStatistics/summaryStatistics'
+
+
+// 客户销售分布
+
+export const producrSummaryPieCustomer = '/sys/dataStatistics/producrSummaryPieCustomer'
+
+// 分类销售分布
+
+export const producrSummaryPieCategory = '/sys/dataStatistics/producrSummaryPieCategory'
+
+
+// 产品销售汇总
+
+export const productSummary = '/sys/dataStatistics/productSummary'
+
 
 
 
