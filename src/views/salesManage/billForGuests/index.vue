@@ -4,8 +4,8 @@
       <Form :label-width="100" style="max-width: 900px;" inline>
         <FormItem label="选择客户：">
           <Select v-model="dataApi.customerId" filterable remote clearable :remote-method="remote" :loading="loading" style="width:300px;">
-                              <Option v-for="(option, index) in customerList" :value="option.id" :key="index">{{option.name}}</Option>
-                            </Select>
+            <Option v-for="(option, index) in customerList" :value="option.id" :key="index">{{option.name}}</Option>
+          </Select>
         </FormItem>
         <div class="other-info-wrapper" v-if="hasCustonmer">
         <div class="other-info">
@@ -56,7 +56,7 @@
       </Form>
     </Card>
     <Modal title="选择产品" width="800" v-model="show" :mask-closable="false">
-      <selectGoods v-if="show" @on-select="onselect" :checkList="goodsList"></selectGoods>
+      <selectGoods v-if="show" @on-select="onselect" :isBill="true" :wareHouseId="wareHouseId" :checkList="goodsList"></selectGoods>
       <div slot="footer">
         <Button type="primary" @click="chooseGoods">选择</Button>
         <Button @click="resetGoods">取消</Button>
@@ -91,6 +91,7 @@
         selectList: [],
         goodsList: [],
         formRow: {},
+        wareHouseId: '', // 选择产品需要将仓库id传入
         goodsHeader: [{
           title: '产品名称',
           key: 'name',
@@ -159,6 +160,9 @@
             }
           })
         }
+      },
+      'customerData.defaultWareHouseId'(val){
+        this.wareHouseId = val;
       }
     },
     methods: {

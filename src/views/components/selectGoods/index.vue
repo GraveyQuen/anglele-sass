@@ -48,6 +48,14 @@
       },
       checkList: {
         type: Array
+      },
+      isBill:{   //是否代客开单
+        type: Boolean,
+        default: false
+      },
+      wareHouseId: {
+        type: String,
+        default: ''
       }
     },
     data() {
@@ -57,8 +65,8 @@
           pageSize: 20,
           name: '',
           categoryId: '',
-          wareHouseId: '',
-          status: '',
+          wareHouseId: this.wareHouseId,
+          status: 1,
           updateUser: ''
         },
         list: [],
@@ -75,7 +83,7 @@
           pageSize: this.pageApi.pageSize,
           status: this.pageApi.status,
           categoryId: this.pageApi.categoryId,
-          wareHouseId: this.id,
+          wareHouseId: this.pageApi.wareHouseId,
           updateUser: this.pageApi.updateUser
         }
       },
@@ -105,8 +113,8 @@
           pageSize: 10,
           name: '',
           categoryId: '',
-          wareHouseId: this.id,
-          status: '',
+          wareHouseId: this.wareHouseId,
+          status: 1,
           updateUser: ''
         }
       },
