@@ -18,11 +18,11 @@
       <Row :gutter="16">
         <Col span="12">
         <div>分类销售额</div>
-        <ve-pie :data="chartAmount" :settings="chartSettings"></ve-pie>
+        <VePie :data="chartAmount" :settings="chartSettings"></VePie>
         </Col>
         <Col span="12">
         <div>分类销售量</div>
-        <ve-pie :data="chartNum" :settings="chartSettings"></ve-pie>
+        <VePie :data="chartNum" :settings="chartSettings"></VePie>
         </Col>
       </Row>
     </Card>

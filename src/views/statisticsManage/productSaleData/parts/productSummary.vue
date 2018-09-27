@@ -20,7 +20,7 @@
           <Button type="warning" @click.native="resetFilter">清除</Button>
         </FormItem>
       </Form>
-      <ve-line :data="chartData"></ve-line>
+      <VeLine :data="chartData"></VeLine>
     </Card>
   </div>
 </template>

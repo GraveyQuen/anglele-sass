@@ -15,11 +15,11 @@
       <Row :gutter="16">
         <Col span="12">
         <div>客户销售金额</div>
-        <ve-pie :data="chartAmount" :settings="chartSettings"></ve-pie>
+        <VePie :data="chartAmount" :settings="chartSettings"></VePie>
         </Col>
         <Col span="12">
         <div>客户销售数量</div>
-        <ve-pie :data="chartNum" :settings="chartSettings"></ve-pie>
+        <VePie :data="chartNum" :settings="chartSettings"></VePie>
         </Col>
       </Row>
     </Card>

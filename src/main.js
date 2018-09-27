@@ -10,14 +10,17 @@ import axios from './http'
 import * as api from './api'
 import _ from 'lodash'
 import md5 from 'js-md5'
-import VCharts from 'v-charts'
+import VeLine from 'v-charts/lib/line.common' // 折线图
+import VePie from 'v-charts/lib/pie.common'  // 饼图
 
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
 
+Vue.component(VeLine.name, VeLine)
+Vue.component(VePie.name, VePie)
+
 Vue.directive('clickoutside', clickoutside);
-Vue.use(VCharts)
 Vue.use(iView);
 
 
