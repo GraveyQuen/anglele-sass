@@ -13,8 +13,8 @@
         </FormItem>
         <FormItem label="状态：">
           <Select v-model="pageApi.status" style="width: 200px;">
-                        <Option v-for="(item,index) in orderStatus" :value="item.value" :key="index">{{ item.name }}</Option>
-                      </Select>
+                            <Option v-for="(item,index) in orderStatus" :value="item.value" :key="index">{{ item.name }}</Option>
+                          </Select>
         </FormItem>
         <FormItem label="最近更新人：">
           <Input v-model="pageApi.updateUser" placeholder="请输入" style="width: 200px;"></Input>
@@ -30,10 +30,10 @@
         <Table width="100%" ref="orderTable" :columns="tableHeader" border :data="list">
           <!-- 操作 -->
           <template slot="action" slot-scope="props">
-                          <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看明细</Button>
-                          <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1" @click="confirm(props.row)">确认出库</Button>
-                          <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 2" @click="out(props.row)">出库</Button>
-                          <Button type="info" size="small" v-if="props.row.status === 1 || props.row.status === 2 || props.row.status === 3" @click="print(props.row)">打印</Button>
+                              <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看明细</Button>
+                              <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1" @click="confirm(props.row)">确认出库</Button>
+                              <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 2" @click="out(props.row)">出库</Button>
+                              <Button type="info" size="small" v-if="props.row.status === 1 || props.row.status === 2 || props.row.status === 3" @click="print(props.row)">打印</Button>
 </template>
         </Table>
         <div class="paging">
@@ -277,7 +277,28 @@
       },
       // 打印出库单
       print(item) {
-  
+        this.$Spin.show({
+          render: (h) => {
+            return h('div', [
+              h('Icon', {
+                'class': 'spin-icon-load',
+                props: {
+                  type: 'ios-loading',
+                  size: 18
+                }
+              }),
+              h('div', '正在生产打印出库单...')
+            ])
+          }
+        });
+        this.$http.post(this.$api.wareHouseOutPrint, {
+          wareHouseOutId: item.id
+        }).then(res => {
+          if (res.code === 1000) {
+            window.open(res.data,'_blank')
+            this.$Spin.hide();
+          }
+        })
       }
     },
     created() {
@@ -288,4 +309,7 @@
 
 <style lang='less' scoped>
   @import url('../../../assets/less/base.less');
+  .spin-icon-load {
+    animation: ani-demo-spin 1s linear infinite;
+  }
 </style>

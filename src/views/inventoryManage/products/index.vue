@@ -379,6 +379,7 @@
                 this.$Message.success(this.isEdit ? '编辑成功' : '保存成功')
                 this.getList(this.pageFilter);
                 this.show = false;
+                this.$refs[name].resetFields();
               } else {
                 this.$Message.error(res.message);
               }

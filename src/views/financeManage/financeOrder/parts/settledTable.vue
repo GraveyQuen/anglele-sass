@@ -3,8 +3,8 @@
   
     <Table class="fake-table-header" ref="settledTable" :columns="tableHeader" :data="[]">
       <template slot="action" slot-scope="props">
-        <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看</Button>
-        <Button type="warning" size="small"  @click="updateId(props.row)">更新结算单号</Button>
+          <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看</Button>
+          <Button type="warning" size="small"  @click="updateId(props.row)">更新结算单号</Button>
 </template>
   </Table>
   <Table class="real-table-body" ref ="settledRow" stripe highlight-row :show-header="false" :columns="fakeHead" :data="listData">
@@ -187,7 +187,7 @@
                 this.$emit('on-cancel', !this.isCancel)
                 this.updateShow = false;
                 this.$Message.success('更新成功');
-              }else{
+              } else {
                 this.$Message.error(res.message);
               }
               this.loading = false;
@@ -198,7 +198,7 @@
         })
       },
       updateReset(name) {
-        Object.keys(this.updateApi).forEach(key =>{
+        Object.keys(this.updateApi).forEach(key => {
           this.updateApi[key] = '';
         })
         this.loading = false;
@@ -207,7 +207,28 @@
       },
       // 打印
       print(item) {
-        console.log(item)
+        this.$Spin.show({
+          render: (h) => {
+            return h('div', [
+              h('Icon', {
+                'class': 'spin-icon-load',
+                props: {
+                  type: 'ios-loading',
+                  size: 18
+                }
+              }),
+              h('div', '正在生产打印结算单...')
+            ])
+          }
+        });
+        this.$http.post(this.$api.settlementPrint, {
+          settlementId: item.id
+        }).then(res => {
+          if (res.code === 1000) {
+            window.open(res.data, '_blank')
+            this.$Spin.hide();
+          }
+        })
       },
     }
   }

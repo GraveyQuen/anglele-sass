@@ -3,14 +3,14 @@
   
     <Table class="fake-table-header" ref="settledTable" :columns="tableHeader" :data="[]">
       <template slot="action" slot-scope="props">
-      <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看</Button>
-      <Button type="warning" size="small"  @click="cancelSettled(props.row)">取消结算</Button>
+        <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看</Button>
+        <Button type="warning" size="small"  @click="cancelSettled(props.row)">取消结算</Button>
 </template>
   </Table>
   <Table class="real-table-body" ref ="settledRow" stripe highlight-row :show-header="false" :columns="fakeHead" :data="listData">
-     <template slot="options" slot-scope="props">
-      <Button type="success" size="small" style="margin-right:8px;" @click="print(props.row)">打印</Button>
-      <Button type="warning" size="small"  @click="okSettled(props.row)">完成结算</Button>
+<template slot="options" slot-scope="props">
+  <Button type="success" size="small" style="margin-right:8px;" @click="print(props.row)">打印</Button>
+  <Button type="warning" size="small" @click="okSettled(props.row)">完成结算</Button>
 </template>
   </Table>
     <Modal title="订单详情" width="800" v-model="show" :mask-closable="false">
@@ -168,7 +168,7 @@
         })
       },
       // 完成结算
-      okSettled(item){
+      okSettled(item) {
         this.$Modal.confirm({
           title: '完成结算确认',
           content: `是否确认完成结算？`,
@@ -186,8 +186,29 @@
         })
       },
       // 打印
-      print(item){
-        console.log(item)
+      print(item) {
+        this.$Spin.show({
+          render: (h) => {
+            return h('div', [
+              h('Icon', {
+                'class': 'spin-icon-load',
+                props: {
+                  type: 'ios-loading',
+                  size: 18
+                }
+              }),
+              h('div', '正在生产打印结算单...')
+            ])
+          }
+        });
+        this.$http.post(this.$api.settlementPrint, {
+          settlementId: item.id
+        }).then(res => {
+          if (res.code === 1000) {
+            window.open(res.data, '_blank')
+            this.$Spin.hide();
+          }
+        })
       },
     }
   }

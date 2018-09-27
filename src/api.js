@@ -369,6 +369,10 @@ export const wareHouseOutfinishOut = '/sys/wareHouseOut/finishOut'
 
 
 /**
+ * 打印出库单
+ */
+export const wareHouseOutPrint = '/sys/wareHouseOut/print'
+/**
  * 结算列表
  */
 export const settlementPage = '/sys/settlement/page'
@@ -389,7 +393,10 @@ export const settleCancel = '/sys/settlement/cancel'
  */
 export const settleFinish = '/sys/settlement/finish'
 
-
+/**
+ * 打印结算单
+ */
+export const settlementPrint = '/sys/settlement/print'
 /**
  * 修改结算单编号
  */
