@@ -10,11 +10,11 @@
         </FormItem>
         <FormItem>
           <Select v-model="pageApi.wareHouseId" style="width:200px;" placeholder="请选择仓库">
-            <Option v-for="(option, index) in wareHouseList" :value="option.id" :key="index">{{option.name}}</Option>
-          </Select>
+              <Option v-for="(option, index) in wareHouseList" :value="option.id" :key="index">{{option.name}}</Option>
+            </Select>
         </FormItem>
         <FormItem>
-          <DatePicker type="daterange" placement="bottom-end" v-model="dateValue" placeholder="选择日期" style="width: 200px"></DatePicker>
+          <DatePicker type="daterange" :options="daterange" placement="bottom-end" v-model="dateValue" placeholder="选择日期" style="width: 200px"></DatePicker>
         </FormItem>
         <FormItem>
           <Button type="warning" @click.native="resetFilter">清除</Button>
@@ -26,7 +26,9 @@
 </template>
 
 <script>
-import {dateformat} from '@/utils/filters'
+  import {
+    dateformat
+  } from '@/utils/filters'
   export default {
     data() {
       return {
@@ -39,8 +41,39 @@ import {dateformat} from '@/utils/filters'
         },
         dateValue: ['', ''],
         wareHouseList: [],
+        daterange: {
+          shortcuts: [{
+              text: '最近1个月',
+              value() {
+                const end = new Date();
+                const start = new Date();
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                return [start, end];
+              }
+            },
+            {
+              text: '最近3个月',
+              value() {
+                const end = new Date();
+                const start = new Date();
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                return [start, end];
+              }
+            },
+            {
+              text: '最近1年',
+              value() {
+                const end = new Date();
+                const start = new Date();
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * 365);
+                return [start, end];
+              }
+            }
+          ]
+        },
         chartData: {
-          columns: ['日期', '销售总额', '作废金额', '有效数量','订单数量','作废数量','有效金额'],
+          // columns: ['日期', '销售总额', '作废金额', '有效数量', '订单数量', '作废数量', '有效金额'],
+          columns: ['日期', '销售额'],
           rows: []
         }
       }
@@ -89,13 +122,13 @@ import {dateformat} from '@/utils/filters'
             if (res.data.length) {
               res.data.map(item => {
                 let row = {
-                  '日期': dateformat(item.time,'yyyy-MM-dd'),
-                  '销售总额': item.saleAmount,
-                  '作废金额': item.cancelAmount,
-                  '有效数量': item.effectiveNum,
-                  '订单数量': item.orderNum,
-                  '作废数量': item.cancelNum,
-                  '有效金额': item.effectiveAmount
+                  '日期': dateformat(item.time, 'yyyy-MM-dd'),
+                  '销售额': item.saleAmount,
+                  // '作废金额': item.cancelAmount,
+                  // '有效数量': item.effectiveNum,
+                  // '订单数量': item.orderNum,
+                  // '作废数量': item.cancelNum,
+                  // '有效金额': item.effectiveAmount
                 }
                 this.chartData.rows.push(row)
               })

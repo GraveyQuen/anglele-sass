@@ -12,10 +12,10 @@
       <div class="card-contnet">
         <Table width="100%" ref="productTable" border :columns="tableHeader" :data="list">
           <template slot="wareHouse" slot-scope="props">
-                  <div v-for="(item,index) in props.row.wareHouse.split(',')" :key="index">
-                    <div>{{item}}{{props.row.unit}}</div>
-                  </div>
-</template>
+          <div v-for="(item,index) in props.row.wareHouse.split(',')" :key="index">
+            <div>{{item}}{{props.row.unit}}</div>
+          </div>
+          </template>
         </Table>
       </div>
     </Card>

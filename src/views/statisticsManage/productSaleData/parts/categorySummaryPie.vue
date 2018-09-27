@@ -52,7 +52,7 @@
         categoryList: [],
         daterange: {
           shortcuts: [{
-              text: '本月',
+              text: '最近1个月',
               value() {
                 const end = new Date();
                 const start = new Date();
@@ -61,7 +61,7 @@
               }
             },
             {
-              text: '3个月',
+              text: '最近3个月',
               value() {
                 const end = new Date();
                 const start = new Date();
@@ -70,7 +70,7 @@
               }
             },
             {
-              text: '本年',
+              text: '最近1年',
               value() {
                 const end = new Date();
                 const start = new Date();

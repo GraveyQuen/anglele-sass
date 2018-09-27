@@ -3,7 +3,7 @@
     <Card :bordered="true" dis-hover title="交易汇总报表">
       <Form :mode="pageApi" :label-width="0" inline>
         <FormItem>
-          <DatePicker type="daterange" :options="daterange" placement="bottom-end" v-model="dateValue" placeholder="选择日期" style="width: 200px"></DatePicker>
+          <DatePicker type="daterange" :options="daterange" placement="bottom-start" v-model="dateValue" placeholder="选择日期" style="width: 200px"></DatePicker>
         </FormItem>
         <FormItem>
           <Button type="warning" @click.native="resetFilter">清除</Button>
@@ -76,7 +76,7 @@
         dateValue: ['', ''],
         daterange: {
           shortcuts: [{
-              text: '本月',
+              text: '最近1个月',
               value() {
                 const end = new Date();
                 const start = new Date();
@@ -85,7 +85,7 @@
               }
             },
             {
-              text: '3个月',
+              text: '最近3个月',
               value() {
                 const end = new Date();
                 const start = new Date();
@@ -94,7 +94,7 @@
               }
             },
             {
-              text: '本年',
+              text: '最近1年',
               value() {
                 const end = new Date();
                 const start = new Date();

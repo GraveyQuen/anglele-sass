@@ -3,11 +3,11 @@
     <Form :mode="pageApi" :label-width="0" inline>
       <FormItem>
         <Select v-model="pageApi.wareHouseId" style="width:200px;" placeholder="请选择仓库">
-          <Option v-for="(option, index) in wareHouseList" :value="option.id" :key="index">{{option.name}}</Option>
-        </Select>
+              <Option v-for="(option, index) in wareHouseList" :value="option.id" :key="index">{{option.name}}</Option>
+            </Select>
       </FormItem>
       <FormItem>
-        <DatePicker type="daterange" placement="bottom-start" v-model="dateValue" placeholder="选择日期" style="width: 200px"></DatePicker>
+        <DatePicker type="daterange" :options="daterange" placement="bottom-start" v-model="dateValue" placeholder="选择日期" style="width: 200px"></DatePicker>
       </FormItem>
       <FormItem>
         <Button type="warning" @click.native="resetFilter">清除</Button>
@@ -35,8 +35,38 @@
         },
         dateValue: ['', ''],
         wareHouseList: [],
+        daterange: {
+          shortcuts: [{
+              text: '最近1个月',
+              value() {
+                const end = new Date();
+                const start = new Date();
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                return [start, end];
+              }
+            },
+            {
+              text: '最近3个月',
+              value() {
+                const end = new Date();
+                const start = new Date();
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                return [start, end];
+              }
+            },
+            {
+              text: '最近1年',
+              value() {
+                const end = new Date();
+                const start = new Date();
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * 365);
+                return [start, end];
+              }
+            }
+          ]
+        },
         chartData: {
-          columns: ['日期', '出库','入库','库存'],
+          columns: ['日期', '出库', '入库', '库存'],
           rows: []
         }
       }
@@ -60,14 +90,14 @@
       }
     },
     methods: {
-      resetFilter(){
+      resetFilter() {
         this.pageApi = {
           productId: this.id,
           startTime: '',
           endTime: '',
           wareHouseId: ''
         }
-        this.dateValue = ['','']
+        this.dateValue = ['', '']
       },
       getList(params) {
         this.$http.post(this.$api.pruductInOut, params).then(res => {

@@ -3,16 +3,17 @@
     <Card :bordered="true" dis-hover title="热门销售报表">
       <Form :mode="pageApi" :label-width="15" inline>
         <Select v-model="pageApi.type" style="width:200px;" placeholder="请选择仓库">
-              <Option v-for="(option, index) in [{id: 1,name:'产品'},{id:2,name: '客户'}]" :value="option.id" :key="index">{{option.name}}</Option>
-            </Select>
+                <Option v-for="(option, index) in [{id: 1,name:'产品'},{id:2,name: '客户'}]" :value="option.id" :key="index">{{option.name}}</Option>
+              </Select>
         <FormItem>
-          排名前<InputNumber :min="10" v-model="pageApi.pageSize"></InputNumber>
+          排名前
+          <InputNumber :min="10" v-model="pageApi.pageSize"></InputNumber>
         </FormItem>
         <Select v-model="pageApi.wareHouseId" style="width:200px;" placeholder="请选择仓库">
-          <Option v-for="(option, index) in wareHouseList" :value="option.id" :key="index">{{option.name}}</Option>
-        </Select>
+            <Option v-for="(option, index) in wareHouseList" :value="option.id" :key="index">{{option.name}}</Option>
+          </Select>
         <FormItem>
-          <DatePicker type="daterange" placement="bottom-start" v-model="dateValue" placeholder="选择日期" style="width: 200px"></DatePicker>
+          <DatePicker type="daterange" :options="daterange" placement="bottom-start" v-model="dateValue" placeholder="选择日期" style="width: 200px"></DatePicker>
         </FormItem>
         <FormItem>
           <Button type="warning" @click.native="resetFilter">清除</Button>
@@ -32,7 +33,7 @@
 </template>
 
 <script>
-import hotSaleSummaryInfo from './parts/hotSaleSummaryInfo'
+  import hotSaleSummaryInfo from './parts/hotSaleSummaryInfo'
   export default {
     components: {
       hotSaleSummaryInfo
@@ -51,6 +52,36 @@ import hotSaleSummaryInfo from './parts/hotSaleSummaryInfo'
         list: [],
         show: false,
         wareHouseList: [],
+        daterange: {
+          shortcuts: [{
+              text: '最近1个月',
+              value() {
+                const end = new Date();
+                const start = new Date();
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                return [start, end];
+              }
+            },
+            {
+              text: '最近3个月',
+              value() {
+                const end = new Date();
+                const start = new Date();
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                return [start, end];
+              }
+            },
+            {
+              text: '最近1年',
+              value() {
+                const end = new Date();
+                const start = new Date();
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * 365);
+                return [start, end];
+              }
+            }
+          ]
+        },
         tableHeader: [{
           title: '排名',
           key: 'index',
@@ -88,7 +119,7 @@ import hotSaleSummaryInfo from './parts/hotSaleSummaryInfo'
             let str = params.row.cancelAmount != '' ? `￥${params.row.cancelAmount}` : ''
             return h('span', str)
           }
-        },  {
+        }, {
           title: '成交率',
           key: 'dealRate',
           render: (h, params) => {
@@ -134,8 +165,8 @@ import hotSaleSummaryInfo from './parts/hotSaleSummaryInfo'
         }, 200),
         deep: true
       },
-      'pageApi.type'(val){
-        this.tableHeader[1].title = val === 1 ? '产品名称':'客户名称'
+      'pageApi.type' (val) {
+        this.tableHeader[1].title = val === 1 ? '产品名称' : '客户名称'
       }
     },
     methods: {
