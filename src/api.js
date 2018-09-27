@@ -17,7 +17,10 @@ export const upload =  uploadHost + '/auth/file/upload'
  */
 export const ossPolicy = '/api/oss/policy'
 
-
+/**
+ * 服务器时间
+ */
+export const serverTime = '/api/time'
 /**
  * 登录
  */
@@ -391,6 +394,10 @@ export const settleFinish = '/sys/settlement/finish'
  */
 export const changeSettlementId = '/sys/settlement/changeSettlementId'
 
+
+// 数据统计
+
+export const summaryStatistics = '/sys/dataStatistics/summaryStatistics'
 
 
 

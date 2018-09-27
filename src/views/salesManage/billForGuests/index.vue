@@ -33,18 +33,18 @@
             <Table ref="goodsTable" border :columns="goodsHeader" :data="goodsList" style="max-width: 752px;">
               <!-- 下单数量 -->
               <template slot="num" slot-scope="props">
-                        <Form :ref="'formRow'+props.idx" :model="props.row">
-                          <FormItem prop="num" :rules="{required: true, message: '请输入数量', trigger: 'blur'}">
-                            <Input v-model="props.row.num" size="small" placeholder="请输入" style="width:80px;"></Input>{{props.row.unit}}
-                          </FormItem>
-                        </Form>
-</template>
+                <Form :ref="'formRow'+props.idx" :model="props.row">
+                  <FormItem prop="num" :rules="{required: true, message: '请输入数量', trigger: 'blur',type:'number'}">
+                    <Input v-model.number="props.row.num" size="small" placeholder="请输入" style="width:80px;"></Input>{{props.row.unit}}
+                  </FormItem>
+                </Form>
+              </template>
               <!-- 操作 -->
-<template slot="action" slot-scope="props">
-  <Poptip @on-ok="delRow(props.idx)" confirm title="确认删除此条产品？" transfer>
-    <Button type="warning" size="small">删除</Button>
-  </Poptip>
-</template>
+            <template slot="action" slot-scope="props">
+              <Poptip @on-ok="delRow(props.idx)" confirm title="确认删除此条产品？" transfer>
+                <Button type="warning" size="small">删除</Button>
+              </Poptip>
+            </template>
             </Table>
           </div>
           <div class="btns">
@@ -56,7 +56,7 @@
       </Form>
     </Card>
     <Modal title="选择产品" width="800" v-model="show" :mask-closable="false">
-      <selectGoods v-if="show" @on-select="onselect"></selectGoods>
+      <selectGoods v-if="show" @on-select="onselect" :checkList="goodsList"></selectGoods>
       <div slot="footer">
         <Button type="primary" @click="chooseGoods">选择</Button>
         <Button @click="resetGoods">取消</Button>

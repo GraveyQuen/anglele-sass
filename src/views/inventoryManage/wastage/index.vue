@@ -92,7 +92,7 @@
         </div>
     </Modal>
     <Modal title="选择产品" width="800" v-model="pshow" :mask-closable="false">
-      <selectGoods v-if="pshow" @on-select="onselect"></selectGoods>
+      <selectGoods v-if="pshow" @on-select="onselect" :checkList="dataApi.items"></selectGoods>
       <div slot="footer">
         <Button type="primary" @click="chooseGoods">选择</Button>
         <Button @click="resetGoods">取消</Button>
@@ -311,7 +311,9 @@
               })
             )
           }
-        }]
+        }],
+        firstWareHouseId: '',
+        serverTime: ''
       }
     },
     computed: {
@@ -396,6 +398,19 @@
         this.$http.post(this.$api.findWareHouse).then(res => {
           if (res.code === 1000) {
             this.storeList = res.data;
+            res.data.map((el, index) => {
+              if (index === 0) {
+                this.firstWareHouseId = el.id;
+              }
+            })
+          }
+        })
+      },
+      //  获取当前服务器时间
+      currentTime(){
+        this.$http.post(this.$api.serverTime).then(res =>{
+          if(res.code === 1000){
+            this.serverTime = new Date(res.data);
           }
         })
       },
@@ -407,6 +422,8 @@
           Object.keys(this.dataApi).forEach(key => {
             this.dataApi[key] = '';
           })
+          this.dataApi.newOrderDate = this.serverTime;
+          this.dataApi.wareHouseId = this.firstWareHouseId;
           this.dataApi.items = [];
         };
         this.show = true;
@@ -540,6 +557,7 @@
     created() {
       this.getList(this.pageFilter);
       this.getWareHouse();
+      this.currentTime();
     },
     mounted() {
       this.$nextTick(() => {

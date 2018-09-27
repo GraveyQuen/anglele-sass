@@ -68,7 +68,7 @@
         </Row>
         <div class="in-title">入库产品列表</div>
         <div class="page-inner">
-               <div class="card-contnet">
+        <div class="card-contnet">
         <div class="table-contnet">
           <Row class-name="head">
             <Col class-name="col" span="6">产品名称</Col>
@@ -80,7 +80,7 @@
             <Col class-name="col" span="6">{{item.productName}}</Col>
             <Col class-name="col" span="6">{{item.productCategory}}</Col>
             <Col class-name="col" span="6">{{item.num}}{{item.unit}}</Col>
-            <Col class-name="col" span="6">{{item.cost}}元/{{item.unit}}</Col>
+            <Col class-name="col" span="6">{{item.cost !='' ? `${item.cost}元/${item.unit}` : '无'}}</Col>
           </Row>
         </div></div>
         </div>

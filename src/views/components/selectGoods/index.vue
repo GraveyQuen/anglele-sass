@@ -45,6 +45,9 @@
       id:{
         type: String,
         default: ''
+      },
+      checkList: {
+        type: Array
       }
     },
     data() {
@@ -86,9 +89,13 @@
           // 是否是翻页操作
           if (val.pageIndex == oldVal.pageIndex)
             this.pageApi.pageIndex = 1;
+          this.selectList = [];
           this.getList(this.pageFilter);
         }, 200),
         deep: true
+      },
+      'selectList'(){
+        this.$emit('on-select', this.selectList)
       }
     },
     methods: {
@@ -130,6 +137,7 @@
           })
           this.list = res.data.data;
           this.totalCount = res.data.totalCount;
+          this.checkSelect();
         })
       },
       changePage(page) {
@@ -166,6 +174,22 @@
         }
         items.isCheck = !items.isCheck;
         this.$emit('on-select', this.selectList)
+      },
+      // 已选中的
+      checkSelect(){
+        if(this.checkList.length){
+          this.selectList = [];
+          this.list.map(el =>{
+            this.checkList.map(sub =>{
+              if(el.productId === sub.productId){
+                this.selectList.push(sub)
+                el.isCheck = true;
+              }
+            })
+          })
+        }else{
+
+        }
       }
     },
     created() {

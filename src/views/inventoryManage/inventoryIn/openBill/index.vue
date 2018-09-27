@@ -71,7 +71,7 @@
       </div>
     </Card>
     <Modal title="选择产品" width="800" v-model="show" :mask-closable="false">
-      <selectGoods v-if="show" @on-select="onselect"></selectGoods>
+      <selectGoods v-if="show" @on-select="onselect" :checkList="goodsList"></selectGoods>
       <div slot="footer">
         <Button type="primary" @click="chooseGoods">选择</Button>
         <Button @click="resetGoods">取消</Button>
@@ -267,7 +267,15 @@
           }
         })
       },
-      /// 保存编辑
+      //  获取当前服务器时间
+      currentTime(){
+        this.$http.post(this.$api.serverTime).then(res =>{
+          if(res.code === 1000){
+            this.baseApi.newOrderDate = new Date(res.data);
+          }
+        })
+      },
+      // 保存编辑
       save(status, name) {
         this.$refs[name].validate((valid) => {
           if (valid) {
@@ -306,6 +314,8 @@
       this.getWareHouse();
       if(this.isEdit){
         this.getDetail();
+      }else{
+        this.currentTime();
       }
     },
     mounted() {
