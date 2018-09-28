@@ -10,19 +10,19 @@
           <div class="form-item">
             <div class="form-item-label">用户名：</div>
             <div class="form-item-content">
-              <input type="text" v-model="loginApi.userName" class="form-input" placeholder="请输入用户名">
+              <input type="text" v-model="loginApi.userName" @keyup.enter="submit" class="form-input" placeholder="请输入用户名">
             </div>
           </div>
           <div class="form-item">
             <div class="form-item-label">密码：</div>
             <div class="form-item-content">
-              <input type="password" v-model="loginApi.password" class="form-input" placeholder="请输入密码">
+              <input type="password" v-model="loginApi.password" @keyup.enter="submit" class="form-input" placeholder="请输入密码">
             </div>
           </div>
           <div class="form-item">
             <div class="form-item-label">验证码：</div>
             <div class="form-item-content">
-              <input type="text" v-model="loginApi.code" class="form-input small" placeholder="请输入验证码">
+              <input type="text" v-model="loginApi.code" @keyup.enter="submit" class="form-input small" placeholder="请输入验证码">
               <img :src="picCodeUrl" @click="getUid()" class="picCode">
             </div>
           </div>
@@ -95,7 +95,7 @@
           path: redirect
         })
       },
-      submit(name) {
+      submit() {
           if (this.valid) {
             let params = this.$clearData(this.loginApi);
             params.r = this.random;
