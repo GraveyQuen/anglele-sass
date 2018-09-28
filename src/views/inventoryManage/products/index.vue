@@ -54,19 +54,19 @@
         </FormItem>
         <FormItem label="所属分类：" prop="categoryId">
           <Select v-model="dataApi.categoryId">
-                        <Option v-for="(item,index) in categoryList" :value="item.id" :key="index">{{ item.name }}</Option>
-                      </Select>
+            <Option v-for="(item,index) in categoryList" :value="item.id" :key="index">{{ item.name }}</Option>
+          </Select>
         </FormItem>
         <FormItem label="单价：" prop="price">
           <Input v-model.number="dataApi.price" placeholder="请输入..."></Input>
         </FormItem>
         <FormItem label="计量单位：" prop="unit">
           <Select v-model="dataApi.unit">
-                        <Option v-for="(item,index) in unitList" :value="item.cName" :key="index">{{ item.cName }}</Option>
-                      </Select>
+            <Option v-for="(item,index) in unitList" :value="item.cName" :key="index">{{ item.cName }}</Option>
+          </Select>
         </FormItem>
         <FormItem label="排序：" prop="sortIndex">
-          <Input v-model.number="dataApi.sortIndex" placeholder="请输入..."></Input>
+          <InputNumber :min="0" v-model.number="dataApi.sortIndex" style="width:100%;"></InputNumber>
         </FormItem>
         <FormItem label="预警值：">
           <Input v-model.number="dataApi.warnNum" placeholder="请输入..."></Input>
@@ -126,7 +126,7 @@
           productDes: '',
           remark: '',
           price: '',
-          sortIndex: '',
+          sortIndex: 0,
           unit: '',
           warnNum: ''
         },
@@ -361,7 +361,7 @@
             productDes: '',
             remark: '',
             price: '',
-            sortIndex: '',
+            sortIndex: 0,
             unit: '',
             warnNum: ''
           }
