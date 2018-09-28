@@ -16,13 +16,13 @@
     <div class="card-contnet">
       <div class="table-contnet">
         <Row class-name="head">
-          <Col class-name="col" span="3"><span class="iconfont" @click="checkAll" :class="isAll ? 'icon-yduifuxuankuangxuanzhong':'icon-yduifuxuankuang'"></span></Col>
+          <Col class-name="col" span="3"><span class="iconfont" @click="checkAll" :class="isAll ? 'ang-yduifuxuankuangxuanzhong':'ang-yduifuxuankuang'"></span></Col>
           <Col class-name="col" span="7">产品名称</Col>
           <Col class-name="col" span="7">所属分类</Col>
           <Col class-name="col" span="7">现有库存</Col>
         </Row>
         <Row v-for="(item,index) in list" :key="index">
-          <Col class-name="col" span="3"><span class="iconfont" @click="checkItem(item,index)" :class="item.isCheck ? 'icon-yduifuxuankuangxuanzhong':'icon-yduifuxuankuang'"></span></Col>
+          <Col class-name="col" span="3"><span class="iconfont" @click="checkItem(item,index)" :class="item.isCheck ? 'ang-yduifuxuankuangxuanzhong':'ang-yduifuxuankuang'"></span></Col>
           <Col class-name="col" span="7">{{item.name}}</Col>
           <Col class-name="col" span="7">{{item.categoryName}}</Col>
           <Col class-name="col" span="7">{{item.total}}{{item.unit}}</Col>
@@ -121,8 +121,8 @@
       getList(params) {
         this.$http.post(this.$api.findProductList, params).then(res => {
           res.data.data.map(el => {
-            el.num = '';
-            el.cost = '';
+            el.num = null;
+            el.cost = null;
             el.isCheck = false;
             el.productId = el.id;
             el.totalMoney = '';
@@ -195,8 +195,6 @@
               }
             })
           })
-        }else{
-
         }
       }
     },
@@ -213,7 +211,7 @@
     font-size: 16px;
     color: #dcdee2;
     cursor: pointer;
-    &.icon-yduifuxuankuangxuanzhong {
+    &.ang-yduifuxuankuangxuanzhong {
       color: #2d8cf0;
     }
   }

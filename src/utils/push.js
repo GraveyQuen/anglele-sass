@@ -58,9 +58,9 @@ export default {
         Notification.requestPermission();
 
       //监听窗口关闭事件，窗口关闭前，主动关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常
-      window.onbeforeunload = function () {
-        ws.close();
-      };
+      // window.onbeforeunload = function () {
+      //   ws.close();
+      // };
     },
     notify(data) {
       let _this = this;
@@ -74,9 +74,11 @@ export default {
           requireInteraction: true
         });
         notif.onclick = () => {
-          this.$router.push({
-            name: code2Url(data.code)
-          })
+          // this.$router.push({
+          //   name: code2Url(data.code)
+          // })
+          console.log(JSON.parse(data.page))
+          this.$router.push(JSON.parse(data.page));
           window.focus();
           notif.close();
         }

@@ -61,7 +61,7 @@
           <Col class="in-col" span="6">开单日期：{{detailItem.newOrderDate}}</Col>
           <Col class="in-col" span="6">类型：{{detailItem.inType | inCategray}}</Col>
           <Col class="in-col" span="6">送货人：{{detailItem.driver}}</Col>
-          <Col class="in-col" span="6">送货人联系方式：{{detailItem.driverPhone}}</Col>
+          <Col class="in-col" span="6">送货人电话：{{detailItem.driverPhone}}</Col>
           <Col class="in-col" span="6">开单人：{{detailItem.createUser}}</Col>
           <Col class="in-col" span="6">仓库：{{detailItem.wareHouseName}}</Col>
           <Col class="in-col" span="6">备注：{{detailItem.remark}}</Col>

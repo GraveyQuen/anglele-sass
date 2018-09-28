@@ -20,7 +20,7 @@
           <Input v-model="pageApi.updateUser" placeholder="请输入" style="width: 200px;"></Input>
         </FormItem>
         <FormItem label="最近更新时间：">
-          <DatePicker type="daterange" placement="bottom-end" v-model="dateValue" placeholder="选择日期" style="width: 200px"></DatePicker>
+          <DatePicker type="daterange" placement="bottom-start" v-model="dateValue" placeholder="选择日期" style="width: 200px"></DatePicker>
         </FormItem>
         <FormItem>
           <Button type="warning" @click.native="resetFilter">清除筛选</Button>
@@ -31,7 +31,7 @@
           <!-- 操作 -->
           <template slot="action" slot-scope="props">
                               <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看明细</Button>
-                              <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1" @click="confirm(props.row)">确认出库</Button>
+                              <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1" @click="confirm(props.row)">确认</Button>
                               <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 2" @click="out(props.row)">出库</Button>
                               <Button type="info" size="small" v-if="props.row.status === 1 || props.row.status === 2 || props.row.status === 3" @click="print(props.row)">打印</Button>
 </template>

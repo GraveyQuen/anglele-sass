@@ -48,7 +48,7 @@
         </div>
       </div>
     </Card>
-    <Modal :title="this.isEdit ? '编辑仓库':'新增仓库'" width="500" v-model="show" :mask-closable="false">
+    <Modal :title="this.isEdit ? '编辑仓库':'新增仓库'" width="500" v-model="show" @on-cancel="reset('formModel')" :mask-closable="false">
       <Form ref="formModel" :model="dataApi" :rules="rule" :label-width="100">
         <FormItem label="名称：" prop="name">
           <Input v-model="dataApi.name" placeholder="请输入..."></Input>
@@ -251,6 +251,7 @@ import {
                 this.$Message.success(this.isEdit ? '编辑成功' : '保存成功')
                 this.getList(this.pageFilter);
                 this.show = false;
+                this.$refs[name].resetFields();
               } else {
                 this.$Message.error(res.message);
               }

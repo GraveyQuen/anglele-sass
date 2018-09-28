@@ -9,13 +9,13 @@
           </FormItem>
           <FormItem label="仓库名称：" prop="wareHouseId">
             <Select v-model="baseApi.wareHouseId" style="width: 180px;">
-                        <Option v-for="(item,index) in storeList" :value="item.id" :key="index">{{ item.name }}</Option>
-                      </Select>
+                          <Option v-for="(item,index) in storeList" :value="item.id" :key="index">{{ item.name }}</Option>
+                        </Select>
           </FormItem>
           <FormItem label="入库类型：" prop="inType">
             <Select v-model="baseApi.inType" style="width: 180px;">
-              <Option v-for="(item,index) in [{id:1,name: '采购入库'},{id:2,name: '退货入库'},{id:3,name:'其他入库'}]" :value="item.id" :key="index">{{ item.name }}</Option>
-            </Select>
+                <Option v-for="(item,index) in [{id:1,name: '采购入库'},{id:2,name: '退货入库'},{id:3,name:'其他入库'}]" :value="item.id" :key="index">{{ item.name }}</Option>
+              </Select>
           </FormItem>
           <FormItem label="送货人：">
             <Input v-model="baseApi.driver" placeholder="请输入" style="width: 180px;"></Input>
@@ -35,17 +35,18 @@
         <Table ref="goodsTable" border :columns="goodsHeader" :data="goodsList" style="max-width: 752px;">
           <!-- 入库数量 -->
           <template slot="num" slot-scope="props">
-                      <Form :ref="'formRow'+props.idx" :model="props.row">
-                        <FormItem prop="num" :rules="{required: true, message: '请输入数量', trigger: 'blur'}">
-                          <Input v-model="props.row.num" size="small" style="width:80px;"></Input>{{props.row.unit}}
-                        </FormItem>
-                      </Form>
+                        <Form :ref="'formRow'+props.idx" :model="props.row">
+                          <FormItem prop="num" :rules="{required: true, message: '请输入数量', trigger: 'blur',type:'number'}">
+                            <!-- <Input v-model="props.row.num" size="small" style="width:80px;"></Input> -->
+                          <InputNumber :min="1" v-model.number="props.row.num" size="small" style="width:80px;"></InputNumber>{{props.row.unit}}
+                          </FormItem>
+                        </Form>
 </template>
           <!-- 成本价 -->
 <template slot="cost" slot-scope="props">
   <Form :model="props.row">
     <FormItem>
-      <Input v-model="props.row.cost" style="width:60px;" size="small"></Input>元/{{props.row.unit}}
+      <InputNumber :min="1" v-model.number="props.row.cost" size="small" style="width:60px;"></InputNumber>元/{{props.row.unit}}
     </FormItem>
   </Form>
   </Form>
@@ -92,7 +93,7 @@
           wareHouseId: '',
           remark: '',
           newOrderDate: '',
-          inType: '',
+          inType: 1,
           driver: '',
           driverPhone: '',
           status: '',
@@ -104,7 +105,7 @@
             message: '不能为空',
             trigger: 'change'
           }],
-          inType:[{
+          inType: [{
             required: true,
             message: '不能为空',
             trigger: 'change',
@@ -172,7 +173,7 @@
       isEdit() {
         return this.$route.query.status === 2; // 是否编辑
       },
-      isId(){
+      isId() {
         return this.$route.query.id
       },
       isOk() {
@@ -207,9 +208,11 @@
         })
       },
       // 编辑时获取详情
-      getDetail(){
-        this.$http.post(this.$api.wareHouseInDetail,{id: this.isId}).then(res =>{
-          if(res.code === 1000){
+      getDetail() {
+        this.$http.post(this.$api.wareHouseInDetail, {
+          id: this.isId
+        }).then(res => {
+          if (res.code === 1000) {
             this.baseApi = {
               wareHouseId: res.data.wareHouseId,
               remark: res.data.remark,
@@ -219,7 +222,7 @@
               driverPhone: res.data.driverPhone,
               status: res.data.status
             }
-            res.data.wareHouseInItems.map(el =>{
+            res.data.wareHouseInItems.map(el => {
               el.name = el.productName;
               el.categoryName = el.productCategory;
             })
@@ -258,19 +261,21 @@
       getWareHouse() {
         this.$http.post(this.$api.findWareHouse).then(res => {
           if (res.code === 1000) {
-            res.data.map((el, index) => {
-              if (index === 0) {
-                this.baseApi.wareHouseId = el.id;
-              }
-            })
+            if (!this.isEdit) {
+              res.data.map((el, index) => {
+                if (index === 0) {
+                  this.baseApi.wareHouseId = el.id;
+                }
+              })
+            }
             this.storeList = res.data;
           }
         })
       },
       //  获取当前服务器时间
-      currentTime(){
-        this.$http.post(this.$api.serverTime).then(res =>{
-          if(res.code === 1000){
+      currentTime() {
+        this.$http.post(this.$api.serverTime).then(res => {
+          if (res.code === 1000) {
             this.baseApi.newOrderDate = new Date(res.data);
           }
         })
@@ -285,8 +290,8 @@
                 params.wareHouseInItem = JSON.stringify(this.goodsList);
                 params.status = status;
                 params.newOrderDate = params.newOrderDate != '' ? this.date : '';
-                if(this.isEdit){
-                  params.id  = this.isId
+                if (this.isEdit) {
+                  params.id = this.isId
                 }
                 const urlApi = this.isEdit ? this.$api.wareHouseupdateIn : this.$api.wareHouseIn;
                 this.$http.post(urlApi, params).then(res => {
@@ -312,9 +317,9 @@
     },
     created() {
       this.getWareHouse();
-      if(this.isEdit){
+      if (this.isEdit) {
         this.getDetail();
-      }else{
+      } else {
         this.currentTime();
       }
     },

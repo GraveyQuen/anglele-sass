@@ -3,14 +3,22 @@
   
     <Table class="fake-table-header" ref="settledTable" :columns="tableHeader" :data="[]">
       <template slot="action" slot-scope="props">
-        <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看</Button>
-        <Button type="warning" size="small"  @click="cancelSettled(props.row)">取消结算</Button>
+          <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看</Button>
+          <Button type="warning" size="small"  @click="cancelSettled(props.row)">取消结算</Button>
 </template>
   </Table>
   <Table class="real-table-body" ref ="settledRow" stripe highlight-row :show-header="false" :columns="fakeHead" :data="listData">
 <template slot="options" slot-scope="props">
   <Button type="success" size="small" style="margin-right:8px;" @click="print(props.row)">打印</Button>
   <Button type="warning" size="small" @click="okSettled(props.row)">完成结算</Button>
+</template>
+
+<template slot="info" slot-scope="props">
+  <div class="info">
+    <span>预结算单号：{{props.row.id}}</span>
+    <span>预结算日期：{{props.row.createTime | dateformat}}</span>
+    <span>预结算金额：{{props.row.totalPrice}}</span>
+  </div>
 </template>
   </Table>
     <Modal title="订单详情" width="800" v-model="show" :mask-closable="false">
@@ -110,7 +118,12 @@
             minWidth: 260,
             key: 'id',
             render: (h, params) => {
-              return h('div', `预结算单号：${params.row.id}预结算日期：${dateformat(params.row.createTime, 'yyyy-MM-dd')}   预结算金额：￥${params.row.totalPrice}`)
+              return h(
+                'div',
+                this.$refs.settledRow.$scopedSlots.info({
+                  row: params.row
+                })
+              )
             }
           },
           {
@@ -234,6 +247,13 @@
           padding: 0;
         }
       }
+    }
+  }
+  
+  .info {
+    span {
+      display: inline-block;
+      margin-right: 30px;
     }
   }
 </style>

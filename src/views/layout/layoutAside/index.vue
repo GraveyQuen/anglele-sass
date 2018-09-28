@@ -6,7 +6,7 @@
 
 <script>
   import leftMenu from '../components/leftMenu/index'
-  import menu from '@/utils/m.js'
+  // import menu from '@/utils/m.js'
   import {
     mapGetters
   } from 'vuex';
@@ -16,7 +16,7 @@
     },
     data() {
       return {
-        menu: menu,
+        menu: [],
       }
     },
     computed: {
@@ -28,6 +28,11 @@
           arr.push(el);
         })
         return arr;
+      }
+    },
+    watch: {
+      base(val){
+        this.menu = [...val.menu[0].children]
       }
     },
     methods: {

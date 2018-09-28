@@ -41,7 +41,7 @@
         </div>
       </div>
     </Card>
-    <Modal :title="this.isEdit ? '编辑产品':'新增产品'" width="800" v-model="show" :mask-closable="false">
+    <Modal :title="this.isEdit ? '编辑产品':'新增产品'" width="800" @on-cancel="reset('formModel')" v-model="show" :mask-closable="false">
       <Form ref="formModel" :model="dataApi" :rules="rule" :label-width="100" class="product-form">
         <div class="product-img">
           <div class="product-img-title">产品图片:</div>
@@ -217,11 +217,15 @@
           minWidth: 120,
           render: (h, params) => {
             let str = params.row.warnNum !='' ? `${params.row.warnNum}${params.row.unit}` : '未设置';
+            if(params.row.warn){
             return h('div',{
               style: {
                 color: '#ed4014'
               }
             }, str)
+            }else{
+              return h('div',str)
+            }
           }
         }, {
           title: '产品描述',

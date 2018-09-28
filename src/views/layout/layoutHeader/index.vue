@@ -1,7 +1,9 @@
 <template>
   <div class="layout-header">
-    <a class="logo" href="/bg/index">
-      <img :src="userInfo ? userInfo.avatar:''">
+    <a class="logo" href="/bg/home">
+      <!-- <img src="../../../assets/images/logo.png"> -->
+      <p class="name">安农</p>
+      <p>后台管理系统</p>
     </a>
     <ul class="header-ul">
       <li class="hasChild">
@@ -65,6 +67,11 @@
       text-align: center;
       margin: 0;
       padding: 0;
+      color:#515a6e;
+      .name{
+        padding: 4px 0;
+        font-size: 14px;
+      }
       &:after {
         content: '';
         display: inline-block;
@@ -81,6 +88,9 @@
     .header-ul {
       text-align: right;
       padding-right: 20px;
+      li{
+        list-style: none;
+      }
       .hasChild {
         line-height: 50px;
         a {

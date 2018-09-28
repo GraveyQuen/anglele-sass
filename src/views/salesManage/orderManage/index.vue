@@ -1,6 +1,6 @@
 <template>
   <div class="order-page">
-    <Tabs v-model="page" :animated="false" class="tab-main">
+    <Tabs v-model="page" :animated="false" class="tab-main" @on-click="changeTabs">
       <TabPane label="进行中" name="order">
         <orderList :old="false" v-if="page === 'order'"></orderList>
       </TabPane>
@@ -22,7 +22,38 @@
         page: 'order'
       }
     },
-    methods: {}
+    computed: {
+      getId(){
+        return this.$route.query.status
+      }
+    },
+    watch:{
+      getId(val){
+        if(val === undefined || val === 1){
+          this.page = 'order';
+        }else{
+          this.page = 'order-history';
+        }
+      }
+    },
+    methods: {
+      changeTabs(data){
+        if(data === 'order'){
+          this.$router.push({
+            path: '/salesManage/orderManage',
+            query: {status: 1}
+          })
+        }else{
+          this.$router.push({
+            path: '/salesManage/orderManage',
+            query: {status: 2}
+          })
+        }
+      }
+    },
+    created(){
+      this.page =  Number(this.getId) === 2 ? 'order-history' : 'order'
+    }
   }
 </script>
 

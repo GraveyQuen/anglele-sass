@@ -35,7 +35,7 @@
       }
     },
     watch: {
-      menus: {
+      nav: {
         handler: function(newVal, oldVal) {
           this.initMenu();
         },
@@ -83,7 +83,8 @@
       this.initMenu();
     },
     mounted() {
-      this.currentRoute = this.$route.path
+      this.currentRoute = this.$route.path;
+      this.initMenu();
     }
   }
 </script>

@@ -46,7 +46,7 @@
       </Form>
       <div class="card-contnet">
         <div class="tabs-main">
-          <tabs :tab="pageApi.tab" :tabData="tabData" @on-change="tabChange"></tabs>
+          <tabs :tab="pageApi.tab" :tabData="tabData"></tabs>
         </div>
         <div class="options-btn" v-show="pageApi.tab === 2">
           <Button type="primary" @click="unsettledAction(2)" style="margin-right: 15px;">批量预结算</Button>
@@ -106,16 +106,32 @@
         totalCount: 0,
         tabData: [{
           id: 1,
-          name: '全部'
+          name: '全部',
+          router: {
+            path: '/financeManage/financeOrder',
+            query: {status: 1}
+          }
         }, {
           id: 2,
-          name: '未结算'
+          name: '未结算',
+          router: {
+            path: '/financeManage/financeOrder',
+            query: {status: 2}
+          }
         }, {
           id: 3,
-          name: '预结算'
+          name: '预结算',
+          router: {
+            path: '/financeManage/financeOrder',
+            query: {status: 3}
+          }
         }, {
           id: 4,
-          name: '已结算'
+          name: '已结算',
+          router: {
+            path: '/financeManage/financeOrder',
+            query: {status: 4}
+          }
         }],
         orderStatus: [{
           id: 0,
@@ -155,6 +171,13 @@
           settlementAmountBegin: this.pageApi.settlementAmountBegin,
           settlementAmountEnd: this.pageApi.settlementAmountEnd
         }
+      },
+      getStatus(){
+        if(this.$route.query.status){
+          return Number(this.$route.query.status)
+        }else{
+          return 1;
+        };
       }
     },
     watch: {
@@ -166,15 +189,39 @@
           this.getList(this.pageFilter);
         }, 200),
         deep: true
+      },
+      getStatus(val){
+        this.pageApi.tab = val;
       }
     },
     methods: {
       resetFilter() {
-  
+        this.pageApi = {
+          pageIndex: 1,
+          pageSize: 10,
+          tab: this.pageApi.tab,
+          orderId: '',
+          customerName: '',
+          createTimeBegin: '',
+          createTimeEnd: '',
+          amountBegin: '',
+          amountEnd: '',
+          realAmountBegin: '',
+          realAmountEnd: '',
+          settlementStatus: '',
+          updateUser: '',
+          updateTimeBegin: '',
+          updateTimeEnd: '',
+          settlementAmountBegin: '',
+          settlementAmountEnd: ''
+        }
+        this.dateValue = ['', '']
+        this.dateValue1 = ['', '']
+        this.dateValue2 = ['', '']
       },
-      tabChange(tab) {
-        this.pageApi.tab = tab;
-      },
+      // tabChange(tab) {
+      //   this.pageApi.tab = tab;
+      // },
       getList(params) {
         this.$http.post(this.$api.settlementPage, params).then(res => {
           if (res.code === 1000) {
@@ -223,6 +270,7 @@
       }
     },
     created() {
+      this.pageApi.tab = this.getStatus === undefined ? 1 : this.getStatus;
       this.getList(this.pageFilter);
     }
   }

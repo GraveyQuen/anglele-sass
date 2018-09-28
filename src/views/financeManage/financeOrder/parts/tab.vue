@@ -24,7 +24,7 @@
     },
     methods: {
       switchTab(item){
-        this.$emit('on-change',item.id)
+        this.$router.push(item.router);
       }
     }
   }

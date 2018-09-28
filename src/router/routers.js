@@ -168,7 +168,7 @@ export default [{
       component: resolve => require(['@/views/financeManage/financeOrder/index.vue'], resolve),
       meta: {
         title: '订单管理',
-      },
+      }
     }]
   }, {
     path: '/statisticsManage',

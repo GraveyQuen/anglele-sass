@@ -28,7 +28,7 @@
           <Page class="page-count" size="small" show-elevator :total="totalCount" show-total :current="pageApi.pageIndex" :page-size="pageApi.pageSize" @on-change="changePage"></Page>
         </div>
       </div>
-      <Modal :title="this.isEdit ? '编辑计量单位':'新增计量单位'" width="500" v-model="show" :mask-closable="false">
+      <Modal :title="this.isEdit ? '编辑计量单位':'新增计量单位'" @on-cancel="reset('formModel')" width="500" v-model="show" :mask-closable="false">
         <Form ref="formModel" :model="dataApi" :rules="rule" :label-width="100">
           <FormItem label="中文单位：" prop="cName">
             <Input v-model="dataApi.cName" placeholder="请输入..."></Input>

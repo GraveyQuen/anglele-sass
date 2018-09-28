@@ -43,8 +43,7 @@
             <Col class-name="col" span="2">{{item.fax}}</Col>
             <Col class-name="col" span="2">{{item.qq}}</Col>
             <Col class-name="col" span="5">
-            <Button type="warning" size="small" @click="openPanel(true,item)">编辑</Button>
-            <Button type="warning" size="small" @click="bindAccount(item)" style="margin:0 10px;">查看</Button>
+            <Button type="warning" size="small" @click="openPanel(true,item)" style="margin-left: 5px;">编辑</Button>
             <Button type="warning" size="small" @click="userManage(item)">用户管理</Button>
             </Col>
           </Row>
@@ -90,32 +89,6 @@
       <div slot="footer">
         <Button type="primary" @click="submitStatus('formStatus')" :loading="loading">保存</Button>
         <Button @click="resetStatus('formStatus')">取消</Button>
-      </div>
-    </Modal>
-    <Modal title="绑定账号" width="500" v-model="detailShow" :mask-closable="false">
-      <Form :label-width="100">
-        <FormItem label="用户名称：">
-          {{accountDetail.userName | emptyHlod}}
-        </FormItem>
-        <FormItem label="手机号：">
-          {{accountDetail.phone | emptyHlod}}
-        </FormItem>
-        <FormItem label="生日：">
-          <div v-if="accountDetail.birth != ''">{{accountDetail.birth | dateformat('yyyy-MM-dd')}}</div>
-          <div v-else>{{accountDetail.birth | emptyHlod}}</div>
-        </FormItem>
-        <FormItem label="性别：">
-          {{accountDetail.sex | emptyHlod}}
-        </FormItem>
-        <FormItem label="头像：">
-          <div v-if="accountDetail.avatar != ''">
-            <img :src="accountDetail.avatar" width="100">
-          </div>
-          <div v-else>暂无</div>
-        </FormItem>
-      </Form>
-      <div slot="footer">
-        <Button @click="detailShow = false">关闭</Button>
       </div>
     </Modal>
     <Modal title="用户管理" width="1000" v-model="userShow" :mask-closable="false">
@@ -476,17 +449,6 @@
         this.statusShow = false;
         this.loading = false;
         this.$refs[name].resetFields();
-      },
-      //  查看绑定账号
-      bindAccount(item) {
-        this.$http.post(this.$api.findBusinessUser, {
-          id: item.id
-        }).then(res => {
-          if (res.code === 1000) {
-            this.detailShow = true;
-            this.accountDetail = res.data;
-          }
-        })
       },
       //   用户管理
       userManage(item) {
