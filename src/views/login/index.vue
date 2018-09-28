@@ -1,27 +1,40 @@
 <template>
-  <div>
-    <Form ref="formModel" :model="loginApi" :rules="rule" :label-width="100">
-      <FormItem label="用户名：" prop="userName">
-        <Input v-model="loginApi.userName" placeholder="请输入..."></Input>
-      </FormItem>
-      <FormItem label="密码：" prop="password">
-        <Input v-model="loginApi.password" type="password" placeholder="请输入..."></Input>
-      </FormItem>
-      <FormItem label="验证码：" prop="code">
-        <Input v-model="loginApi.code" placeholder="请输入..."></Input>
-        <img :src="picCodeUrl" @click="getUid()">
-      </FormItem>
-      <FormItem label="角色：">
-        <Select v-model="loginApi.roleCode" style="width: 200px;">
-          <Option v-for="(item,index) in [{value: 'super',name:'平台管理员'},{value: 'ADMIN',name:'超管'},{value: 'FINANCIAL',name: '财务'},{value:'SELLER',name:'SELLER'}]" :value="item.value" :key="index">{{ item.name }}</Option>
-        </Select>
-        </FormItem>
-      </FormItem>
-      <FormItem>
-        <Button type="primary" @click="submit('formModel')">Submit</Button>
-        <Button @click="reset('formModel')" style="margin-left: 8px">Reset</Button>
-      </FormItem>
-    </Form>
+  <div class="login-wrapper">
+    <div class="login-box">
+      <div class="login-logo">
+        <img src="../../assets/images/logo.png">
+        <div class="name">智慧安农后台管理系统</div>
+      </div>
+      <div class="login-form">
+        <div class="form-box">
+          <div class="form-item">
+            <div class="form-item-label">用户名：</div>
+            <div class="form-item-content">
+              <input type="text" v-model="loginApi.userName" class="form-input" placeholder="请输入用户名">
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-label">密码：</div>
+            <div class="form-item-content">
+              <input type="password" v-model="loginApi.password" class="form-input" placeholder="请输入密码">
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-label">验证码：</div>
+            <div class="form-item-content">
+              <input type="text" v-model="loginApi.code" class="form-input small" placeholder="请输入验证码">
+              <img :src="picCodeUrl" @click="getUid()" class="picCode">
+            </div>
+          </div>
+          <div class="form-item">
+            <div class="form-item-label"></div>
+            <div class="form-item-content">
+              <Button type="success" @click="submit" style="width: 100%;">登录</Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -37,8 +50,7 @@
           userName: '',
           password: '',
           code: '',
-          r: '',
-          roleCode: ''
+          r: ''
         },
         random: '',
         rule: {
@@ -67,6 +79,9 @@
         if (window.location.hostname == "localhost")
           host = "http://192.168.0.252:8082";
         return host + this.$api.captcha + "?r=" + this.random;
+      },
+      valid(){
+        return this.loginApi.userName != '' && this.loginApi.password != '' && this.loginApi.code != ''
       }
     },
     methods: {
@@ -81,9 +96,7 @@
         })
       },
       submit(name) {
-        this.$refs[name].validate((valid) => {
-          if (valid) {
-            this.loading = true;
+          if (this.valid) {
             let params = this.$clearData(this.loginApi);
             params.r = this.random;
             params.password = this.$md5(params.password)
@@ -94,18 +107,17 @@
                 });
                 this.$Notice.success({
                   title: '登录成功！',
-                  desc: '恭喜你登录成功，快来体验吧！'
+                  desc: '恭喜你登录成功！'
                 })
               } else {
+                this.loginApi.code = '';
                 this.getUid();
                 this.$Message.error(res.message);
               }
-              this.loading = false;
             })
           } else {
             this.$Message.error('表单验证失败');
           }
-        })
       },
       reset(name) {
         this.$refs[name].resetFields();
@@ -117,6 +129,116 @@
   }
 </script>
 
-<style lang='less' scoped>
+<style lang='less'>
+  html {
+    height: 100%;
+  }
   
+  body {
+    height: 100%;
+  }
+  
+  #app {
+    height: 100%;
+  }
+  
+  .login-wrapper {
+    align-items: center;
+    background-position: 50%;
+    background-size: cover;
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    position: relative;
+    background-image: url('../../assets/images/login_bg.png');
+    .login-box {
+      position: relative;
+      padding: 100px 60px;
+      background-color: rgba(0, 0, 0, .2);
+      border-radius: 20px;
+      width: 860px;
+      .login-logo{
+        position: absolute;
+        left: 80px;
+        top: 100px;
+        text-align: center;
+        .name{
+          font-size: 24px;
+          color: #fff;
+          margin-top: 10px;
+        }
+      }
+      .login-form {
+        padding-left: 370px;
+      }
+      .form-item {
+        margin-bottom: 24px;
+        vertical-align: top;
+        zoom: 1;
+        &:after {
+          content: "";
+          display: table;
+          clear: both;
+          visibility: hidden;
+          font-size: 0;
+          height: 0;
+        }
+        .form-item-label {
+          text-align: right;
+          vertical-align: middle;
+          float: left;
+          font-size: 14px;
+          color: #fff;
+          line-height: 1;
+          padding: 10px 12px 10px 0;
+          box-sizing: border-box;
+          width: 80px;
+        }
+        .form-item-content {
+          position: relative;
+          line-height: 32px;
+          font-size: 12px;
+          margin-left: 90px;
+        }
+        .form-input {
+          display: inline-block;
+          width: 100%;
+          height: 32px;
+          line-height: 1.5;
+          padding: 4px 7px;
+          font-size: 14px;
+          border: 0;
+          border-bottom: 1px solid #dcdee2;
+          color: #fff;
+          background-color: transparent;
+          background-image: none;
+          position: relative;
+          cursor: text;
+          outline: none;
+          &.small{
+            width: 63%;
+          }
+        }
+        .picCode{
+          vertical-align: middle;
+          margin-left: 10px;
+        }
+        .btn{
+
+        }
+      }
+    }
+  }
+  input::-webkit-input-placeholder {
+    color: #fff;
+  }
+  input:-ms-input-placeholder {
+    color: #fff;
+  }
+  input:-moz-placeholder {
+    color: #fff;
+  }
+  input::-moz-placeholder {
+    color: #fff;
+  }
 </style>
