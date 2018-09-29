@@ -197,7 +197,7 @@
         this.goodsList = [];
         this.show = false;
       },
-      /** 删除行 */
+      //  删除行
       delRow(idx) {
         this.goodsList.splice(idx, 1)
         this.$nextTick(() => {
