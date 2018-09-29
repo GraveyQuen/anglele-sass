@@ -8,7 +8,8 @@ if (process.env.NODE_ENV == 'development') {
 } else {
   uploadHost = ''
 }
-export const ws = 'wss://192.168.0.252:8000/ws'
+// export const ws = 'wss://192.168.0.252:8000/ws'
+export const ws = 'wss://saas.anglele.com:8000/ws'
 
 export const upload =  uploadHost + '/auth/file/upload'
 
