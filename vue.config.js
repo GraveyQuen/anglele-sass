@@ -1,6 +1,6 @@
 module.exports = {
   // 基本路径
-  baseUrl: '/bg',
+  baseUrl: '/',
   // 输出文件目录
   outputDir: 'dist',
   // eslint-loader 是否在保存的时候检查
@@ -12,7 +12,7 @@ module.exports = {
   configureWebpack: () => {},
 
   // 生产环境是否生成 sourceMap 文件
-  productionSourceMap: true,
+  productionSourceMap: false,
   // css相关配置
   css: {
     // 是否使用css分离插件 ExtractTextPlugin
