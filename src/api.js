@@ -439,5 +439,27 @@ export const hotSaleSummary = '/sys/dataStatistics/hotSaleSummary'
 export const hotSaleSummaryInfo = '/sys/dataStatistics/hotSaleSummaryInfo'
 
 
+// 今日订单汇总
+export const todayOrderSummary = '/sys/dataStatistics/todayOrderSummary'
+
+
+
+// 今日最新预警
+export const todayProductWarn = '/sys/dataStatistics/productWarn'
+
+
+
+// 最新消息
+export const newMessage = '/sys/dataStatistics/newMessage'
+
+
+// 今日销售分布
+export const todayCustomerPie = '/sys/dataStatistics/todayCustomerPie'
+
+
+// 今日客户下单分布
+export const todayCategoryPie = '/sys/dataStatistics/todayCategoryPie'
+
+
 
 

@@ -1,18 +1,80 @@
 <template>
-  <div>
-    最新预警
+  <div class="warms">
+    <div class="warms-list" v-for="(item,index) in list" :key="index">
+      <div class="warms-list-inner">
+        <div class="title">{{item.name}}({{item.unit}})</div>
+        <div class="warehouse">
+          <div class="warehouse-list" v-for="(sub,i) in item.warehouse.split(',')">{{sub}}</div>
+        </div>
+        <div class="warnNum"><i class="iconfont ang-yujing"></i>预警值：{{item.warnNum}}</div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
   export default {
     data() {
-      return {}
+      return {
+        list: []
+      }
     },
-    methods: {}
+    methods: {
+      getData() {
+        this.$http.post(this.$api.todayProductWarn).then(res => {
+          if (res.code === 1000) {
+            this.list = res.data;
+          }
+        })
+      }
+    },
+    created() {
+      this.getData();
+    }
   }
 </script>
 
 <style lang='less' scoped>
-  
+  .warms {
+    margin: 0 -16px;
+    padding: 0 10px;
+    min-height: 360px;
+    &:after {
+      content: '';
+      display: table;
+      clear: both;
+      visibility: hidden;
+      font-size: 0;
+      height: 0;
+    }
+    .warms-list {
+      float: left;
+      width: 20%;
+      padding: 5px;
+      .warms-list-inner{
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, .1);
+        .title{
+          font-size: 18px;
+          color: #17D6BA;
+        }
+        .warehouse{
+          padding: 15px 0;
+          text-align: center;
+          color: #FF6060;
+        }
+        .warnNum{
+          text-align: center;
+          color: #FF6060;
+          font-size: 18px;
+          .iconfont{
+            color: #FF6060;
+            font-size: 18px;
+            margin-right: 5px;
+          }
+        }
+      }
+    }
+  }
 </style>

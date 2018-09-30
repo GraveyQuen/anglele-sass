@@ -354,6 +354,9 @@
           updateUser: this.pageApi.updateUser,
           finishStatus: this.old ? 1 : 0
         }
+      },
+      getId(){
+        return this.$route.query.orderStatus;
       }
     },
     watch: {
@@ -495,9 +498,6 @@
         ]
       } else {
         this.orderStatus = [{
-          value: 1,
-          name: '已下单'
-        }, {
           value: 2,
           name: '已确认'
         }, {
@@ -507,6 +507,11 @@
           value: 4,
           name: '配送中'
         }]
+      }
+
+      // 订单状态
+      if(this.getId){
+        this.pageApi.status = this.getId;
       }
     },
     mounted() {

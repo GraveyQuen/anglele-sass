@@ -116,7 +116,7 @@
               <Col class-name="col" span="3" v-if="item.birth != ''">{{item.birth | dateformat('yyyy-MM-dd')}}</Col>
               <Col class-name="col" span="3" v-else></Col>
               <Col class-name="col" span="5">
-              <Button type="warning" size="small" @click="addNew(true,item)" style="margin:0 10px;">编辑</Button>
+              <Button type="warning" size="small" @click="addNew(true,item)" style="margin-right: 10px;">编辑</Button>
               <Button type="warning" size="small" @click="delUser(item)">删除</Button>
               </Col>
             </Row>
