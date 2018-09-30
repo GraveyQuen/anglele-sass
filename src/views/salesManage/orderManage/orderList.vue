@@ -300,7 +300,7 @@
           key: 'orderType',
           minWidth: 120,
           render: (h, params) => {
-            let str = params.row.orderType === 1 ? '客户' : '代开';
+            let str = params.row.orderType === 1 ? '客户' : '代客户下单';
             return h('div', str)
           },
         }, {
@@ -439,6 +439,8 @@
                 this.cancelShow = false;
                 this.getList(this.pageFilter);
                 this.$Message.success('取消成功');
+              }else{
+                this.$Message.error(res.message);
               }
               this.loading = false;
             })

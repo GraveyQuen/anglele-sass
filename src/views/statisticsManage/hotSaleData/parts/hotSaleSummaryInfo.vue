@@ -31,7 +31,7 @@
         },
         dateValue: ['', ''],
         chartData: {
-          columns: ['日期', '销售金额', '销售重量'],
+          columns: ['日期', '销售金额(元)', '销售重量'],
           rows: []
         }
       }
@@ -72,7 +72,7 @@
               res.data.map(el => {
                 let row = {
                   '日期': dateformat(el.time, 'yyyy-MM-dd'),
-                  '销售金额': el.amount,
+                  '销售金额(元)': el.amount,
                   '销售重量': el.orderNum,
                 }
                 this.chartData.rows.push(row)

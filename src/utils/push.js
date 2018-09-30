@@ -44,13 +44,13 @@ export default {
       };
 
       ws.onclose = function (evt) {
-        let _this = this;
         console.log("Connection closed.");
         console.log("try to reConnection...")
         // 后台重启服务器，10秒后重连
         setTimeout(() => {
-          if (_this.initScoket)
+          if (_this.initScoket){
             _this.initScoket();
+          }
         }, 10000)
       };
 
@@ -66,7 +66,7 @@ export default {
       let _this = this;
       let title = data.title;
       let body = data.body;
-      let icon = `https://tbxoss.oss-cn-hangzhou.aliyuncs.com/saas/websocket_icon/${data.code}.png`;
+      let icon = `https://resource.anglele.com/saas/static/push_icon/${data.code}.png`
       if (window.Notification && Notification.permission == 'granted') {
         let notif = new Notification(title, {
           body: body, //通知的具体内容
@@ -77,7 +77,6 @@ export default {
           // this.$router.push({
           //   name: code2Url(data.code)
           // })
-          console.log(JSON.parse(data.page))
           this.$router.push(JSON.parse(data.page));
           window.focus();
           notif.close();

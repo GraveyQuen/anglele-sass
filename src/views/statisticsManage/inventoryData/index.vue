@@ -12,8 +12,8 @@
       <div class="card-contnet">
         <Table width="100%" ref="productTable" border :columns="tableHeader" :data="list">
           <template slot="wareHouse" slot-scope="props">
-          <div v-for="(item,index) in props.row.wareHouse.split(',')" :key="index">
-            <div>{{item}}{{props.row.unit}}</div>
+          <div v-for="(item,index) in props.row.wareHouse" :key="index">
+            <div :class="item.warn ? 'warn-active':''">{{item.wareHouse}}:{{item.num}}{{item.unit}}</div>
           </div>
           </template>
         </Table>
@@ -79,14 +79,14 @@
           title: '库存预警',
           key: 'warnNum',
           render: (h, params) => {
-            let str = `${params.row.warnNum}${params.row.unit}`;
+            let str = params.row.warnNum != '' ? `${params.row.warnNum}${params.row.unit}` : `0${params.row.unit}`;
             return h('span', str)
           }
         }, {
           title: '下单未确认数量',
           key: 'num',
           render: (h, params) => {
-            let str = `${params.row.num}${params.row.unit}`;
+            let str = params.row.num!= '' ? `${params.row.num}${params.row.unit}` : `0${params.row.unit}`;
             return h('span', str)
           }
         }, {
@@ -159,4 +159,7 @@
 
 <style lang='less' scoped>
   @import url('../../../assets/less/base.less');
+  .warn-active{
+    color: rgb(237, 64, 20);
+  }
 </style>

@@ -23,10 +23,18 @@ export const ossPolicy = '/api/oss/policy'
  * 服务器时间
  */
 export const serverTime = '/api/time'
+
+
 /**
  * 登录
  */
 export const login = '/api/login'
+
+/**
+ * 修改密码
+ */
+export const changePass = '/api/changePass'
+
 
 /**
  * 获取验证码

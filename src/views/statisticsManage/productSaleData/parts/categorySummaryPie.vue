@@ -17,7 +17,7 @@
       </Form>
       <Row :gutter="16">
         <Col span="12">
-        <div>分类销售额</div>
+        <div>分类销售额(元)</div>
         <VePie :data="chartAmount" :settings="chartSettings"></VePie>
         </Col>
         <Col span="12">

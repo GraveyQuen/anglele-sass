@@ -43,7 +43,7 @@
             <Col class-name="col" span="2">{{item.fax}}</Col>
             <Col class-name="col" span="2">{{item.qq}}</Col>
             <Col class-name="col" span="5">
-            <Button type="warning" size="small" @click="openPanel(true,item)" style="margin-left: 5px;">编辑</Button>
+            <Button type="warning" size="small" @click="openPanel(true,item)" style="margin-right: 5px;">编辑</Button>
             <Button type="warning" size="small" @click="userManage(item)">用户管理</Button>
             </Col>
           </Row>
@@ -67,6 +67,12 @@
         </FormItem>
         <FormItem label="联系电话：" prop="contactPhone">
           <Input v-model="dataApi.contactPhone" placeholder="请输入..."></Input>
+        </FormItem>
+        <FormItem label="地址：" prop="cityName">
+          <cityPick v-model="city" @on-pick="onPick"></cityPick>
+        </FormItem>
+        <FormItem label="详细地址：" prop="address">
+          <Input v-model="dataApi.address" placeholder="请输入..."></Input>
         </FormItem>
         <FormItem label="传真：">
           <Input v-model="dataApi.fax" placeholder="请输入..."></Input>
@@ -174,7 +180,11 @@
 </template>
 
 <script>
+  import cityPick from '@/components/cityPick/index'
   export default {
+    components: {
+      cityPick
+    },
     data() {
       return {
         pageApi: {
@@ -192,8 +202,16 @@
           contactPeople: '',
           contactPhone: '',
           fax: '',
-          qq: ''
+          qq: '',
+          provinceId: '',
+          provinceName: '',
+          cityId: '',
+          cityName: '',
+          districtId: '',
+          districtName: '',
+          address: ''
         },
+        city: [],
         detailShow: false,
         statusShow: false,
         show: false,
@@ -324,6 +342,14 @@
       }
     },
     methods: {
+      onPick(data) {
+        this.dataApi.provinceId = data.provinceId;
+        this.dataApi.provinceName = data.provinceName;
+        this.dataApi.cityId = data.cityId;
+        this.dataApi.cityName = data.cityName;
+        this.dataApi.districtId = data.districtId;
+        this.dataApi.districtName = data.districtName;
+      },
       // 列表
       getList(params) {
         this.$http.post(this.$api.findBusinessList, params).then(res => {
@@ -356,16 +382,34 @@
             contactPeople: item.contactPeople,
             contactPhone: item.contactPhone,
             fax: item.fax,
-            qq: item.qq
+            qq: item.qq,
+            address: item.address,
+            provinceId: item.provinceId,
+            provinceName: item.provinceName,
+            cityId: item.cityId,
+            cityName: item.cityName,
+            districtId: item.districtId,
+            districtName: item.districtName,
           }
+          this.city.push(item.provinceId);
+          this.city.push(item.cityId);
+          this.city.push(item.districtId);
         } else {
           this.dataApi = {
             name: '',
             contactPeople: '',
             contactPhone: '',
             fax: '',
-            qq: ''
+            qq: '',
+            provinceId: '',
+            provinceName: '',
+            cityId: '',
+            cityName: '',
+            districtId: '',
+            districtName: '',
+            address: ''
           }
+          this.city = [];
         }
         this.show = true;
       },

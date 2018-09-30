@@ -1,9 +1,8 @@
 <template>
   <div class="layout-header">
-    <a class="logo" href="/bg/home">
-      <!-- <img src="../../../assets/images/logo.png"> -->
-      <p class="name">安农</p>
-      <p>后台管理系统</p>
+    <a class="logo" href="/home">
+      <img src="https://resource.anglele.com/saas/static/saas-logo.png">
+      <span class="name">后台管理系统</span>
     </a>
     <ul class="header-ul">
       <li class="hasChild">
@@ -13,7 +12,7 @@
                     <Icon type="ios-arrow-down"></Icon>
                 </a>
           <DropdownMenu slot="list">
-            <DropdownItem name="account">账户管理</DropdownItem>
+            <DropdownItem name="account">修改密码</DropdownItem>
             <DropdownItem name="logOut">退出登录</DropdownItem>
           </DropdownMenu>
         </Dropdown>
@@ -41,7 +40,7 @@
       onClick(data) {
         if (data === 'logOut') {
           this.loginOut();
-          window.location.href = '/bg/login';
+          window.location.href = '/login';
         } else if(data === 'account'){
           this.$router.push({name: 'userInfo'})
         }
@@ -62,15 +61,17 @@
     background: #2d303b;
     .logo {
       float: left;
-      width: 150px;
+      width: 170px;
       height: 50px;
       text-align: center;
       margin: 0;
       padding: 0;
       color:#515a6e;
       .name{
-        padding: 4px 0;
-        font-size: 14px;
+        font-size: 16px;
+        margin-left: 10px;
+        padding-top: 16px;
+        display: inline-block;
       }
       &:after {
         content: '';
@@ -81,7 +82,8 @@
       }
       img {
         max-width: 120px;
-        max-height: 26px;
+        max-height: 32px;
+        margin-top: -18px;
         vertical-align: middle;
       }
     }

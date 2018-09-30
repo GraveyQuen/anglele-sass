@@ -2,7 +2,7 @@
   <div class="login-wrapper">
     <div class="login-box">
       <div class="login-logo">
-        <img src="../../assets/images/logo.png">
+        <img src="https://resource.anglele.com/saas/static/logo.png">
         <div class="name">智慧安农后台管理系统</div>
       </div>
       <div class="login-form">
@@ -150,7 +150,7 @@
     height: 100vh;
     justify-content: center;
     position: relative;
-    background-image: url('../../assets/images/login_bg.png');
+    background-image: url('https://resource.anglele.com/saas/static/login_bg.png');
     .login-box {
       position: relative;
       padding: 100px 60px;

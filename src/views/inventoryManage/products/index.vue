@@ -8,18 +8,18 @@
         </FormItem>
         <FormItem label="所属分类：">
           <Select v-model="pageApi.categoryId" style="width: 160px;">
-                    <Option v-for="(item,index) in categoryList" :value="item.id" :key="index">{{ item.name }}</Option>
-                  </Select>
+                        <Option v-for="(item,index) in categoryList" :value="item.id" :key="index">{{ item.name }}</Option>
+                      </Select>
         </FormItem>
         <FormItem label="所属仓库：">
           <Select v-model="pageApi.wareHouseId" style="width: 160px;">
-                    <Option v-for="(item,index) in storeList" :value="item.id" :key="index">{{ item.name }}</Option>
-                  </Select>
+                        <Option v-for="(item,index) in storeList" :value="item.id" :key="index">{{ item.name }}</Option>
+                      </Select>
         </FormItem>
         <FormItem label="状态：">
           <Select v-model="pageApi.status" style="width: 160px;">
-                    <Option v-for="(item,index) in [{name:'上架',id: 1},{name:'下架',id: 0}]" :value="item.id" :key="index">{{ item.name }}</Option>
-                  </Select>
+                        <Option v-for="(item,index) in [{name:'上架',id: 1},{name:'下架',id: 0}]" :value="item.id" :key="index">{{ item.name }}</Option>
+                      </Select>
         </FormItem>
         <FormItem label="最近更新人：">
           <Input v-model="pageApi.updateUser" placeholder="请输入..."></Input>
@@ -31,10 +31,10 @@
       <div class="card-contnet">
         <Table width="100%" ref="productTable" :columns="tableHeader" :data="list">
           <template slot="wareHouseProductSet" slot-scope="props">
-            <div v-for="(item,index) in props.row.wareHouseProductSet" :key="index">
-              <div>{{item.wareHouseName}}：{{item.num}}{{item.unit}}</div>
-            </div>
-          </template>
+                <div v-for="(item,index) in props.row.wareHouseProductSet" :key="index">
+                  <div>{{item.wareHouseName}}：{{item.num}}{{item.unit}}</div>
+                </div>
+</template>
         </Table>
         <div class="paging">
           <Page class="page-count" size="small" show-elevator :total="totalCount" show-total :current="pageApi.pageIndex" :page-size="pageApi.pageSize" @on-change="changePage"></Page>
@@ -147,6 +147,16 @@
             message: '不能为空',
             trigger: 'blur',
             type: 'number'
+          }, {
+            validator: (rule, value, callback) => {
+              let reg = /^[0-9]*[1-9][0-9]*$/;
+              if (reg.test(value)) {
+                callback()
+              } else {
+                return callback(new Error('请输入整数'));
+              }
+            },
+            trigger: 'blur'
           }],
           categoryId: [{
             required: true,
@@ -216,15 +226,15 @@
           key: 'warnNum',
           minWidth: 120,
           render: (h, params) => {
-            let str = params.row.warnNum !='' ? `${params.row.warnNum}${params.row.unit}` : '未设置';
-            if(params.row.warn){
-            return h('div',{
-              style: {
-                color: '#ed4014'
-              }
-            }, str)
-            }else{
-              return h('div',str)
+            let str = params.row.warnNum != '' ? `${params.row.warnNum}${params.row.unit}` : '未设置';
+            if (params.row.warn) {
+              return h('div', {
+                style: {
+                  color: '#ed4014'
+                }
+              }, str)
+            } else {
+              return h('div', str)
             }
           }
         }, {
