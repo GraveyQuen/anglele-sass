@@ -57,7 +57,7 @@
       </Form>
     </Card>
     <Modal title="选择产品" width="800" v-model="show" :mask-closable="false">
-      <selectGoods v-if="show" @on-select="onselect" :isBill="true" :wareHouseId="wareHouseId" :checkList="goodsList"></selectGoods>
+      <selectGoods v-if="show" @on-select="onselect" :isBill="true" :hasSelect="productIds" :wareHouseId="wareHouseId" :checkList="goodsList"></selectGoods>
       <div slot="footer">
         <Button type="primary" @click="chooseGoods">选择</Button>
         <Button @click="resetGoods">取消</Button>
@@ -145,11 +145,18 @@
       checkNum(){ // 验证下单数量不能为空
         let isOK = true;
         this.goodsList.map(el =>{
-          if(el.num === ''){
+          if(el.num === null){
             isOK = false
           }
         })
         return isOK;
+      },
+      productIds(){
+        let arr = [];
+        this.goodsList.map(el =>{
+          arr.push(el.productId)
+        })
+        return arr.toString();
       }
     },
     watch: {
@@ -194,7 +201,7 @@
       },
       // 取消选择产品
       resetGoods() {
-        this.goodsList = [];
+        this.selectList = [];
         this.show = false;
       },
       //  删除行

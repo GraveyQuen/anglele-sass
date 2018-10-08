@@ -147,16 +147,6 @@
             message: '不能为空',
             trigger: 'blur',
             type: 'number'
-          }, {
-            validator: (rule, value, callback) => {
-              let reg = /^[0-9]*[1-9][0-9]*$/;
-              if (reg.test(value)) {
-                callback()
-              } else {
-                return callback(new Error('请输入整数'));
-              }
-            },
-            trigger: 'blur'
           }],
           categoryId: [{
             required: true,
@@ -339,7 +329,7 @@
         }
       },
       getList(params) {
-        this.$http.post(this.$api.findProductList, params).then(res => {
+        this.$http.post(this.$api.findWarnProductList, params).then(res => {
           this.list = res.data.data;
           this.totalCount = res.data.totalCount;
         })

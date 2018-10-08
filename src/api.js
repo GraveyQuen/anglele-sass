@@ -134,6 +134,32 @@ export const deleteWareHouse = '/sys/warehouse/deleteWareHouse'
 
 
 /**
+ * 配送人列表
+ */
+export const findDeliveryManList = '/sys/deliveryMan/findDeliveryManList'
+
+/**
+ * 所有配送人
+ */
+export const findAllDeliveryMan = '/sys/deliveryMan/findAllDeliveryMan'
+
+/**
+ * 保存配送人
+ */
+export const saveDeliveryMan = '/sys/deliveryMan/saveDeliveryMan'
+
+/**
+ * 更新配送人
+ */
+export const updateDeliveryMan = '/sys/deliveryMan/updateDeliveryMan'
+
+/**
+ * 删除配送人
+ */
+export const delDeliveryMan = '/sys/deliveryMan/delDeliveryMan'
+
+
+/**
  * 客户列表
  */
 export const findCustomerList = '/sys/customer/findCustomerList'
@@ -244,6 +270,12 @@ export const updateProduct = '/sys/product/updateProduct'
  * 查询产品列表
  */
 export const findProductList = '/sys/product/findProductList'
+
+
+/**
+ * 查询预警产品列表
+ */
+export const findWarnProductList = '/sys/product/findWarnProductList'
 
 
 /**

@@ -6,8 +6,8 @@
       </FormItem>
       <FormItem label="所属分类：">
         <Select v-model="pageApi.categoryId" style="width: 160px;">
-            <Option v-for="(item,index) in categoryList" :value="item.id" :key="index">{{ item.name }}</Option>
-          </Select>
+                      <Option v-for="(item,index) in categoryList" :value="item.id" :key="index">{{ item.name }}</Option>
+                    </Select>
       </FormItem>
       <FormItem>
         <Button type="primary" @click="resetFilter">清除筛选</Button>
@@ -41,33 +41,37 @@
 
 <script>
   export default {
-    props:{
-      id:{
+    props: {
+      id: {
         type: String,
         default: ''
       },
       checkList: {
         type: Array
       },
-      isBill:{   //是否代客开单
+      isBill: { //是否代客开单
         type: Boolean,
         default: false
       },
       wareHouseId: {
         type: String,
         default: ''
+      },
+      hasSelect: { // 用户将已选中的产品排在最前面
+        type: String
       }
     },
     data() {
       return {
         pageApi: {
           pageIndex: 1,
-          pageSize: 20,
+          pageSize: 10,
           name: '',
           categoryId: '',
           wareHouseId: this.wareHouseId,
           status: 1,
-          updateUser: ''
+          updateUser: '',
+          checkIds: ''
         },
         list: [],
         totalCount: 0,
@@ -84,11 +88,24 @@
           status: this.pageApi.status,
           categoryId: this.pageApi.categoryId,
           wareHouseId: this.pageApi.wareHouseId,
-          updateUser: this.pageApi.updateUser
+          updateUser: this.pageApi.updateUser,
+          checkIds: this.hasSelect
         }
       },
       isAll() {
-        return this.selectList.length > 0 ? this.selectList.length === this.list.length ? true:false :false;
+        let arr = [];
+        this.list.map((item, itemIndex) => {
+          this.selectList.map((sub, subIndex) => {
+            if (item.productId === sub.productId) {
+              arr.push(sub)
+            }
+          })
+        })
+        if (this.list.length === arr.length) {
+          return true;
+        } else {
+          return false
+        }
       }
     },
     watch: {
@@ -97,12 +114,11 @@
           // 是否是翻页操作
           if (val.pageIndex == oldVal.pageIndex)
             this.pageApi.pageIndex = 1;
-          this.selectList = [];
           this.getList(this.pageFilter);
         }, 200),
         deep: true
       },
-      'selectList'(){
+      'selectList' () {
         this.$emit('on-select', this.selectList)
       }
     },
@@ -115,7 +131,8 @@
           categoryId: '',
           wareHouseId: this.wareHouseId,
           status: 1,
-          updateUser: ''
+          updateUser: '',
+          checkIds: this.hasSelect
         }
       },
       getList(params) {
@@ -159,24 +176,30 @@
           }
         })
       },
+      // 全选、反全选
       checkAll() {
         if (this.isAll) {
           this.list.map(el => {
+            this.selectList.splice(this.selectList.findIndex(item => item.productId === el.productId), 1);
             el.isCheck = false;
-            this.selectList = [];
           })
         } else {
-          this.selectList = [];
           this.list.map(el => {
+            this.selectList.map((sub, i) => {
+              if (el.productId === sub.productId) {
+                this.selectList.splice(i, 1);
+              }
+            })
             el.isCheck = true;
-            this.selectList.push(el);
+            this.selectList.push(el)
           })
         }
         this.$emit('on-select', this.selectList)
       },
+      // 选择、取消选择
       checkItem(items, index) {
         if (items.isCheck) {
-          this.selectList.splice(this.selectList.findIndex(item => item.id === items.id), 1);
+          this.selectList.splice(this.selectList.findIndex(item => item.productId === items.productId), 1);
         } else {
           this.selectList.push(items)
         }
@@ -184,23 +207,24 @@
         this.$emit('on-select', this.selectList)
       },
       // 已选中的
-      checkSelect(){
-        if(this.checkList.length){
-          this.selectList = [];
-          this.list.map(el =>{
-            this.checkList.map(sub =>{
-              if(el.productId === sub.productId){
-                this.selectList.push(sub)
-                el.isCheck = true;
-              }
-            })
+      checkSelect() {
+        this.list.map(el => {
+          this.selectList.map((sub, i) => {
+            if (el.productId === sub.productId) {
+              this.selectList.splice(i, 1);
+              this.selectList.push(sub)
+              el.isCheck = true;
+            }
           })
-        }
+        })
       }
     },
     created() {
       this.getList(this.pageFilter)
       this.getAllCategory();
+    },
+    mounted() {
+      this.selectList = [...this.checkList]
     }
   }
 </script>

@@ -93,7 +93,7 @@
         </div>
     </Modal>
     <Modal title="选择产品" width="800" v-model="pshow" :mask-closable="false">
-      <selectGoods v-if="pshow" @on-select="onselect" :checkList="dataApi.items"></selectGoods>
+      <selectGoods v-if="pshow" @on-select="onselect" :checkList="dataApi.items" :hasSelect="productIds"></selectGoods>
       <div slot="footer">
         <Button type="primary" @click="chooseGoods">选择</Button>
         <Button @click="resetGoods">取消</Button>
@@ -343,6 +343,13 @@
           }
         })
         return isOk;
+      },
+      productIds(){
+        let arr = [];
+        this.dataApi.items.map(el =>{
+          arr.push(el.productId)
+        })
+        return arr.toString();
       }
     },
     filters:{
@@ -446,7 +453,6 @@
                 items: res.data.wastageItems
               }
             }
-  
           }
         })
       },

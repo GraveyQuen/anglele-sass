@@ -23,6 +23,11 @@
                             <Option v-for="(item,index) in [{value: 1,name:'自主下单'},{value: 2,name: '代客下单'}]" :value="item.value" :key="index">{{ item.name }}</Option>
                           </Select>
         </FormItem>
+        <FormItem label="配送人：">
+          <Select v-model="pageApi.deliveryManId" style="width: 200px;">
+                            <Option v-for="(item,index) in deliveryList" :value="item.id" :key="index">{{ item.name }}</Option>
+                          </Select>
+        </FormItem>
         <FormItem label="状态：">
           <Select v-model="pageApi.status" style="width: 200px;">
                             <Option v-for="(item,index) in orderStatus" :value="item.value" :key="index">{{ item.name }}</Option>
@@ -170,7 +175,8 @@
           updateUser: '',
           startUpdateTime: '',
           endUpdateTime: '',
-          finishStatus: this.old ? 1 : 0
+          finishStatus: this.old ? 1 : 0,
+          deliveryManId: ''
         },
         detailItem: {},
         cancelShow: false,
@@ -246,6 +252,7 @@
             return h('div', str)
           }
         }],
+        deliveryList: [],
         tableHeader: [{
           title: '订单编号',
           key: 'id',
@@ -303,6 +310,10 @@
             let str = params.row.orderType === 1 ? '客户' : '代客户下单';
             return h('div', str)
           },
+        },{
+          title: '配送人',
+          key: 'deliveryManName',
+          minWidth: 150
         }, {
           title: '备注',
           key: 'remark',
@@ -353,7 +364,8 @@
           status: this.pageApi.status,
           orderType: this.pageApi.orderType,
           updateUser: this.pageApi.updateUser,
-          finishStatus: this.old ? 1 : 0
+          finishStatus: this.old ? 1 : 0,
+          deliveryManId: this.pageApi.deliveryManId
         }
       },
       getId(){
@@ -397,7 +409,8 @@
           updateUser: '',
           startUpdateTime: '',
           endUpdateTime: '',
-          finishStatus: this.old ? 1 : 0
+          finishStatus: this.old ? 1 : 0,
+          deliveryManId: ''
         }
         this.dateValue = ['', ''];
         this.dateValue2 = ['', ''];
@@ -485,10 +498,18 @@
       },
       overReset() {
         this.overShow = false;
+      },
+      getDelivery(){
+        this.$http.post(this.$api.findAllDeliveryMan).then(res =>{
+          if(res.code === 1000){
+            this.deliveryList = res.data;
+          }
+        })
       }
     },
     created() {
       this.getList(this.pageFilter);
+      this.getDelivery();
       if (this.old) {
         this.orderStatus = [{
             value: 5,

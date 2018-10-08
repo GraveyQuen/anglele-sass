@@ -13,8 +13,8 @@
         </FormItem>
         <FormItem label="状态：">
           <Select v-model="pageApi.status" style="width: 200px;">
-                            <Option v-for="(item,index) in orderStatus" :value="item.value" :key="index">{{ item.name }}</Option>
-                          </Select>
+                              <Option v-for="(item,index) in orderStatus" :value="item.value" :key="index">{{ item.name }}</Option>
+                            </Select>
         </FormItem>
         <FormItem label="最近更新人：">
           <Input v-model="pageApi.updateUser" placeholder="请输入" style="width: 200px;"></Input>
@@ -30,10 +30,10 @@
         <Table width="100%" ref="orderTable" :columns="tableHeader" border :data="list">
           <!-- 操作 -->
           <template slot="action" slot-scope="props">
-                              <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看明细</Button>
-                              <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1" @click="confirm(props.row)">确认</Button>
-                              <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 2" @click="out(props.row)">出库</Button>
-                              <Button type="info" size="small" v-if="props.row.status === 1 || props.row.status === 2 || props.row.status === 3" @click="print(props.row)">打印</Button>
+                                <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看明细</Button>
+                                <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1" @click="confirm(props.row)">确认</Button>
+                                <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 2" @click="out(props.row)">出库</Button>
+                                <Button type="info" size="small" v-if="props.row.status === 1 || props.row.status === 2 || props.row.status === 3" @click="print(props.row)">打印</Button>
 </template>
         </Table>
         <div class="paging">
@@ -65,6 +65,19 @@
         <Button @click="detailShow = false">关闭</Button>
       </div>
     </Modal>
+    <Modal title="选择配送人" width="500" v-model="outShow" :mask-closable="false">
+         <Form :model="outApi" ref="baseForm" :rules="baseRule" :label-width="110" >
+          <FormItem label="配送人：" prop="deliveryManId">
+            <Select v-model="outApi.deliveryManId" style="width: 100%;">
+                    <Option v-for="(item,index) in deliveryList" :value="item.id" :key="index">{{ item.name }}</Option>
+                  </Select>
+          </FormItem>
+          </Form>
+      <div slot="footer">
+        <Button type="primary" @click="saveOut('baseForm')">出库</Button>
+        <Button @click="cancelOut('baseForm')">取消</Button>
+      </div>
+    </Modal>
   </div>
 </template>
 
@@ -87,6 +100,19 @@
           pageIndex: 1,
           pageSize: 10
         },
+        outApi: {
+          id: '',
+          deliveryManId: ''
+        },
+        baseRule: {
+          deliveryManId: [{
+            required: true,
+            message: '不能为空',
+            trigger: 'change'
+          }]
+        },
+        deliveryList: [],
+        outShow: false,
         dateValue: ['', ''],
         orderStatus: [{
           value: 1,
@@ -258,20 +284,31 @@
       },
       // 出库
       out(item) {
-        this.$Modal.confirm({
-          title: '确认出库',
-          content: '确认出库？',
-          onOk: () => {
-            this.$http.post(this.$api.wareHouseOutproductOut, {
-              id: item.id
-            }).then(res => {
+        this.outApi.id = item.id;
+        this.outShow = true;
+      },
+      cancelOut(name){
+        this.outApi.deliveryManId = '';
+        this.$refs[name].resetFields();
+        this.outShow = false;
+      },
+      saveOut(name){
+        this.$refs[name].validate((valid) => {
+          if (valid) {
+            this.loading = true;
+            let params = this.$clearData(this.outApi);
+            this.$http.post(this.$api.wareHouseOutproductOut, params).then(res => {
               if (res.code === 1000) {
-                this.$Message.success('确认成功')
-                this.getList(this.pageFilter)
+                this.$Message.success('出库成功')
+                this.getList(this.pageFilter);
+                this.outShow = false;
               } else {
-                this.$Message.error(res.message)
+                this.$Message.error(res.message);
               }
+              this.loading = false;
             })
+          } else {
+            this.$Message.error('表单验证失败');
           }
         })
       },
@@ -295,14 +332,22 @@
           wareHouseOutId: item.id
         }).then(res => {
           if (res.code === 1000) {
-            window.open(res.data,'_blank')
+            window.open(res.data, '_blank')
             this.$Spin.hide();
+          }
+        })
+      },
+      getDelivery(){
+        this.$http.post(this.$api.findAllDeliveryMan).then(res =>{
+          if(res.code === 1000){
+            this.deliveryList = res.data;
           }
         })
       }
     },
     created() {
-      this.getList(this.pageFilter)
+      this.getList(this.pageFilter);
+      this.getDelivery();
     }
   }
 </script>

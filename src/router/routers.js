@@ -58,6 +58,13 @@ export default [{
       meta: {
         title: '分类管理',
       },
+    }, {
+      path: '/setting/distributionMan',
+      name: 'distributionMan',
+      component: resolve => require(['@/views/setting/distributionMan/index.vue'], resolve),
+      meta: {
+        title: '配送人员管理',
+      },
     }]
   }, {
     path: '/staffManage',
