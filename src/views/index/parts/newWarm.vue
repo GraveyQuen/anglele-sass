@@ -4,7 +4,7 @@
       <div class="warms-list-inner">
         <div class="title">{{item.name}}({{item.unit}})</div>
         <div class="warehouse">
-          <div class="warehouse-list" v-for="(sub,i) in item.warehouse.split(',')">{{sub}}</div>
+          <div class="warehouse-list" v-for="(sub,i) in item.wareHouse">{{sub.wareHouse}}：{{sub.warn}}</div>
         </div>
         <div class="warnNum"><i class="iconfont ang-yujing"></i>预警值：{{item.warnNum}}</div>
       </div>

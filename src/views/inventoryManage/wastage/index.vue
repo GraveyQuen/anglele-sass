@@ -33,7 +33,7 @@
         </FormItem>
       </Form>
       <div class="card-contnet">
-        <Table width="100%" ref="goodsTable" :columns="tableHeader" :data="list">
+        <Table width="100%" ref="goodsTable" border :columns="tableHeader" :data="list">
           <!-- 操作 -->
           <template slot="action" slot-scope="props">
                             <Button type="warning" size="small" style="margin-right:8px;" v-if="props.row.status === 0" @click="openPanel(true,props.row)">编辑</Button>
@@ -304,6 +304,7 @@
         }, {
           title: '操作',
           key: 'action',
+          align: 'center',
           render: (h, params) => {
             return h(
               'div',
@@ -337,7 +338,7 @@
       isOk() {
         let isOk = true;
         this.dataApi.items.map(el => {
-          if (el.num === '') {
+          if (el.num === null) {
             isOk = false
           }
         })

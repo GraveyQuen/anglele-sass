@@ -1,6 +1,6 @@
 <template>
   <div class="tables">
-    <Table width="100%" ref="settledTable" :columns="tableHeader" :data="lists" @on-selection-change="selectRow">
+    <Table width="100%" ref="settledTable" border :columns="tableHeader" :data="lists" @on-selection-change="selectRow">
       <!-- 操作 -->
       <template slot="action" slot-scope="props">
         <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看</Button>
@@ -103,6 +103,7 @@
           title: '操作',
           key: 'action',
           minWidth: 120,
+          align: 'center',
           fixed: 'right',
           render: (h, params) => {
             return h(

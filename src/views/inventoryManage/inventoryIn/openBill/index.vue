@@ -46,7 +46,7 @@
 <template slot="cost" slot-scope="props">
   <Form :model="props.row">
     <FormItem>
-      <InputNumber :min="1" v-model.number="props.row.cost" size="small" style="width:60px;"></InputNumber>元/{{props.row.unit}}
+      <InputNumber v-model.number="props.row.cost" size="small" style="width:60px;"></InputNumber>元/{{props.row.unit}}
     </FormItem>
   </Form>
   </Form>

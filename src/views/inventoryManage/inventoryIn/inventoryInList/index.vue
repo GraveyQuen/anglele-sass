@@ -173,6 +173,7 @@
           key: 'action',
           minWidth: 150,
           fixed: 'right',
+          align: 'center',
           render: (h, params) => {
             return h(
               'div',

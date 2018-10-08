@@ -29,7 +29,7 @@
         </FormItem>
       </Form>
       <div class="card-contnet">
-        <Table width="100%" ref="productTable" :columns="tableHeader" :data="list">
+        <Table width="100%" ref="productTable" border :columns="tableHeader" :data="list">
           <template slot="wareHouseProductSet" slot-scope="props">
                 <div v-for="(item,index) in props.row.wareHouseProductSet" :key="index">
                   <div>{{item.wareHouseName}}：{{item.num}}{{item.unit}}</div>
@@ -269,6 +269,7 @@
           key: 'action',
           fixed: 'right',
           minWidth: 150,
+          align: 'center',
           render: (h, params) => {
             return h('div', [
               h('Button', {

@@ -1,7 +1,7 @@
 <template>
   <div class="tables">
   
-    <Table class="fake-table-header" ref="settledTable" :columns="tableHeader" :data="[]">
+    <Table class="fake-table-header" ref="settledTable" border :columns="tableHeader" :data="[]">
       <template slot="action" slot-scope="props">
           <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看</Button>
           <Button type="warning" size="small"  @click="cancelSettled(props.row)">取消结算</Button>
