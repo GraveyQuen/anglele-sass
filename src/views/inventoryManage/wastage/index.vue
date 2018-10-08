@@ -78,7 +78,7 @@
               <Form :ref="'formRow'+props.idx" :model="props.row">
                 <FormItem prop="num" :rules="{required: true, message: '请输入数量', trigger: 'blur',type: 'number'}">
                   <!-- <Input v-model="props.row.num" size="small" style="width:60px;" placeholder="请输入"></Input> -->
-                  <InputNumber :min="1" v-model.number="props.row.num" size="small" style="width:60px;"></InputNumber>{{props.row.unit}}
+                  <InputNumber :min="0" v-model.number="props.row.num" size="small" style="width:60px;"></InputNumber>{{props.row.unit}}
                 </FormItem>
               </Form>
             </template>
