@@ -87,6 +87,7 @@
             <Col span="8" class="order-row-col">客户联系人：{{detailItem.order.contactPeople}}</Col>
             <Col span="8" class="order-row-col">客户联系方式：{{detailItem.order.contactPhone}}</Col>
             <Col span="8" class="order-row-col">{{detailItem.order.realAmount != '' ? `实单金额：￥${detailItem.order.realAmount}`:''}}</Col>
+            <Col span="8" class="order-row-col">配送人：{{detailItem.order.deliveryMan.name}}</Col>
           </Row>
           <Row class="order-row">
             <Col span="10" class="order-row-col">送货地址：{{detailItem.order.address}}</Col>

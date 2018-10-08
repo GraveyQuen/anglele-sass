@@ -58,7 +58,8 @@
           </Select>
         </FormItem>
         <FormItem label="单价：" prop="price">
-          <Input v-model.number="dataApi.price" placeholder="请输入..."></Input>
+          <InputNumber :min="0" v-model.number="dataApi.price" style="width:100%;"></InputNumber>
+          <!-- <Input v-model.number="dataApi.price" placeholder="请输入..."></Input> -->
         </FormItem>
         <FormItem label="计量单位：" prop="unit">
           <Select v-model="dataApi.unit">
@@ -125,7 +126,7 @@
           productImg: '',
           productDes: '',
           remark: '',
-          price: '',
+          price: null,
           sortIndex: 0,
           unit: '',
           warnNum: ''
@@ -361,7 +362,7 @@
             productImg: '',
             productDes: '',
             remark: '',
-            price: '',
+            price: null,
             sortIndex: 0,
             unit: '',
             warnNum: ''

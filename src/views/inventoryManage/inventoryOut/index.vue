@@ -16,6 +16,11 @@
                               <Option v-for="(item,index) in orderStatus" :value="item.value" :key="index">{{ item.name }}</Option>
                             </Select>
         </FormItem>
+        <FormItem label="配送人：">
+          <Select v-model="pageApi.deliveryManId" style="width: 200px;">
+                            <Option v-for="(item,index) in deliveryList" :value="item.id" :key="index">{{ item.name }}</Option>
+                          </Select>
+        </FormItem>
         <FormItem label="最近更新人：">
           <Input v-model="pageApi.updateUser" placeholder="请输入" style="width: 200px;"></Input>
         </FormItem>
@@ -98,7 +103,8 @@
           updateTimeBegin: '',
           updateTimeEnd: '',
           pageIndex: 1,
-          pageSize: 10
+          pageSize: 10,
+          deliveryManId: ''
         },
         outApi: {
           id: '',
@@ -160,6 +166,13 @@
           key: 'address',
           minWidth: 180
         }, {
+          title: '配送人',
+          key: 'deliveryMan',
+          minWidth: 130,
+          render: (h,params)=>{
+            return h('div', params.row.deliveryMan.name)
+          }
+        }, {
           title: '状态',
           key: 'status',
           minWidth: 100,
@@ -207,7 +220,8 @@
           updateTimeBegin: this.dateValue[0] != '' ? this.dateValue[0].getTime() : '',
           updateTimeEnd: this.dateValue[1] != '' ? this.dateValue[1].getTime() : '',
           pageIndex: this.pageApi.pageIndex,
-          pageSize: this.pageApi.pageSize
+          pageSize: this.pageApi.pageSize,
+          deliveryManId: this.pageApi.deliveryManId
         }
       }
     },
@@ -233,7 +247,8 @@
           updateTimeBegin: '',
           updateTimeEnd: '',
           pageIndex: 1,
-          pageSize: 10
+          pageSize: 10,
+          deliveryManId: ''
         }
         this.dateValue = ['', '']
       },
