@@ -502,4 +502,14 @@ export const todayCategoryPie = '/sys/dataStatistics/todayCategoryPie'
 
 
 
+// 查询店铺开闭时间
+
+export const findShopTime = '/sys/shopTime/findShopTime'
+
+// 修改店铺的开闭时间
+
+export const modifyShopTime = '/sys/shopTime/modifyShopTime'
+
+
+
 

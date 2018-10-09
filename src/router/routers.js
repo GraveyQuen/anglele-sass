@@ -65,6 +65,13 @@ export default [{
       meta: {
         title: '配送人员管理',
       },
+    }, {
+      path: '/setting/parameterConfig',
+      name: 'parameterConfig',
+      component: resolve => require(['@/views/setting/parameterConfig/index.vue'], resolve),
+      meta: {
+        title: '基础参数配置',
+      },
     }]
   }, {
     path: '/staffManage',

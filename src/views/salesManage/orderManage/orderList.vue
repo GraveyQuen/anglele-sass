@@ -130,13 +130,13 @@
       <div class="">请仔细核对订单中的产品实际销售数量后进行确认</div>
       <Table ref="overTable" border :columns="goodsHeader" :data="overApi.outItems" style="width: 100%;">
         <!-- 实单数量 -->
-<template slot="realNum" slot-scope="props">
-  <Form :ref="'formRow'+props.idx" :model="props.row">
-    <FormItem prop="realNum" :rules="{required: true, message: '请输入数量', trigger: 'blur', type: 'number'}">
-      <Input v-model.number="props.row.realNum" size="small" placeholder="请输入" style="width:60px;"></Input>{{props.row.unit}}
-    </FormItem>
-  </Form>
-</template>
+      <template slot="realNum" slot-scope="props">
+        <Form :ref="'formRow'+props.idx" :model="props.row">
+          <FormItem prop="realNum" :rules="{required: true, message: '请输入数量', trigger: 'blur', type: 'number'}">
+            <Input v-model.number="props.row.realNum" size="small" placeholder="请输入" style="width:60px;"></Input>{{props.row.unit}}
+          </FormItem>
+        </Form>
+      </template>
       </Table>
       <div slot="footer">
         <Button type="primary" @click="overSubmit" :loading="loading">保存</Button>
