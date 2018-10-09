@@ -511,5 +511,26 @@ export const findShopTime = '/sys/shopTime/findShopTime'
 export const modifyShopTime = '/sys/shopTime/modifyShopTime'
 
 
+// 采购单列表
+export const findPurchaseOrderList = '/sys/purchaseOrder/findPurchaseOrderList'
+
+
+// 采购单删除
+export const delPurchaseOrder = '/sys/purchaseOrder/delPurchaseOrder'
+
+// 采购订单管理分页
+export const pageForPurchase = '/sys/order/pageForPurchase'
+
+// 采购单生成
+export const addPurchaseOrder = '/sys/purchaseOrder/addPurchaseOrder'
+
+// 采购单修改
+export const updatePurchaseOrder = '/sys/purchaseOrder/updatePurchaseOrder'
+
+
+// 采购单详情
+export const findPurchaseOrder = '/sys/purchaseOrder/findPurchaseOrder'
+
+
 
 

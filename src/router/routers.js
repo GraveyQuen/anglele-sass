@@ -220,5 +220,50 @@ export default [{
         title: '库存货品报表',
       }
     }]
+  }, {
+    path: '/purchasingManage',
+    name: 'purchasingManage',
+    component: resolve => require(['@/views/purchasingManage/index.vue'], resolve),
+    meta: {
+      title: '采购管理',
+    },
+    children: [{
+      path: '/purchasingManage/purchasingOrder',
+      name: 'purchasingOrder',
+      component: resolve => require(['@/views/purchasingManage/purchasingOrder/index.vue'], resolve),
+      meta: {
+        hideInMenu: true
+      },
+      redirect: '/purchasingManage/purchasingOrder/purchasingList',
+      children: [{
+        path: '/purchasingManage/purchasingOrder/purchasingList',
+        name: 'purchasingList',
+        component: resolve => require(['@/views/purchasingManage/purchasingOrder/list/index.vue'], resolve),
+        meta: {
+          title: '采购单管理',
+        }
+      },{
+        path: '/purchasingManage/purchasingOrder/purchasingAdd',
+        name: 'purchasingAdd',
+        component: resolve => require(['@/views/purchasingManage/purchasingOrder/purchasingAdd/index.vue'], resolve),
+        meta: {
+          title: '新增采购单',
+        }
+      },{
+        path: '/purchasingManage/purchasingOrder/purchasingEdit',
+        name: 'purchasingEdit',
+        component: resolve => require(['@/views/purchasingManage/purchasingOrder/purchasingEdit/index.vue'], resolve),
+        meta: {
+          title: '编辑采购单',
+        }
+      },{
+        path: '/purchasingManage/purchasingOrder/purchasingIn',
+        name: 'purchasingIn',
+        component: resolve => require(['@/views/purchasingManage/purchasingOrder/purchasingIn/index.vue'], resolve),
+        meta: {
+          title: '采购入库',
+        }
+      }]
+    }]
   }]
 }]

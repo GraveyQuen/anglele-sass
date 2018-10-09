@@ -66,6 +66,11 @@
             <Option v-for="(item,index) in unitList" :value="item.cName" :key="index">{{ item.cName }}</Option>
           </Select>
         </FormItem>
+        <FormItem label="所属仓库：" prop="wareHouseIds">
+          <Select v-model="dataApi.wareHouseIds" multiple>
+              <Option v-for="(item,index) in storeList" :value="item.id" :key="index">{{ item.name }}</Option>
+            </Select>
+        </FormItem>
         <FormItem label="排序：" prop="sortIndex">
           <InputNumber :min="0" v-model.number="dataApi.sortIndex" style="width:100%;"></InputNumber>
         </FormItem>
@@ -129,7 +134,8 @@
           price: null,
           sortIndex: 0,
           unit: '',
-          warnNum: ''
+          warnNum: '',
+          wareHouseIds: []
         },
         rule: {
           price: [{
@@ -158,6 +164,12 @@
             required: true,
             message: '不能为空',
             trigger: 'change'
+          }],
+          wareHouseIds: [{
+            required: true,
+            message: '不能为空',
+            trigger: 'change',
+            type: 'array'
           }]
         },
         loading: false,
@@ -352,7 +364,8 @@
             price: item.price,
             sortIndex: item.sortIndex,
             unit: item.unit,
-            warnNum: item.warnNum
+            warnNum: item.warnNum,
+            wareHouseIds: item.wareHouseIds.split(',')
           }
         } else {
           this.dataApi = {
@@ -365,7 +378,8 @@
             price: null,
             sortIndex: 0,
             unit: '',
-            warnNum: ''
+            warnNum: '',
+            wareHouseIds: []
           }
         }
         this.show = true;
@@ -376,6 +390,7 @@
           if (valid) {
             this.loading = true;
             let params = this.$clearData(this.dataApi);
+            params.wareHouseIds = params.wareHouseIds.toString();
             let paramsUrl = this.isEdit ? this.$api.updateProduct : this.$api.saveProduct;
             if (this.isEdit) {
               params.id = this.editItem.id;
