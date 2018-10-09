@@ -113,6 +113,7 @@
           this.dataApi.operatePerson = val.purchaseOrder.operatePerson;
           this.dataApi.operatePersonPhone = val.purchaseOrder.operatePersonPhone;
           this.dataApi.remark = val.purchaseOrder.remark;
+          this.dataApi.orderIds = [];
           val.orders.map(item => {
             this.dataApi.orderIds.push(item.id)
             this.orderList.map((el, index) => {
@@ -170,6 +171,7 @@
           if (res.code === 1000) {
             this.orderList = res.data;
             if (isFresh) {
+              this.details();
               this.$Message.success('刷新成功')
             }
           }
@@ -207,7 +209,6 @@
       },
       refresh() {
         this.getOrder(this.pageFilter, true);
-        this.details();
       },
       details() {
         this.$http.post(this.$api.findPurchaseOrder, {
