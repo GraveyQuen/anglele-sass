@@ -6,8 +6,8 @@
       <Form :mode="dataApi" :label-width="100" inline>
         <FormItem label="采购员：">
           <Select v-model="dataApi.operatePerson" style="width: 200px;">
-                  <Option v-for="(item,index) in pruMan" :value="item.name" :key="index">{{ item.name }}</Option>
-                </Select>
+                      <Option v-for="(item,index) in pruMan" :value="item.name" :key="index">{{ item.name }}</Option>
+                    </Select>
         </FormItem>
         <FormItem label="联系方式：">
           <Input v-model="dataApi.operatePersonPhone" placeholder="请输入" style="width: 200px;"></Input>
@@ -108,19 +108,21 @@
         }
       },
       'detailItem' (val) {
-        this.dataApi.purchaseDate = new Date(Date.parse(val.purchaseOrder.purchaseDate.replace(/-/g, "/")));
-        this.dataApi.operatePerson = val.purchaseOrder.operatePerson;
-        this.dataApi.operatePerson = val.purchaseOrder.operatePersonPhone;
-        this.dataApi.remark = val.purchaseOrder.remark;
-        val.orders.map(item => {
-          this.dataApi.orderIds.push(item.id)
-          this.orderList.map((el, index) => {
-            if (item.id === el.id) {
-              el._checked = true;
-              this.$refs.selection.$refs.tbody.objData[index]._isChecked = true;
-            }
+        if (val) {
+          this.dataApi.purchaseDate = new Date(Date.parse(val.purchaseOrder.purchaseDate.replace(/-/g, "/")));
+          this.dataApi.operatePerson = val.purchaseOrder.operatePerson;
+          this.dataApi.operatePersonPhone = val.purchaseOrder.operatePersonPhone;
+          this.dataApi.remark = val.purchaseOrder.remark;
+          val.orders.map(item => {
+            this.dataApi.orderIds.push(item.id)
+            this.orderList.map((el, index) => {
+              if (item.id === el.id) {
+                el._checked = true;
+                this.$refs.selection.$refs.tbody.objData[index]._isChecked = true;
+              }
+            })
           })
-        })
+        }
       }
     },
     computed: {
@@ -156,8 +158,10 @@
           .then(res => {
             if (res.code === 1000) {
               this.pruMan = res.data.data;
-              this.dataApi.operatePerson = this.pruMan[0].name;
-              this.dataApi.operatePersonPhone = this.pruMan[0].phone;
+              if (!this.isEdit) {
+                this.dataApi.operatePerson = this.pruMan[0].name;
+                this.dataApi.operatePersonPhone = this.pruMan[0].phone;
+              }
             }
           });
       },
@@ -182,7 +186,7 @@
         let params = this.$clearData(this.dataApi);
         params.orderIds = params.orderIds.toString();
         params.purchaseDate = params.purchaseDate != '' ? this.date : '';
-        if(this.isEdit){
+        if (this.isEdit) {
           params.id = this.detailItem.purchaseOrder.id;
         }
         let paramsUrl = this.isEdit ? this.$api.updatePurchaseOrder : this.$api.addPurchaseOrder;
@@ -202,7 +206,8 @@
         }
       },
       refresh() {
-        this.getOrder(this.pageFilter, true)
+        this.getOrder(this.pageFilter, true);
+        this.details();
       },
       details() {
         this.$http.post(this.$api.findPurchaseOrder, {
