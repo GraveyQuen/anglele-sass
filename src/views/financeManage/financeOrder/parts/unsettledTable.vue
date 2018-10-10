@@ -56,7 +56,7 @@
           key: 'contactPeople',
           minWidth: 120
         }, {
-          title: '客户联系人电话',
+          title: '客户联系方式',
           key: 'contactPhone',
           minWidth: 120
         }, {

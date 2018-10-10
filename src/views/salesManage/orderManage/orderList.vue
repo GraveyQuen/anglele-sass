@@ -126,8 +126,8 @@
         <Button @click="show = false">关闭</Button>
       </div>
     </Modal>
-    <Modal title="完成订单" width="900" v-model="overShow" :mask-closable="false">
-      <div class="order-ok-header">请仔细核对订单中的产品实际销售数量、销售价格后进行确认</div>
+    <Modal title="完成订单" width="1000" v-model="overShow" :mask-closable="false">
+      <div class="order-ok-header">请仔细核对订单中的产品实单数量、实单单价后进行确认</div>
       <Table ref="overTable" border :columns="goodsHeader" :data="overApi.outItems" >
         <!-- 实单数量 -->
       <template slot="realNum" slot-scope="props">
@@ -534,7 +534,7 @@
         this.overShow = false;
       },
       getDelivery(){
-        this.$http.post(this.$api.findAllDeliveryMan).then(res =>{
+        this.$http.post(this.$api.findAllDeliveryMan,{manType: 1}).then(res =>{
           if(res.code === 1000){
             this.deliveryList = res.data;
           }

@@ -353,7 +353,7 @@
         })
       },
       getDelivery(){
-        this.$http.post(this.$api.findAllDeliveryMan).then(res =>{
+        this.$http.post(this.$api.findAllDeliveryMan,{manType: 1}).then(res =>{
           if(res.code === 1000){
             this.deliveryList = res.data;
           }
