@@ -31,8 +31,8 @@
       <div class="card-contnet">
         <Table width="100%" ref="productTable" border :columns="tableHeader" :data="list">
           <template slot="wareHouseProductSet" slot-scope="props">
-                <div v-for="(item,index) in props.row.wareHouseProductSet" :key="index" :class="props.row.warn ? 'warn':''">
-                  <div>{{item.wareHouseName}}：{{item.num}}{{item.unit}}</div>
+                <div v-for="(item,index) in props.row.wareHouseProductSet" :key="index" >
+                  <div :class="item.warn === 'true' ? 'warn':''">{{item.wareHouseName}}：{{item.num}}{{item.unit}}</div>
                 </div>
 </template>
         </Table>
@@ -229,7 +229,7 @@
           key: 'warnNum',
           minWidth: 120,
           render: (h, params) => {
-            let str = params.row.warnNum != '' ? `${params.row.warnNum}${params.row.unit}` : '未设置';
+            let str = params.row.warnNum != '' ? `${params.row.warnNum}${params.row.unit}` : '0';
             if (params.row.warn) {
               return h('div', {
                 style: {

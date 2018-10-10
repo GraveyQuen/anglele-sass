@@ -9,13 +9,13 @@
           </FormItem>
           <FormItem label="仓库名称：" prop="wareHouseId">
             <Select v-model="baseApi.wareHouseId" style="width: 180px;">
-                                <Option v-for="(item,index) in storeList" :value="item.id" :key="index">{{ item.name }}</Option>
-                              </Select>
+                                  <Option v-for="(item,index) in storeList" :value="item.id" :key="index">{{ item.name }}</Option>
+                                </Select>
           </FormItem>
           <FormItem label="入库类型：" prop="inType">
             <Select v-model="baseApi.inType" style="width: 180px;">
-                      <Option v-for="(item,index) in [{id:1,name: '采购入库'},{id:2,name: '退货入库'},{id:3,name:'其他入库'}]" :value="item.id" :key="index">{{ item.name }}</Option>
-                    </Select>
+                        <Option v-for="(item,index) in [{id:1,name: '采购入库'},{id:2,name: '退货入库'},{id:3,name:'其他入库'}]" :value="item.id" :key="index">{{ item.name }}</Option>
+                      </Select>
           </FormItem>
           <FormItem label="送货人：">
             <Input v-model="baseApi.driver" placeholder="请输入" style="width: 180px;"></Input>
@@ -35,11 +35,11 @@
         <Table ref="goodsTable" border :columns="goodsHeader" :data="goodsList" style="max-width: 752px;">
           <!-- 入库数量 -->
           <template slot="num" slot-scope="props">
-              <Form :ref="'formRow'+props.idx" :model="props.row">
-                <FormItem prop="num" :rules="{required: true, message: '请输入数量', trigger: 'blur',type: 'number'}">
-                  <InputNumber :min="0" v-model.number="props.row.num" size="small" style="width:60px;"></InputNumber>{{props.row.unit}}
-                </FormItem>
-              </Form>
+                <Form :ref="'formRow'+props.idx" :model="props.row">
+                  <FormItem prop="num" :rules="{required: true, message: '请输入数量', trigger: 'blur',type: 'number'}">
+                    <InputNumber :min="0" v-model.number="props.row.num" size="small" style="width:60px;"></InputNumber>{{props.row.unit}}
+                  </FormItem>
+                </Form>
 </template>
           <!-- 成本价 -->
 <template slot="cost" slot-scope="props">
@@ -207,8 +207,8 @@
       },
       'detailItem' (val) {
         let arr = [];
-        val.purchaseOrderItems.map(el =>{
-          el.items.map(sub =>{
+        val.purchaseOrderItems.map(el => {
+          el.items.map(sub => {
             sub.cost = null;
             arr.push(sub)
           })
@@ -318,10 +318,20 @@
                 const urlApi = this.isEdit ? this.$api.wareHouseupdateIn : this.$api.wareHouseIn;
                 this.$http.post(urlApi, params).then(res => {
                   if (res.code === 1000) {
-                    this.$Message.success('保存成功');
-                    this.$router.push({
-                      name: 'inventoryList'
-                    });
+                    this.$Modal.confirm({
+                      title: '入库成功',
+                      content: '确认是否需要继续采购入库？',
+                      onOk: () => {
+                        this.$router.push({
+                          name: 'inventoryList'
+                        });
+                      },
+                      onCancel: () =>{
+                        this.$router.push({
+                          name: 'purchasingIn'
+                        });
+                      }
+                    })
                   } else {
                     this.$Message.error(res.message)
                   }
