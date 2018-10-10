@@ -13,9 +13,9 @@
 </template>
 <template slot="info" slot-scope="props">
   <div class="info">
-    <span>预结算单号：{{props.row.id}}</span>
-    <span>预结算日期：{{props.row.createTime | dateformat}}</span>
-    <span>预结算金额：{{props.row.totalPrice}}</span>
+    <span>结算单号：{{props.row.id}}</span>
+    <span>结算日期：{{props.row.createTime | dateformat}}</span>
+    <span>结算金额：{{props.row.totalPrice}}</span>
   </div>
 </template>
   </Table>

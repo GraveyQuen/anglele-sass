@@ -63,6 +63,7 @@
           padding: 15px 0;
           text-align: center;
           color: #FF6060;
+          min-height: 72px;
         }
         .warnNum{
           text-align: center;
