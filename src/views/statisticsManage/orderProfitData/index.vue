@@ -44,8 +44,8 @@
             <Col class-name="col" span="3">{{item.createTime | dateformat('yyyy-MM-dd')}}</Col>
             <Col class-name="col" span="2">￥{{item.amount}}</Col>
             <Col class-name="col" span="2">￥{{item.realAmount}}</Col>
-            <Col class-name="col" span="2">￥{{item.amount}}</Col>
-            <Col class-name="col" span="2">￥{{item.amount}}</Col>
+            <Col class-name="col" span="2">￥{{item.cost}}</Col>
+            <Col class-name="col" span="2">￥{{item.profit}}</Col>
             <Col class-name="col" span="2">
             <Button type="primary" size="small" @click="details(item)">查看明细</Button>
             </Col>
@@ -60,6 +60,59 @@
         </div>
       </div>
     </Card>
+    <Modal title="订单详情" width="1000" v-model="show" :mask-closable="false">
+      <div class="order-detail" v-if="detailItem.order">
+        <div class="order-detail-title">
+          <span>基本信息</span>
+        </div>
+        <div class="order-detail-main">
+          <Row class="order-row">
+            <Col span="8" class="order-row-col">订单单号：{{detailItem.order.id}}</Col>
+            <Col span="8" class="order-row-col">下单日期：{{detailItem.order.createTime | dateformat('yyyy-MM-dd')}}</Col>
+            <Col span="8" class="order-row-col">下单金额：￥{{detailItem.order.amount}}</Col>
+            <Col span="8" class="order-row-col">销售金额：￥{{detailItem.order.realAmount}}</Col>
+            <Col span="8" class="order-row-col">销售成本：￥{{detailItem.order.cost}}</Col>
+            <Col span="8" class="order-row-col">销售利润：￥{{detailItem.order.profit}}</Col>
+          </Row>
+        </div>
+        <div class="order-detail-title">
+          <span>订单明细</span>
+        </div>
+        <div class="order-detail-main">
+          <div class="page-inner">
+            <div class="card-contnet">
+              <div class="table-contnet">
+                <Row class-name="head">
+                  <Col class-name="col" span="3">产品名称</Col>
+                  <Col class-name="col" span="2">单价</Col>
+                  <Col class-name="col" span="2">下单数量</Col>
+                  <Col class-name="col" span="3">下单金额小计</Col>
+                  <Col class-name="col" span="2" >实单单价</Col>
+                  <Col class-name="col" span="3" >实单数量</Col>
+                  <Col class-name="col" span="3" >销售金额小计</Col>
+                  <Col class-name="col" span="3" >销售成本小计</Col>
+                  <Col class-name="col" span="3" >销售利润小计</Col>
+                </Row>
+                <Row v-for="(item,index) in detailItem.orderItem" :key="index">
+                  <Col class-name="col" span="3">{{item.productName}}</Col>
+                  <Col class-name="col" span="2">{{item.price}}元/{{item.unit}}</Col>
+                  <Col class-name="col" span="2">{{item.num}}{{item.unit}}</Col>
+                  <Col class-name="col" span="3">{{item.totalPrice}}</Col>
+                  <Col class-name="col" span="2" >{{item.realPrice}}元/{{item.unit}}</Col>
+                  <Col class-name="col" span="3" >{{item.realNum}}{{item.unit}}</Col>
+                  <Col class-name="col" span="3" >{{item.realTotalPrice}}元</Col>
+                  <Col class-name="col" span="3" >{{item.totalCost}}元</Col>
+                  <Col class-name="col" span="3" >{{item.totalProfit}}元</Col>
+                </Row>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div slot="footer">
+        <Button @click="show = false">关闭</Button>
+      </div>
+    </Modal>
   </div>
 </template>
 
@@ -86,7 +139,9 @@
           sale: 0,
           cost: 0,
           profit: 0,
-        }
+        },
+        show: false,
+        detailItem: {}
       }
     },
     computed: {
@@ -147,7 +202,14 @@
         this.pageApi.pageIndex = page;
       },
       details(item) {
-  
+        this.show = true;
+        this.$http.post(this.$api.findOneOrder, {
+          id: item.id
+        }).then(res => {
+          if (res.code === 1000) {
+            this.detailItem = Object.assign({}, res.data)
+          }
+        })
       }
     },
     created() {
@@ -158,14 +220,15 @@
 
 <style lang='less' scoped>
   @import url('../../../assets/less/base.less');
-  .all-money{
+  .all-money {
     margin-bottom: 15px;
     font-size: 14px;
-    span{
+    span {
       display: inline-block;
       margin-right: 30px;
     }
   }
+  
   .split {
     display: inline-block;
     vertical-align: middle;
@@ -173,5 +236,27 @@
     height: 1px;
     margin: 0 4px;
     background-color: #e6e6e6;
+  }
+  
+  .order-detail {
+    .order-detail-title {
+      padding: 0 10px;
+      font-size: 14px;
+      height: 40px;
+      line-height: 40px;
+      background-color: rgba(17, 194, 109, 0.15);
+      span {
+        display: inline-block;
+        margin-right: 20px;
+      }
+    }
+    .order-detail-main {
+      margin: 20px 0;
+      .order-row {
+        .order-row-col {
+          margin-bottom: 15px;
+        }
+      }
+    }
   }
 </style>

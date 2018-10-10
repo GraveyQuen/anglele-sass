@@ -7,16 +7,16 @@
         <div class="inner-main inner-1">
           <span class="iconfont icon1 ang-dashangzonge"></span>
           <div class="title">下单总金额(元)</div>
-          <div class="num">{{item.amount}}</div>
+          <div class="num">{{item.totalAmount}}</div>
         </div>
       </div>
       </Col>
       <Col span="12">
       <div class="inner">
-        <div class="inner-main inner-2">
+        <div class="inner-main inner-4">
           <span class="iconfont icon2 ang-lvzhou_zongshu"></span>
-          <div class="title">下单总数</div>
-          <div class="num">{{item.orderNum}}</div>
+          <div class="title">有效下单总金额(元)</div>
+          <div class="num">{{item.amount}}</div>
         </div>
       </div>
       </Col>
@@ -26,17 +26,17 @@
       <div class="inner">
         <div class="inner-main inner-3">
           <span class="iconfont icon1 ang-dashangzonge"></span>
-          <div class="title">成交金额(元)</div>
-          <div class="num">{{item.dealAmount}}</div>
+          <div class="title">下单客户数</div>
+          <div class="num">{{item.customerNum}}</div>
         </div>
       </div>
       </Col>
       <Col span="12">
       <div class="inner">
-        <div class="inner-main inner-4">
+        <div class="inner-main inner-2">
           <span class="iconfont icon2 ang-lvzhou_zongshu"></span>
-          <div class="title">成交率(%)</div>
-          <div class="num">{{item.dealRate}}</div>
+          <div class="title">下单总数</div>
+          <div class="num">{{item.orderNum}}</div>
         </div>
       </div>
       </Col>

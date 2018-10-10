@@ -9,12 +9,12 @@
       <Row>
         <Col span="12">
         <div class="nums">销售额(元)</div>
-        <div class="nums">{{total.prices}}</div>
+        <div class="nums">{{total.prices.toFixed(2)}}</div>
         <VePie :data="chartPrice" :settings="chartSettings"></VePie>
         </Col>
         <Col span="12">
         <div class="nums">销售量</div>
-        <div class="nums">{{total.nums}}</div>
+        <div class="nums">{{total.nums.toFixed(2)}}</div>
         <VePie :data="chartNum" :settings="chartSettings"></VePie>
         </Col>
       </Row>

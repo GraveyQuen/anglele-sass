@@ -87,7 +87,7 @@
             <Col span="8" class="order-row-col">客户联系人：{{detailItem.order.contactPeople}}</Col>
             <Col span="8" class="order-row-col">客户联系方式：{{detailItem.order.contactPhone}}</Col>
             <Col span="8" class="order-row-col">{{detailItem.order.realAmount != '' ? `实单金额：￥${detailItem.order.realAmount}`:''}}</Col>
-            <Col span="8" class="order-row-col">配送人：{{detailItem.order.deliveryMan.name}}</Col>
+            <Col span="8" class="order-row-col">配送人：{{detailItem.order.deliveryManName}}</Col>
           </Row>
           <Row class="order-row">
             <Col span="10" class="order-row-col">送货地址：{{detailItem.order.address}}</Col>
@@ -134,7 +134,6 @@
         <Form :ref="'formRow'+props.idx" :model="props.row">
           <FormItem prop="realNum" :rules="{required: true, message: '请输入数量', trigger: 'blur', type: 'number'}">
             <InputNumber :min="0" v-model.number="props.row.realNum" size="small" style="width:60px;"></InputNumber>{{props.row.unit}}
-            <!-- <Input v-model.number="props.row.realNum" size="small" placeholder="请输入" style="width:60px;"></Input>{{props.row.unit}} -->
           </FormItem>
         </Form>
       </template>
@@ -143,7 +142,6 @@
         <Form :ref="'formRow'+props.idx" :model="props.row">
           <FormItem prop="realPrice" :rules="{required: true, message: '请输入单价', trigger: 'blur', type: 'number'}">
             <InputNumber :min="0" v-model.number="props.row.realPrice" size="small" style="width:60px;"></InputNumber>{{props.row.unit}}
-            <!-- <Input v-model.number="props.row.realPrice" size="small" placeholder="请输入" style="width:60px;"></Input>{{props.row.unit}} -->
           </FormItem>
         </Form>
       </template>
