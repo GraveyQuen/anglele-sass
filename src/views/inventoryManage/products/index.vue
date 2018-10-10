@@ -37,7 +37,7 @@
 </template>
         </Table>
         <div class="paging">
-          <Page class="page-count" size="small" show-elevator :total="totalCount" show-total :current="pageApi.pageIndex" :page-size="pageApi.pageSize" @on-change="changePage"></Page>
+          <Page class="page-count" size="small" @on-page-size-change="changeSize" show-sizer show-elevator :total="totalCount" show-total :current="pageApi.pageIndex" :page-size="pageApi.pageSize" @on-change="changePage"></Page>
         </div>
       </div>
     </Card>
@@ -230,15 +230,7 @@
           minWidth: 120,
           render: (h, params) => {
             let str = params.row.warnNum != '' ? `${params.row.warnNum}${params.row.unit}` : '0';
-            if (params.row.warn) {
-              return h('div', {
-                style: {
-                  color: '#ed4014'
-                }
-              }, str)
-            } else {
               return h('div', str)
-            }
           }
         }, {
           title: '产品描述',
@@ -349,6 +341,9 @@
       },
       changePage(page) {
         this.pageApi.pageIndex = page;
+      },
+      changeSize(size){
+        this.pageApi.pageSize = size;
       },
       openPanel(isEdit, item) {
         this.isEdit = isEdit;

@@ -33,7 +33,7 @@
         </Row>
       </div>
       <div class="paging">
-        <Page class="page-count" size="small" show-elevator :total="totalCount" show-total :current="pageApi.pageIndex" :page-size="pageApi.pageSize" @on-change="changePage"></Page>
+        <Page class="page-count" size="small" @on-page-size-change="changeSize" show-sizer show-elevator :total="totalCount" show-total :current="pageApi.pageIndex" :page-size="pageApi.pageSize" @on-change="changePage"></Page>
       </div>
     </div>
   </div>
@@ -167,6 +167,9 @@
       },
       changePage(page) {
         this.pageApi.pageIndex = page;
+      },
+      changeSize(size){
+        this.pageApi.pageSize = size;
       },
       // 所有分类
       getAllCategory() {

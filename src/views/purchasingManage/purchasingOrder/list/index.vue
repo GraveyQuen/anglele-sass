@@ -41,7 +41,7 @@
 </template>
         </Table>
         <div class="paging">
-          <Page class="page-count" size="small" show-elevator :total="totalCount" show-total :current="pageApi.pageIndex" :page-size="pageApi.pageSize" @on-change="changePage"></Page>
+          <Page class="page-count" size="small" @on-page-size-change="changeSize" show-sizer show-elevator :total="totalCount" show-total :current="pageApi.pageIndex" :page-size="pageApi.pageSize" @on-change="changePage"></Page>
         </div>
       </div>
     </Card>
@@ -172,6 +172,9 @@
       },
       changePage(page) {
         this.pageApi.pageIndex = page;
+      },
+      changeSize(size){
+        this.pageApi.pageSize = size;
       },
       getList(params) {
         this.$http.post(this.$api.findPurchaseOrderList, params).then(res => {

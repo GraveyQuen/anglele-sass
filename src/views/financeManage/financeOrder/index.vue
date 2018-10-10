@@ -57,7 +57,7 @@
         <preSettledTable :lists="list" v-show="pageApi.tab === 3" @on-cancel="cancelSettle"></preSettledTable>
         <settledTable :lists ="list" v-show="pageApi.tab === 4" @on-cancel="cancelSettle"></settledTable>
         <div class="paging">
-          <Page class="page-count" size="small" show-elevator :total="totalCount" show-total :current="pageApi.pageIndex" :page-size="pageApi.pageSize" @on-change="changePage"></Page>
+          <Page class="page-count" size="small" @on-page-size-change="changeSize" show-sizer show-elevator :total="totalCount" show-total :current="pageApi.pageIndex" :page-size="pageApi.pageSize" @on-change="changePage"></Page>
         </div>
       </div>
     </Card>
@@ -232,6 +232,9 @@
       },
       changePage(page) {
         this.pageApi.pageIndex = page;
+      },
+      changeSize(size){
+        this.pageApi.pageSize = size;
       },
       /// 取消结算 刷新列表
       cancelSettle() {
