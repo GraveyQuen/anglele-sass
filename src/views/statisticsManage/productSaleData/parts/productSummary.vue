@@ -73,7 +73,7 @@
         },
         chartData: {
           // columns: ['日期', '销售总额', '作废金额', '有效数量', '订单数量', '作废数量', '有效金额'],
-          columns: ['日期', '销售额(元)'],
+          columns: ['日期','销售额(元)','销售利润(元)'],
           rows: []
         }
       }
@@ -124,6 +124,7 @@
                 let row = {
                   '日期': dateformat(item.time, 'yyyy-MM-dd'),
                   '销售额(元)': item.saleAmount,
+                  '销售利润(元)': item.profitAmount
                 }
                 this.chartData.rows.push(row)
               })

@@ -31,7 +31,7 @@
       <div class="card-contnet">
         <Table width="100%" ref="productTable" border :columns="tableHeader" :data="list">
           <template slot="wareHouseProductSet" slot-scope="props">
-                <div v-for="(item,index) in props.row.wareHouseProductSet" :key="index">
+                <div v-for="(item,index) in props.row.wareHouseProductSet" :key="index" :class="props.row.warn ? 'warn':''">
                   <div>{{item.wareHouseName}}：{{item.num}}{{item.unit}}</div>
                 </div>
 </template>
@@ -488,5 +488,8 @@
     .product-img-main {
       padding: 15px 0;
     }
+  }
+  .warn{
+    color: #ed4014;
   }
 </style>

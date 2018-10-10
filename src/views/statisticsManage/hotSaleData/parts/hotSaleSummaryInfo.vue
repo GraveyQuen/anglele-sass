@@ -2,6 +2,8 @@
   <div>
     <Form :mode="pageApi" :label-width="0" inline>
       <FormItem>
+        <Input v-model="pageApi.param" :placeholder="type === 1 ? '请输入客户名称':'请输入产品名称'"></Input>      </FormItem>
+      <FormItem>
         <DatePicker type="daterange" placement="bottom-start" v-model="dateValue" placeholder="选择日期" style="width: 200px"></DatePicker>
       </FormItem>
       <FormItem>
@@ -27,11 +29,12 @@
           type: this.type,
           typeId: this.typeId,
           startTime: '',
-          endTime: ''
+          endTime: '',
+          param: ''
         },
         dateValue: ['', ''],
         chartData: {
-          columns: ['日期', '销售金额(元)', '销售重量'],
+          columns: ['日期','销售金额(元)','销售利润(元)','销售重量'],
           rows: []
         }
       }
@@ -43,6 +46,7 @@
           typeId: this.pageApi.typeId,
           startTime: this.dateValue[0] != '' ? this.dateValue[0].getTime() : '',
           endTime: this.dateValue[1] != '' ? this.dateValue[1].getTime() : '',
+          param: this.pageApi.param
         }
       }
     },
@@ -60,7 +64,8 @@
           type: this.type,
           typeId: this.typeId,
           startTime: '',
-          endTime: ''
+          endTime: '',
+          param: ''
         }
         this.dateValue = ['','']
       },
@@ -73,6 +78,7 @@
                 let row = {
                   '日期': dateformat(el.time, 'yyyy-MM-dd'),
                   '销售金额(元)': el.amount,
+                  '销售利润(元)': el.profitAmount,
                   '销售重量': el.orderNum,
                 }
                 this.chartData.rows.push(row)

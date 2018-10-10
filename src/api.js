@@ -500,6 +500,9 @@ export const todayCustomerPie = '/sys/dataStatistics/todayCustomerPie'
 // 今日客户下单分布
 export const todayCategoryPie = '/sys/dataStatistics/todayCategoryPie'
 
+// 销售利润报表
+export const orderProfit = '/sys/dataStatistics/orderProfit'
+
 
 
 // 查询店铺开闭时间

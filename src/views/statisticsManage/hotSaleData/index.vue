@@ -107,6 +107,12 @@
             return h('span', `￥${params.row.saleAmount}`)
           }
         }, {
+          title: '销售利润',
+          key: 'profitAmount',
+          render: (h, params) => {
+            return h('span', `￥${params.row.profitAmount}`)
+          }
+        }, {
           title: '成交金额',
           key: 'dealAmount',
           render: (h, params) => {

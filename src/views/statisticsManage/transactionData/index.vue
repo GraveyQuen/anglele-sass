@@ -20,6 +20,14 @@
             <div class="num">￥{{item.saleAmount}}</div>
           </Col>
           <Col span="6" class="row-col">
+            <div class="title">销售成本金额</div>
+            <div class="num">￥{{item.costAmount}}</div>
+          </Col>
+          <Col span="6" class="row-col">
+            <div class="title">销售利润金额</div>
+            <div class="num">￥{{item.profitAmount}}</div>
+          </Col>
+          <Col span="6" class="row-col">
             <div class="title">损耗金额</div>
             <div class="num">￥{{item.wastageAmount}}</div>
           </Col>
@@ -145,7 +153,7 @@
   .row{
     .row-col{
       text-align: center;
-      margin: 40px 0;
+      margin: 30px 0;
       .title{
         font-size: 16px;
         margin-bottom: 10px;

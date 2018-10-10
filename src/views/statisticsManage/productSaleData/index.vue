@@ -3,11 +3,11 @@
     <div class="hole-row">
       <productSummary></productSummary>
     </div>
-    <Row :gutter="16">
-      <Col span="12">
+    <Row>
+      <Col span="24" class="hole-row">
       <producrSummaryPie></producrSummaryPie>
       </Col>
-      <Col span="12">
+      <Col span="24">
       <categorySummaryPie></categorySummaryPie>
       </Col>
     </Row>

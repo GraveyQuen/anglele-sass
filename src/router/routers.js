@@ -219,6 +219,13 @@ export default [{
       meta: {
         title: '库存货品报表',
       }
+    }, {
+      path: '/statisticsManage/orderProfitData',
+      name: 'orderProfitData',
+      component: resolve => require(['@/views/statisticsManage/orderProfitData/index.vue'], resolve),
+      meta: {
+        title: '销售利润报表',
+      }
     }]
   }, {
     path: '/purchasingManage',
