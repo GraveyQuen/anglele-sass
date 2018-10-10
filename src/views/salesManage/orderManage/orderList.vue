@@ -126,14 +126,24 @@
         <Button @click="show = false">关闭</Button>
       </div>
     </Modal>
-    <Modal title="完成订单" width="800" v-model="overShow" :mask-closable="false">
-      <div class="">请仔细核对订单中的产品实际销售数量后进行确认</div>
-      <Table ref="overTable" border :columns="goodsHeader" :data="overApi.outItems" style="width: 100%;">
+    <Modal title="完成订单" width="900" v-model="overShow" :mask-closable="false">
+      <div class="order-ok-header">请仔细核对订单中的产品实际销售数量、销售价格后进行确认</div>
+      <Table ref="overTable" border :columns="goodsHeader" :data="overApi.outItems" >
         <!-- 实单数量 -->
       <template slot="realNum" slot-scope="props">
         <Form :ref="'formRow'+props.idx" :model="props.row">
           <FormItem prop="realNum" :rules="{required: true, message: '请输入数量', trigger: 'blur', type: 'number'}">
-            <Input v-model.number="props.row.realNum" size="small" placeholder="请输入" style="width:60px;"></Input>{{props.row.unit}}
+            <InputNumber :min="0" v-model.number="props.row.realNum" size="small" style="width:60px;"></InputNumber>{{props.row.unit}}
+            <!-- <Input v-model.number="props.row.realNum" size="small" placeholder="请输入" style="width:60px;"></Input>{{props.row.unit}} -->
+          </FormItem>
+        </Form>
+      </template>
+      <!-- 实单单价 -->
+      <template slot="realPrice" slot-scope="props">
+        <Form :ref="'formRow'+props.idx" :model="props.row">
+          <FormItem prop="realPrice" :rules="{required: true, message: '请输入单价', trigger: 'blur', type: 'number'}">
+            <InputNumber :min="0" v-model.number="props.row.realPrice" size="small" style="width:60px;"></InputNumber>{{props.row.unit}}
+            <!-- <Input v-model.number="props.row.realPrice" size="small" placeholder="请输入" style="width:60px;"></Input>{{props.row.unit}} -->
           </FormItem>
         </Form>
       </template>
@@ -217,7 +227,7 @@
         }, {
           title: '单价',
           key: 'price',
-          maxWidth: 150,
+          maxWidth: 100,
           render: (h, params) => {
             let str = `${params.row.price}/${params.row.unit}`;
             return h('div', str)
@@ -225,7 +235,7 @@
         }, {
           title: '下单数量',
           key: 'num',
-          maxWidth: 150,
+          maxWidth: 100,
           render: (h, params) => {
             let str = `${params.row.num}${params.row.unit}`;
             return h('div', str)
@@ -233,7 +243,7 @@
         }, {
           title: '实单数量',
           key: 'realNum',
-          maxWidth: 140,
+          minWidth: 70,
           render: (h, params) => {
             this.overApi.outItems[params.index] = params.row
             return h(
@@ -245,11 +255,33 @@
             )
           }
         }, {
+          title: '实单单价',
+          key: 'realPrice',
+          minWidth: 70,
+          render: (h, params) => {
+            this.overApi.outItems[params.index] = params.row
+            return h(
+              'div',
+              this.$refs.overTable.$scopedSlots.realPrice({
+                row: params.row,
+                idx: params.row._index
+              })
+            )
+          }
+        }, {
           title: '金额',
           key: 'totalPrice',
-          maxWidth: 150,
+          maxWidth: 100,
           render: (h, params) => {
             let str = `￥${params.row.totalPrice}`;
+            return h('div', str)
+          }
+        }, {
+          title: '实单金额',
+          key: 'realTotalPrice',
+          maxWidth: 100,
+          render: (h, params) => {
+            let str = `￥${(params.row.realPrice*params.row.realNum).toFixed(2)}`;
             return h('div', str)
           }
         }],
@@ -428,6 +460,7 @@
             if (key === 'over') { //完成订单
               res.data.orderItem.map(el => {
                 el.realNum = el.num;
+                el.realPrice = el.price;
               })
               this.overApi.outItems = [...this.detailItem.orderItem]
             }
@@ -549,6 +582,10 @@
 
 <style lang='less' scoped>
   @import url('../../../assets/less/base.less');
+  .order-ok-header{
+    margin-bottom: 15px;
+    color: #ed4014;
+  }
   .card{
     margin-top: -17px;
     border-top-left-radius: 0;

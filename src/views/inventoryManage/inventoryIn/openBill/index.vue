@@ -231,6 +231,7 @@
             res.data.wareHouseInItems.map(el => {
               el.name = el.productName;
               el.categoryName = el.productCategory;
+              el.cost = el.cost != '' ? el.cost : null;
             })
             this.goodsList = [...res.data.wareHouseInItems]
           }

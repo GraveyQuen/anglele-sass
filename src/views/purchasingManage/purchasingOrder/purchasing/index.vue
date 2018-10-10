@@ -31,7 +31,7 @@
             <Input v-model="orderApi.customerName" placeholder="请输入" style="width: 200px;"></Input>
           </FormItem>
         </Form>
-        <Table border ref="selection" @on-selection-change="selectOrder" border :columns="tableHeader" :data="orderList"></Table>
+        <Table border ref="selection" @on-selection-change="selectOrder" :columns="tableHeader" :data="orderList"></Table>
       </div>
     </Card>
   </div>

@@ -532,5 +532,8 @@ export const updatePurchaseOrder = '/sys/purchaseOrder/updatePurchaseOrder'
 export const findPurchaseOrder = '/sys/purchaseOrder/findPurchaseOrder'
 
 
+// 采购单打印
+export const printPurchaseOrder = '/sys/purchaseOrder/printPurchaseOrder'
+
 
 

@@ -263,6 +263,13 @@ export default [{
         meta: {
           title: '采购入库',
         }
+      },{
+        path: '/purchasingManage/purchasingOrder/purchasingDetail',
+        name: 'purchasingDetail',
+        component: resolve => require(['@/views/purchasingManage/purchasingOrder/purchasingDetail/index.vue'], resolve),
+        meta: {
+          title: '采购详情',
+        }
       }]
     }]
   }]

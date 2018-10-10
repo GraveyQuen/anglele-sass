@@ -11,13 +11,13 @@
         </FormItem>
         <FormItem label="采购员：">
           <Select v-model="pageApi.operatePerson" style="width: 200px;">
-                              <Option v-for="(item,index) in purchaseMan" :value="item.id" :key="index">{{ item.name }}</Option>
-                            </Select>
+                                  <Option v-for="(item,index) in purchaseMan" :value="item.id" :key="index">{{ item.name }}</Option>
+                                </Select>
         </FormItem>
         <FormItem label="采购状态：">
           <Select v-model="pageApi.status" style="width: 200px;">
-                              <Option v-for="(item,index) in [{id:0,name:'进行中'},{id:1,name:'完成'}]" :value="item.id" :key="index">{{ item.name }}</Option>
-                            </Select>
+                                  <Option v-for="(item,index) in [{id:0,name:'进行中'},{id:1,name:'完成'}]" :value="item.id" :key="index">{{ item.name }}</Option>
+                                </Select>
         </FormItem>
         <FormItem label="最近更新人：">
           <Input v-model="pageApi.updateUser" placeholder="请输入" style="width: 200px;"></Input>
@@ -33,11 +33,11 @@
         <Table width="100%" ref="purchasTable" :columns="tableHeader" border :data="list">
           <!-- 操作 -->
           <template slot="action" slot-scope="props">
-                      <Button type="info" size="small" @click="print(props.row)" style="margin-right:8px;">打印</Button>
-                      <Button type="info" size="small" @click="details(props.row)" style="margin-right:8px;">查看</Button>
-                      <Button type="success" size="small" style="margin-right:8px;" v-if="props.row.status === 0" @click="goRouter(true,props.row)">编辑</Button>
-                      <Button type="success" size="small" style="margin-right:8px;" v-if="props.row.status === 0" @click="del(props.row)">删除</Button>
-                      <Button type="info" size="small"v-if="props.row.status === 0" @click="inHouse(props.row)">入库</Button>
+                          <Button type="info" size="small" @click="print(props.row)" style="margin-right:8px;">打印</Button>
+                          <Button type="info" size="small" @click="details(props.row)" style="margin-right:8px;">查看</Button>
+                          <Button type="success" size="small" style="margin-right:8px;" v-if="props.row.status === 0" @click="goRouter(true,props.row)">编辑</Button>
+                          <Button type="success" size="small" style="margin-right:8px;" v-if="props.row.status === 0" @click="del(props.row)">删除</Button>
+                          <Button type="info" size="small"v-if="props.row.status === 0" @click="inHouse(props.row)">入库</Button>
 </template>
         </Table>
         <div class="paging">
@@ -194,11 +194,37 @@
       },
       //  打印
       print(item) {
-  
+        this.$Spin.show({
+          render: (h) => {
+            return h('div', [
+              h('Icon', {
+                'class': 'spin-icon-load',
+                props: {
+                  type: 'ios-loading',
+                  size: 18
+                }
+              }),
+              h('div', '正在生产采购单...')
+            ])
+          }
+        });
+        this.$http.post(this.$api.printPurchaseOrder, {
+          id: item.id
+        }).then(res => {
+          if (res.code === 1000) {
+            window.open(res.data, '_blank')
+            this.$Spin.hide();
+          }
+        })
       },
       //  查看
       details(item) {
-  
+        this.$router.push({
+          name: 'purchasingDetail',
+          query: {
+            id: item.id
+          }
+        })
       },
       //  编辑
       goRouter(isEdit, item) {
@@ -254,4 +280,7 @@
 
 <style lang='less' scoped>
   @import url('../../../../assets/less/base.less');
+  .spin-icon-load {
+    animation: ani-demo-spin 1s linear infinite;
+  }
 </style>

@@ -9,13 +9,13 @@
           </FormItem>
           <FormItem label="仓库名称：" prop="wareHouseId">
             <Select v-model="baseApi.wareHouseId" style="width: 180px;">
-                              <Option v-for="(item,index) in storeList" :value="item.id" :key="index">{{ item.name }}</Option>
-                            </Select>
+                                <Option v-for="(item,index) in storeList" :value="item.id" :key="index">{{ item.name }}</Option>
+                              </Select>
           </FormItem>
           <FormItem label="入库类型：" prop="inType">
             <Select v-model="baseApi.inType" style="width: 180px;">
-                    <Option v-for="(item,index) in [{id:1,name: '采购入库'},{id:2,name: '退货入库'},{id:3,name:'其他入库'}]" :value="item.id" :key="index">{{ item.name }}</Option>
-                  </Select>
+                      <Option v-for="(item,index) in [{id:1,name: '采购入库'},{id:2,name: '退货入库'},{id:3,name:'其他入库'}]" :value="item.id" :key="index">{{ item.name }}</Option>
+                    </Select>
           </FormItem>
           <FormItem label="送货人：">
             <Input v-model="baseApi.driver" placeholder="请输入" style="width: 180px;"></Input>
@@ -35,27 +35,27 @@
         <Table ref="goodsTable" border :columns="goodsHeader" :data="goodsList" style="max-width: 752px;">
           <!-- 入库数量 -->
           <template slot="num" slot-scope="props">
-            <Form :ref="'formRow'+props.idx" :model="props.row">
-              <FormItem prop="num" :rules="{required: true, message: '请输入数量', trigger: 'blur',type: 'number'}">
-                <InputNumber :min="0" v-model.number="props.row.num" size="small" style="width:60px;"></InputNumber>{{props.row.unit}}
-              </FormItem>
-            </Form>
-          </template>
+              <Form :ref="'formRow'+props.idx" :model="props.row">
+                <FormItem prop="num" :rules="{required: true, message: '请输入数量', trigger: 'blur',type: 'number'}">
+                  <InputNumber :min="0" v-model.number="props.row.num" size="small" style="width:60px;"></InputNumber>{{props.row.unit}}
+                </FormItem>
+              </Form>
+</template>
           <!-- 成本价 -->
-          <template slot="cost" slot-scope="props">
-            <Form :model="props.row">
-              <FormItem>
-                <InputNumber :min="0" v-model.number="props.row.cost" size="small" style="width:60px;"></InputNumber>元/{{props.row.unit}}
-              </FormItem>
-            </Form>
-            </Form>
-          </template>
+<template slot="cost" slot-scope="props">
+  <Form :model="props.row">
+    <FormItem>
+      <InputNumber :min="0" v-model.number="props.row.cost" size="small" style="width:60px;"></InputNumber>元/{{props.row.unit}}
+    </FormItem>
+  </Form>
+  </Form>
+</template>
            <!-- 操作 -->
-          <template slot="action" slot-scope="props">
-            <Poptip @on-ok="delRow(props.idx)" confirm title="确认删除此条产品？" transfer>
-              <Button type="warning" size="small">删除</Button>
-            </Poptip>
-          </template>
+<template slot="action" slot-scope="props">
+  <Poptip @on-ok="delRow(props.idx)" confirm title="确认删除此条产品？" transfer>
+    <Button type="warning" size="small">删除</Button>
+  </Poptip>
+</template>
         </Table>
       </div>
       <div class="bottom-options">
@@ -98,7 +98,7 @@
           status: '',
           wareHouseInItem: []
         },
-        detailItem:{},
+        detailItem: {},
         baseRule: {
           wareHouseId: [{
             required: true,
@@ -176,7 +176,7 @@
       isId() {
         return this.$route.query.id
       },
-      itemId(){
+      itemId() {
         return this.$route.query.rkid
       },
       isOk() {
@@ -205,8 +205,15 @@
           this.date = val.getTime()
         }
       },
-      'detailItem'(val){
-        this.goodsList = [...val.purchaseOrderItems]
+      'detailItem' (val) {
+        let arr = [];
+        val.purchaseOrderItems.map(el =>{
+          el.items.map(sub =>{
+            sub.cost = null;
+            arr.push(sub)
+          })
+        })
+        this.goodsList = [...arr]
       }
     },
     methods: {
@@ -235,6 +242,7 @@
               driverPhone: res.data.driverPhone,
               status: res.data.status
             }
+            let arr = [];
             res.data.wareHouseInItems.map(el => {
               el.name = el.productName;
               el.categoryName = el.productCategory;
@@ -311,7 +319,9 @@
                 this.$http.post(urlApi, params).then(res => {
                   if (res.code === 1000) {
                     this.$Message.success('保存成功');
-                    this.$router.push({name:'inventoryList'});
+                    this.$router.push({
+                      name: 'inventoryList'
+                    });
                   } else {
                     this.$Message.error(res.message)
                   }
@@ -332,9 +342,12 @@
           id: this.itemId
         }).then(res => {
           if (res.code === 1000) {
-            res.data.purchaseOrderItems.map(el =>{
-              el.name = el.productName;
-              el.categoryName = el.productCategory
+            let arr = [];
+            res.data.purchaseOrderItems.map(el => {
+              el.items.map(sub => {
+                sub.name = sub.productName;
+                sub.categoryName = sub.productCategory
+              })
             })
             this.detailItem = Object.assign({}, res.data)
           }
