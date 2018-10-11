@@ -7,7 +7,7 @@
         <div class="inner-main inner-1">
           <span class="iconfont icon1 ang-dashangzonge"></span>
           <div class="title">下单总金额(元)</div>
-          <div class="num">{{item.totalAmount}}</div>
+          <div class="num">{{item.totalAmount != '' ? item.totalAmount : 0}}</div>
         </div>
       </div>
       </Col>
@@ -16,7 +16,7 @@
         <div class="inner-main inner-4">
           <span class="iconfont icon2 ang-lvzhou_zongshu"></span>
           <div class="title">有效下单总金额(元)</div>
-          <div class="num">{{item.amount}}</div>
+          <div class="num">{{item.amount != '' ? item.amount : 0}}</div>
         </div>
       </div>
       </Col>

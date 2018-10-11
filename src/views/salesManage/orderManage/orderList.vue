@@ -9,7 +9,7 @@
           <Input v-model="pageApi.customerName" placeholder="请输入" style="width: 200px;"></Input>
         </FormItem>
         <FormItem label="订单金额：">
-          <Input v-model="pageApi.amountMin" placeholder="请输入" style="width: 93px;"></Input>
+          <Input v-model="pageApi.amountMin" type="text" placeholder="请输入" style="width: 93px;"></Input>
           <span class="split"></span>
           <Input v-model="pageApi.amountMax" placeholder="请输入" style="width: 93px;"></Input>
         </FormItem>
@@ -20,7 +20,7 @@
         </FormItem>
         <FormItem label="下单方式：">
           <Select v-model="pageApi.orderType" style="width: 200px;">
-                            <Option v-for="(item,index) in [{value: 1,name:'自主下单'},{value: 2,name: '代客下单'}]" :value="item.value" :key="index">{{ item.name }}</Option>
+                            <Option v-for="(item,index) in [{value: 1,name:'客户下单'},{value: 2,name: '代客下单'}]" :value="item.value" :key="index">{{ item.name }}</Option>
                           </Select>
         </FormItem>
         <FormItem label="配送人：">
@@ -141,7 +141,7 @@
       <template slot="realPrice" slot-scope="props">
         <Form :ref="'formRow'+props.idx" :model="props.row">
           <FormItem prop="realPrice" :rules="{required: true, message: '请输入单价', trigger: 'blur', type: 'number'}">
-            <InputNumber :min="0" v-model.number="props.row.realPrice" size="small" style="width:60px;"></InputNumber>{{props.row.unit}}
+            <InputNumber :min="0" v-model.number="props.row.realPrice" size="small" style="width:60px;"></InputNumber>元/{{props.row.unit}}
           </FormItem>
         </Form>
       </template>
@@ -227,7 +227,7 @@
           key: 'price',
           maxWidth: 100,
           render: (h, params) => {
-            let str = `${params.row.price}/${params.row.unit}`;
+            let str = `${params.row.price}元/${params.row.unit}`;
             return h('div', str)
           }
         }, {
@@ -338,7 +338,7 @@
           key: 'orderType',
           minWidth: 120,
           render: (h, params) => {
-            let str = params.row.orderType === 1 ? '客户' : '代客户下单';
+            let str = params.row.orderType === 1 ? '客户下单' : '代客户下单';
             return h('div', str)
           },
         },{

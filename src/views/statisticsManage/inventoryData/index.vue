@@ -17,6 +17,9 @@
           </div>
           </template>
         </Table>
+        <div class="paging">
+          <Page class="page-count" size="small" @on-page-size-change="changeSize" show-sizer show-elevator :total="totalCount" show-total :current="pageApi.pageIndex" :page-size="pageApi.pageSize" @on-change="changePage"></Page>
+        </div>
       </div>
     </Card>
     <Modal title="查看图表" width="900" v-model="show" :mask-closable="false">
@@ -43,6 +46,7 @@
         },
         productId: '',
         list: [],
+        totalCount: 0,
         show: false,
         tableHeader: [{
           title: '产品名称',
@@ -136,10 +140,17 @@
       }
     },
     methods: {
+      changePage(page) {
+        this.pageApi.pageIndex = page;
+      },
+      changeSize(size){
+        this.pageApi.pageSize = size;
+      },
       getList(params) {
         this.$http.post(this.$api.productWareHouse, params).then(res => {
           if (res.code === 1000) {
             this.list = res.data.data;
+            this.totalCount = res.data.totalCount;
           }
         })
       },

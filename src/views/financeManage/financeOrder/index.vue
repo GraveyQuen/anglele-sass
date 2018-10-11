@@ -21,7 +21,7 @@
           <span class="split"></span>
           <Input v-model="pageApi.realAmountEnd" placeholder="请输入" style="width: 93px;"></Input>
         </FormItem>
-        <FormItem label="结算金额：" v-if="pageApi.tab === 3 || pageApi.tab === 4">
+        <FormItem :label="pageApi.tab === 3 ? '预结算金额：':'结算金额：'" v-if="pageApi.tab === 3 || pageApi.tab === 4">
           <Input v-model="pageApi.settlementAmountBegin" placeholder="请输入" style="width: 93px;"></Input>
           <span class="split"></span>
           <Input v-model="pageApi.settlementAmountEnd" placeholder="请输入" style="width: 93px;"></Input>
@@ -31,7 +31,7 @@
               <Option v-for="(item,index) in orderStatus" :value="item.id" :key="index">{{ item.name }}</Option>
             </Select>
         </FormItem>
-        <FormItem label="结算时间：" v-if="pageApi.tab === 3 || pageApi.tab === 4">
+        <FormItem :label="pageApi.tab === 3 ? '预结算时间：':'结算时间：'" v-if="pageApi.tab === 3 || pageApi.tab === 4">
           <DatePicker type="daterange" placement="bottom-end" v-model="dateValue2" placeholder="选择日期" style="width: 200px"></DatePicker>
         </FormItem>
         <FormItem label="最近更新人：">

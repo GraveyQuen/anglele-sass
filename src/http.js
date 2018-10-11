@@ -38,7 +38,7 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(response => {
   LoadingBar.finish();
   if (response.data.code === 403) {
-    if (router.currentRoute.name != 'home') {
+    // if (router.currentRoute.name != 'home') {
       Modal.confirm({
         content: response.data.message,
         onOk() {
@@ -57,7 +57,7 @@ axios.interceptors.response.use(response => {
           })
         }
       })
-    }
+    // }
   } else if (response.data.code === 401) {
     Modal.confirm({
         content: response.data.message,

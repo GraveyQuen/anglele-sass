@@ -255,6 +255,7 @@
             let paramsUrl = this.isEdit ? this.$api.updateCustomer : this.$api.saveCustomer;
             if (this.isEdit) {
               params.id = this.editItem.id;
+              params.userId = this.editItem.userId;
             }
             this.$http.post(paramsUrl, params).then(res => {
               if (res.code === 1000) {

@@ -90,7 +90,7 @@
       },
       setUser(data) {
         this.$store.commit(types.LOGIN, data);
-        let redirect = decodeURIComponent(this.$route.query.redirect || '/');
+        let redirect = decodeURIComponent(this.$route.query.redirect || '/home');
         this.$router.push({
           path: redirect
         })

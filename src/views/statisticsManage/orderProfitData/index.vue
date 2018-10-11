@@ -1,6 +1,6 @@
 <template>
   <div class="page-inner">
-    <Card :bordered="true" dis-hover title="仓库管理">
+    <Card :bordered="true" dis-hover title="销售利润报表">
       <Form :mode="pageApi" :label-width="100" inline>
         <FormItem label="订单编号：">
           <Input v-model="pageApi.orderId" placeholder="请输入..."></Input>
@@ -25,7 +25,7 @@
           <Button type="warning" @click.native="resetFilter">清除</Button>
         </FormItem>
       </Form>
-      <div class="all-money"><span>销售额：￥{{money.sale}}</span><span>销售成本：￥{{money.cost}}</span><span>销售利润：￥{{money.profit}}</span></div>
+      <div class="all-money"><span>销售额：￥{{money.sale != '' ? money.sale : 0}}</span><span>销售成本：￥{{money.cost != '' ? money.cost : 0}}</span><span>销售利润：￥{{money.profit != '' ? money.profit : 0}}</span></div>
       <div class="card-contnet">
         <div class="table-contnet">
           <Row class-name="head">

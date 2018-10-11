@@ -6,8 +6,8 @@
       <Form :mode="dataApi" :label-width="100" inline>
         <FormItem label="采购员：">
           <Select v-model="dataApi.operatePerson" style="width: 200px;">
-                      <Option v-for="(item,index) in pruMan" :value="item.name" :key="index">{{ item.name }}</Option>
-                    </Select>
+                        <Option v-for="(item,index) in pruMan" :value="item.name" :key="index">{{ item.name }}</Option>
+                      </Select>
         </FormItem>
         <FormItem label="联系方式：">
           <Input v-model="dataApi.operatePersonPhone" placeholder="请输入" style="width: 200px;"></Input>
@@ -29,6 +29,9 @@
           </FormItem>
           <FormItem label="客户名称：">
             <Input v-model="orderApi.customerName" placeholder="请输入" style="width: 200px;"></Input>
+          </FormItem>
+          <FormItem>
+            <Button type="warning" @click.native="resetFilter">清除筛选</Button>
           </FormItem>
         </Form>
         <Table border ref="selection" @on-selection-change="selectOrder" :columns="tableHeader" :data="orderList"></Table>
@@ -137,6 +140,14 @@
       }
     },
     methods: {
+      resetFilter() {
+        this.orderApi = {
+          id: '',
+          customerName: '',
+          checkIds: '',
+          purchaseOrderId: this.isEdit ? this.itemId : ''
+        }
+      },
       //  获取当前服务器时间
       currentTime() {
         this.$http.post(this.$api.serverTime).then(res => {
@@ -171,7 +182,7 @@
           if (res.code === 1000) {
             this.orderList = res.data;
             if (isFresh) {
-              this.details();
+              if (this.isEdit) this.details();
               this.$Message.success('刷新成功')
             }
           }
