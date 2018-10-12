@@ -8,18 +8,18 @@
         </FormItem>
         <FormItem label="所属分类：">
           <Select v-model="pageApi.categoryId" style="width: 160px;">
-                                      <Option v-for="(item,index) in categoryList" :value="item.id" :key="index">{{ item.name }}</Option>
-                                    </Select>
+                                                <Option v-for="(item,index) in categoryList" :value="item.id" :key="index">{{ item.name }}</Option>
+                                              </Select>
         </FormItem>
         <FormItem label="所属仓库：">
           <Select v-model="pageApi.wareHouseId" style="width: 160px;">
-                                      <Option v-for="(item,index) in storeList" :value="item.id" :key="index">{{ item.name }}</Option>
-                                    </Select>
+                                                <Option v-for="(item,index) in storeList" :value="item.id" :key="index">{{ item.name }}</Option>
+                                              </Select>
         </FormItem>
         <FormItem label="状态：">
           <Select v-model="pageApi.status" style="width: 160px;">
-                                      <Option v-for="(item,index) in [{name:'上架',id: 1},{name:'下架',id: 0}]" :value="item.id" :key="index">{{ item.name }}</Option>
-                                    </Select>
+                                                <Option v-for="(item,index) in [{name:'上架',id: 1},{name:'下架',id: 0}]" :value="item.id" :key="index">{{ item.name }}</Option>
+                                              </Select>
         </FormItem>
         <FormItem label="最近更新人：">
           <Input v-model="pageApi.updateUser" placeholder="请输入..."></Input>
@@ -31,9 +31,9 @@
       <div class="card-contnet">
         <Table width="100%" ref="productTable" border :columns="tableHeader" :data="list">
           <template slot="wareHouseProductSet" slot-scope="props">
-                              <div v-for="(item,index) in props.row.wareHouseProductSet" :key="index" >
-                                <div :class="item.warn === 'true' ? 'warn':''">{{item.wareHouseName}}：{{item.num}}{{item.unit}}</div>
-                              </div>
+                                        <div v-for="(item,index) in props.row.wareHouseProductSet" :key="index" >
+                                          <div :class="item.warn === 'true' ? 'warn':''">{{item.wareHouseName}}：{{item.num}}{{item.unit}}</div>
+                                        </div>
 </template>
         </Table>
         <div class="paging">
@@ -47,7 +47,10 @@
           <div class="product-img-title">产品图片:</div>
           <div class="product-img-main">
             <Button type="primary" @click.native="cropperShow = true">上传图片</Button>
-            <uploadFile single :showPreview="true" v-model="dataApi.productImg"></uploadFile>
+            <div class="preview-imgs" style="margin-top:20px;">
+              <img :src="dataApi.productImg">
+            </div>
+            <!-- <uploadFile single :showPreview="true" v-model="dataApi.productImg"></uploadFile> -->
           </div>
         </div>
         <FormItem label="名称：" prop="name">
@@ -104,7 +107,7 @@
         <input type="file" id="uploads" style="position:absolute; clip:rect(0 0 0 0);" accept="image/png, image/jpeg, image/gif, image/jpg" @change="uploadImg($event, 1)">
       <button @click="finish('blob')" class="btn">上传图片</button>
       </div>
-      <div class="cropper-body">
+      <div class="cropper-body" v-if="cropperShow">
       <vueCropper
         ref="cropperFef"
         :outputType="cropperData.outputType"
@@ -119,7 +122,7 @@
     </div>
       </div>
       <div slot="footer">
-        <Button type="primary">保存</Button>
+        <Button type="primary">添加</Button>
         <Button @click="cropperShow = false">取消</Button>
       </div>
     </Modal>
@@ -127,6 +130,7 @@
 </template>
 
 <script>
+  import axios from 'axios'
   import {
     dateformat
   } from '@/utils/filters'
@@ -149,6 +153,7 @@
           outputSize: 1, //剪切后的图片质量（0.1-1）
           full: false, //输出原图比例截图 props名full
         },
+        fileImg: '',
         fileName: '',
         cropperShow: false,
         pageApi: {
@@ -349,6 +354,9 @@
           wareHouseId: this.pageApi.wareHouseId,
           updateUser: this.pageApi.updateUser
         }
+      },
+      token() {
+        return this.$store.state.authorization
       }
     },
     watch: {
@@ -380,7 +388,6 @@
           if (typeof e.target.result === 'object') {
             // 把Array Buffer转化为blob 如果是base64不需要
             data = window.URL.createObjectURL(new Blob([e.target.result]))
-            console.log(file)
           } else {
             data = e.target.result
           }
@@ -397,15 +404,29 @@
       },
       finish(type) {
         let _this = this;
-        let File = new FormData();
+        let fd = new FormData();
         if (type === 'blob') {
           this.$refs.cropperFef.getCropBlob((data) => {
             let img = window.URL.createObjectURL(data)
-            File.append('file', data, this.fileName)
-            console.log(File.get('file'))
-            this.$http.post(this.$api.upload, {file: File.get('file')}).then(res => {
-              if (res.code === 1000) {
-                console.log(res)
+            fd.append('file', data, this.fileName)
+            let config = {
+              headers: {
+                'Content-Type': 'multipart/form-data',
+                'authorization': this.token,
+              }
+            }
+            let host = "";
+            if (window.location.hostname == "localhost") host = "http://192.168.0.252:8082";
+            let instance = axios.create({
+              baseURL: host,
+            });
+            instance.post('/api/file/upload', fd, config).then(res => {
+              if (res.data.code === 1000) {
+                _this.cropperData.img = '';
+                _this.$refs.cropperFef.clearCrop()
+                _this.cropperShow = false;
+                _this.$Message.success('上传成功')
+                _this.dataApi.productImg = res.data.data;
               }
             })
           })
@@ -443,7 +464,7 @@
         this.isEdit = isEdit;
         if (isEdit) {
           this.editItem = item || {};
-          this.cropperData.img = item.productImg;
+          // this.cropperData.img = item.productImg;
           this.dataApi = {
             name: item.name,
             categoryId: item.categoryId,
@@ -597,7 +618,7 @@
     outline: none;
     margin: 0 10px 0px 0px;
     padding: 8px 15px;
-    font-size: 14px;
+    font-size: 12px;
     border-radius: 4px;
     color: #fff;
     background-color: #2d8cf0;
