@@ -9,14 +9,18 @@
           <Input v-model="pageApi.customerName" placeholder="请输入" style="width: 200px;"></Input>
         </FormItem>
         <FormItem label="订单金额：">
-          <Input v-model="pageApi.amountMin" type="text" placeholder="请输入" style="width: 93px;"></Input>
+          <InputNumber :min="0" v-model.number="pageApi.amountMin" style="width: 93px;" placeholder="请输入"></InputNumber>
+          <!-- <Input v-model="pageApi.amountMin" type="text" placeholder="请输入" style="width: 93px;"></Input> -->
           <span class="split"></span>
-          <Input v-model="pageApi.amountMax" placeholder="请输入" style="width: 93px;"></Input>
+          <InputNumber :min="0" v-model.number="pageApi.amountMax" style="width: 93px;" placeholder="请输入"></InputNumber>
+          <!-- <Input v-model="pageApi.amountMax" placeholder="请输入" style="width: 93px;"></Input> -->
         </FormItem>
         <FormItem label="实单金额：">
-          <Input v-model="pageApi.realAmountMin" placeholder="请输入" style="width: 93px;"></Input>
+          <InputNumber :min="0" v-model.number="pageApi.realAmountMin" style="width: 93px;" placeholder="请输入"></InputNumber>
+          <!-- <Input v-model="pageApi.realAmountMin" placeholder="请输入" style="width: 93px;"></Input> -->
           <span class="split"></span>
-          <Input v-model="pageApi.realAmountMax" placeholder="请输入" style="width: 93px;"></Input>
+          <InputNumber :min="0" v-model.number="pageApi.realAmountMax" style="width: 93px;" placeholder="请输入"></InputNumber>
+          <!-- <Input v-model="pageApi.realAmountMax" placeholder="请输入" style="width: 93px;"></Input> -->
         </FormItem>
         <FormItem label="下单方式：">
           <Select v-model="pageApi.orderType" style="width: 200px;">
@@ -175,10 +179,10 @@
           customerName: '',
           startCreateTime: '',
           endCreateTime: '',
-          amountMin: '',
-          amountMax: '',
-          realAmountMin: '',
-          realAmountMax: '',
+          amountMin: null,
+          amountMax: null,
+          realAmountMin: null,
+          realAmountMax: null,
           status: '',
           orderType: '',
           updateUser: '',
@@ -431,10 +435,10 @@
           customerName: '',
           startCreateTime: '',
           endCreateTime: '',
-          amountMin: '',
-          amountMax: '',
-          realAmountMin: '',
-          realAmountMax: '',
+          amountMin: null,
+          amountMax: null,
+          realAmountMin: null,
+          realAmountMax: null,
           status: '',
           orderType: '',
           updateUser: '',

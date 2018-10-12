@@ -10,13 +10,13 @@
           <div class="form-item">
             <div class="form-item-label">用户名：</div>
             <div class="form-item-content">
-              <input type="text" v-model="loginApi.userName" @keyup.enter="submit" class="form-input" placeholder="请输入用户名">
+              <input type="text" v-model="loginApi.userName" @blur="blurInput" @keyup.enter="submit" class="form-input" placeholder="请输入用户名">
             </div>
           </div>
           <div class="form-item">
             <div class="form-item-label">密码：</div>
             <div class="form-item-content">
-              <input type="password" v-model="loginApi.password" @keyup.enter="submit" class="form-input" placeholder="请输入密码">
+              <input type="password" v-model="loginApi.password" @blur="blurInput" @keyup.enter="submit" class="form-input" placeholder="请输入密码">
             </div>
           </div>
           <div class="form-item">
@@ -25,6 +25,13 @@
               <input type="text" v-model="loginApi.code" @keyup.enter="submit" class="form-input small" placeholder="请输入验证码">
               <img :src="picCodeUrl" @click="getUid()" class="picCode">
             </div>
+          </div>
+          <div class="form-item" v-if="moreRole">
+            <div class="form-item-label">角色：</div>
+            <div class="form-item-content">
+              <Select v-model="loginApi.roleCode" style="width:200px">
+            <Option v-for="item in roleList" :value="item.code" :key="item.id">{{ item.name }}</Option>
+        </Select> </div>
           </div>
           <div class="form-item">
             <div class="form-item-label"></div>
@@ -50,7 +57,8 @@
           userName: '',
           password: '',
           code: '',
-          r: ''
+          r: '',
+          roleCode: ''
         },
         random: '',
         rule: {
@@ -70,7 +78,9 @@
             trigger: 'blur'
           }]
         },
-        loading: false
+        loading: false,
+        roleList: [],
+        moreRole: false
       }
     },
     computed: {
@@ -80,11 +90,22 @@
           host = "http://192.168.0.252:8082";
         return host + this.$api.captcha + "?r=" + this.random;
       },
-      valid(){
+      valid() {
         return this.loginApi.userName != '' && this.loginApi.password != '' && this.loginApi.code != ''
+      },
+      isValid() {
+        return this.loginApi.userName != '' && this.loginApi.password != '';
       }
     },
+    // watch:{
+    //   isValid(val){
+    //     if(val) this.validUser();
+    //   }
+    // },
     methods: {
+      blurInput(e) {
+        if (this.isValid) this.validUser();
+      },
       getUid() {
         this.random = getuuId();
       },
@@ -95,13 +116,35 @@
           path: redirect
         })
       },
+      validUser() {
+        let params = this.$clearData(this.loginApi);
+        params.password = this.$md5(params.password)
+        this.$http.post(this.$api.login, params).then(res => {
+          if (res.code === 1000) {
+            if (!res.data.token) {
+              this.roleList = res.data.roles.filter(item => item.code !== 'CUSTOMER');
+              if (this.roleList.length === 1) {
+                this.loginApi.roleCode = this.roleList[0].code;
+                this.moreRole = false;
+              } else {
+                this.moreRole = true;
+              }
+            }
+          } else {
+            this.moreRole = false;
+            this.loginApi.roleCode = '';
+            // this.$Message.error(res.message);
+          }
+        })
+      },
       submit() {
-          if (this.valid) {
-            let params = this.$clearData(this.loginApi);
-            params.r = this.random;
-            params.password = this.$md5(params.password)
-            this.$http.post(this.$api.login, params).then(res => {
-              if (res.code === 1000) {
+        if (this.valid) {
+          let params = this.$clearData(this.loginApi);
+          params.r = this.random;
+          params.password = this.$md5(params.password)
+          this.$http.post(this.$api.login, params).then(res => {
+            if (res.code === 1000) {
+              if (res.data.token) {
                 this.setUser({
                   authorization: res.data.token,
                 });
@@ -110,14 +153,17 @@
                   desc: '恭喜你登录成功！'
                 })
               } else {
-                this.loginApi.code = '';
-                this.getUid();
-                this.$Message.error(res.message);
+                this.$Message.error('请选择一种角色登录');
               }
-            })
-          } else {
-            this.$Message.error('表单验证失败');
-          }
+            } else {
+              this.loginApi.code = '';
+              this.getUid();
+              this.$Message.error(res.message);
+            }
+          })
+        } else {
+          this.$Message.error('表单验证失败');
+        }
       },
       reset(name) {
         this.$refs[name].resetFields();
@@ -157,12 +203,12 @@
       background-color: rgba(0, 0, 0, .2);
       border-radius: 20px;
       width: 860px;
-      .login-logo{
+      .login-logo {
         position: absolute;
         left: 80px;
         top: 100px;
         text-align: center;
-        .name{
+        .name {
           font-size: 24px;
           color: #fff;
           margin-top: 10px;
@@ -215,26 +261,30 @@
           position: relative;
           cursor: text;
           outline: none;
-          &.small{
+          &.small {
             width: 63%;
           }
         }
-        .picCode{
+        .picCode {
           vertical-align: middle;
           margin-left: 10px;
         }
       }
     }
   }
+  
   input::-webkit-input-placeholder {
     color: #fff;
   }
+  
   input:-ms-input-placeholder {
     color: #fff;
   }
+  
   input:-moz-placeholder {
     color: #fff;
   }
+  
   input::-moz-placeholder {
     color: #fff;
   }

@@ -2,7 +2,7 @@
   <div class="warms">
     <div class="warms-list" v-for="(item,index) in list" :key="index">
       <div class="warms-list-inner">
-        <div class="title">{{item.name}}({{item.unit}})</div>
+        <div class="title" :title="`${item.name}${item.unit}`">{{item.name}}({{item.unit}})</div>
         <div class="warehouse">
           <div class="warehouse-list" v-for="(sub,i) in item.wareHouse">{{sub.wareHouse}}：{{sub.warn}}</div>
         </div>

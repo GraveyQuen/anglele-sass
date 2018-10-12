@@ -568,6 +568,8 @@
             if (!this.userEdit) {
               params.password = this.$md5(params.password)
               params.businessId = this.businessId;
+            }else{
+              params.userId = this.userEditItem.userId;
             }
             this.$http.post(this.$api.businessAddUser, params).then(res => {
               if (res.code === 1000) {

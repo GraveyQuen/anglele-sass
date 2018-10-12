@@ -23,7 +23,7 @@
         </Row>
         <Row v-for="(item,index) in list" :key="index">
           <Col class-name="col" span="3"><span class="iconfont" @click="checkItem(item,index)" :class="item.isCheck ? 'ang-yduifuxuankuangxuanzhong':'ang-yduifuxuankuang'"></span></Col>
-          <Col class-name="col" span="7">{{item.name}}</Col>
+          <Col class-name="col" span="7"><div class="item-title" :title="item.name">{{item.name}}</div></Col>
           <Col class-name="col" span="7">{{item.categoryName}}</Col>
           <Col class-name="col" span="7">{{item.total}}{{item.unit}}</Col>
         </Row>
@@ -241,5 +241,10 @@
     &.ang-yduifuxuankuangxuanzhong {
       color: #2d8cf0;
     }
+  }
+  .item-title{
+        overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 </style>
