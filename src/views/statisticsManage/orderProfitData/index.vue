@@ -9,14 +9,14 @@
           <Input v-model="pageApi.customerName" placeholder="请输入..."></Input>
         </FormItem>
         <FormItem label="销售利润：">
-          <InputNumber :min="0" v-model.number="pageApi.profitBegin" style="width: 60px;" placeholder="请输入"></InputNumber>
+          <InputNumber :min="0" v-model.number="pageApi.profitBegin" style="width: 95px;" placeholder="请输入"></InputNumber>
           <span class="split"></span>
-          <InputNumber :min="0" v-model.number="pageApi.profitEnd" style="width: 60px;" placeholder="请输入"></InputNumber>
+          <InputNumber :min="0" v-model.number="pageApi.profitEnd" style="width: 95px;" placeholder="请输入"></InputNumber>
         </FormItem>
         <FormItem label="销售金额：">
-          <InputNumber :min="0" v-model.number="pageApi.sellPriceBegin" style="width: 60px;" placeholder="请输入"></InputNumber>
+          <InputNumber :min="0" v-model.number="pageApi.sellPriceBegin" style="width: 95px;" placeholder="请输入"></InputNumber>
           <span class="split"></span>
-          <InputNumber :min="0" v-model.number="pageApi.sellPriceEnd" style="width: 60px;" placeholder="请输入"></InputNumber>
+          <InputNumber :min="0" v-model.number="pageApi.sellPriceEnd" style="width: 95px;" placeholder="请输入"></InputNumber>
         </FormItem>
         <FormItem label="下单日期：">
           <DatePicker type="daterange" placement="bottom-end" v-model="dateValue" placeholder="选择日期" style="width: 200px"></DatePicker>

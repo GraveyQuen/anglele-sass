@@ -13,24 +13,18 @@
         </FormItem>
         <FormItem label="下单金额：" v-if="pageApi.tab === 1 || pageApi.tab === 2">
           <InputNumber :min="0" v-model.number="pageApi.amountBegin" style="width: 93px;" placeholder="请输入"></InputNumber>
-          <!-- <Input v-model="pageApi.amountBegin" placeholder="请输入" style="width: 93px;"></Input> -->
           <span class="split"></span>
           <InputNumber :min="0" v-model.number="pageApi.amountEnd" style="width: 93px;" placeholder="请输入"></InputNumber>
-          <!-- <Input v-model="pageApi.amountEnd" placeholder="请输入" style="width: 93px;"></Input> -->
         </FormItem>
         <FormItem label="实单金额：" v-if="pageApi.tab === 1 || pageApi.tab === 2">
           <InputNumber :min="0" v-model.number="pageApi.realAmountBegin" style="width: 93px;" placeholder="请输入"></InputNumber>
-          <!-- <Input v-model="pageApi.realAmountBegin" placeholder="请输入" style="width: 93px;"></Input> -->
           <span class="split"></span>
           <InputNumber :min="0" v-model.number="pageApi.realAmountEnd" style="width: 93px;" placeholder="请输入"></InputNumber>
-          <!-- <Input v-model="pageApi.realAmountEnd" placeholder="请输入" style="width: 93px;"></Input> -->
         </FormItem>
         <FormItem :label="pageApi.tab === 3 ? '预结算金额：':'结算金额：'" v-if="pageApi.tab === 3 || pageApi.tab === 4">
           <InputNumber :min="0" v-model.number="pageApi.settlementAmountBegin" style="width: 93px;" placeholder="请输入"></InputNumber>
-          <!-- <Input v-model="pageApi.settlementAmountBegin" placeholder="请输入" style="width: 93px;"></Input> -->
           <span class="split"></span>
           <InputNumber :min="0" v-model.number="pageApi.settlementAmountEnd" style="width: 93px;" placeholder="请输入"></InputNumber>
-          <!-- <Input v-model="pageApi.settlementAmountEnd" placeholder="请输入" style="width: 93px;"></Input> -->
         </FormItem>
         <FormItem label="状态：" v-if="pageApi.tab === 1">
           <Select v-model="pageApi.settlementStatus" style="width: 200px;">

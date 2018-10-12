@@ -8,18 +8,18 @@
         </FormItem>
         <FormItem label="所属分类：">
           <Select v-model="pageApi.categoryId" style="width: 160px;">
-                        <Option v-for="(item,index) in categoryList" :value="item.id" :key="index">{{ item.name }}</Option>
-                      </Select>
+                                      <Option v-for="(item,index) in categoryList" :value="item.id" :key="index">{{ item.name }}</Option>
+                                    </Select>
         </FormItem>
         <FormItem label="所属仓库：">
           <Select v-model="pageApi.wareHouseId" style="width: 160px;">
-                        <Option v-for="(item,index) in storeList" :value="item.id" :key="index">{{ item.name }}</Option>
-                      </Select>
+                                      <Option v-for="(item,index) in storeList" :value="item.id" :key="index">{{ item.name }}</Option>
+                                    </Select>
         </FormItem>
         <FormItem label="状态：">
           <Select v-model="pageApi.status" style="width: 160px;">
-                        <Option v-for="(item,index) in [{name:'上架',id: 1},{name:'下架',id: 0}]" :value="item.id" :key="index">{{ item.name }}</Option>
-                      </Select>
+                                      <Option v-for="(item,index) in [{name:'上架',id: 1},{name:'下架',id: 0}]" :value="item.id" :key="index">{{ item.name }}</Option>
+                                    </Select>
         </FormItem>
         <FormItem label="最近更新人：">
           <Input v-model="pageApi.updateUser" placeholder="请输入..."></Input>
@@ -31,9 +31,9 @@
       <div class="card-contnet">
         <Table width="100%" ref="productTable" border :columns="tableHeader" :data="list">
           <template slot="wareHouseProductSet" slot-scope="props">
-                <div v-for="(item,index) in props.row.wareHouseProductSet" :key="index" >
-                  <div :class="item.warn === 'true' ? 'warn':''">{{item.wareHouseName}}：{{item.num}}{{item.unit}}</div>
-                </div>
+                              <div v-for="(item,index) in props.row.wareHouseProductSet" :key="index" >
+                                <div :class="item.warn === 'true' ? 'warn':''">{{item.wareHouseName}}：{{item.num}}{{item.unit}}</div>
+                              </div>
 </template>
         </Table>
         <div class="paging">
@@ -46,6 +46,7 @@
         <div class="product-img">
           <div class="product-img-title">产品图片:</div>
           <div class="product-img-main">
+            <Button type="primary" @click.native="cropperShow = true">上传图片</Button>
             <uploadFile single :showPreview="true" v-model="dataApi.productImg"></uploadFile>
           </div>
         </div>
@@ -59,7 +60,6 @@
         </FormItem>
         <FormItem label="单价：" prop="price">
           <InputNumber :min="0" v-model.number="dataApi.price" style="width:100%;"></InputNumber>
-          <!-- <Input v-model.number="dataApi.price" placeholder="请输入..."></Input> -->
         </FormItem>
         <FormItem label="计量单位：" prop="unit">
           <Select v-model="dataApi.unit">
@@ -96,6 +96,33 @@
         <Button @click="reset('formModel')">取消</Button>
       </div>
     </Modal>
+    <Modal v-model="cropperShow" width="830" title="上传图片">
+      <div class="cropper-body-main">
+      <!-- <vueCropper ref="cropper3" :img="cropperData.img" :original="cropperData.original" :centerBox="cropperData.centerBox" :outputType ="cropperData.outputType" :autoCrop="cropperData.autoCrop" :autoCropWidth="cropperData.autoCropWidth" :autoCropHeight="cropperData.autoCropHeight" :fixedBox="cropperData.fixedBox"></vueCropper> -->
+      <div>
+        <label class="btn" for="uploads">选择图片</label>
+        <input type="file" id="uploads" style="position:absolute; clip:rect(0 0 0 0);" accept="image/png, image/jpeg, image/gif, image/jpg" @change="uploadImg($event, 1)">
+      <button @click="finish('blob')" class="btn">上传图片</button>
+      </div>
+      <div class="cropper-body">
+      <vueCropper
+        ref="cropperFef"
+        :outputType="cropperData.outputType"
+        :outputSize="cropperData.outputSize"
+        :full="cropperData.full"
+        :img="cropperData.img"
+        :autoCrop="cropperData.autoCrop"
+        :autoCropWidth="cropperData.autoCropWidth"
+        :autoCropHeight="cropperData.autoCropHeight"
+        :fixedBox="cropperData.fixedBox"
+      ></vueCropper>
+    </div>
+      </div>
+      <div slot="footer">
+        <Button type="primary">保存</Button>
+        <Button @click="cropperShow = false">取消</Button>
+      </div>
+    </Modal>
   </div>
 </template>
 
@@ -104,12 +131,26 @@
     dateformat
   } from '@/utils/filters'
   import uploadFile from '@/components/upload/index'
+  import vueCropper from 'vue-cropper'
   export default {
     components: {
-      uploadFile
+      uploadFile,
+      vueCropper
     },
     data() {
       return {
+        cropperData: {
+          img: '',
+          autoCrop: true,
+          autoCropWidth: 240,
+          autoCropHeight: 240,
+          fixedBox: true,
+          outputType: 'png',
+          outputSize: 1, //剪切后的图片质量（0.1-1）
+          full: false, //输出原图比例截图 props名full
+        },
+        fileName: '',
+        cropperShow: false,
         pageApi: {
           pageIndex: 1,
           pageSize: 10,
@@ -230,7 +271,7 @@
           minWidth: 120,
           render: (h, params) => {
             let str = params.row.warnNum != '' ? `${params.row.warnNum}${params.row.unit}` : '0';
-              return h('div', str)
+            return h('div', str)
           }
         }, {
           title: '产品描述',
@@ -322,6 +363,59 @@
       }
     },
     methods: {
+      uploadImg(e, num) {
+        var _this = this;
+        //上传图片 
+        var file = e.target.files[0]
+        _this.fileName = file.name;
+        //上传图片
+        // this.option.img
+        var file = e.target.files[0]
+        if (!/\.(gif|jpg|jpeg|png|bmp|GIF|JPG|PNG)$/.test(e.target.value)) {
+          return false
+        }
+        var reader = new FileReader()
+        reader.onload = (e) => {
+          let data
+          if (typeof e.target.result === 'object') {
+            // 把Array Buffer转化为blob 如果是base64不需要
+            data = window.URL.createObjectURL(new Blob([e.target.result]))
+            console.log(file)
+          } else {
+            data = e.target.result
+          }
+          if (num === 1) {
+            this.cropperData.img = data
+          } else if (num === 2) {
+            this.example2.img = data
+          }
+        }
+        // 转化为base64
+        // reader.readAsDataURL(file)
+        // 转化为blob
+        reader.readAsArrayBuffer(file)
+      },
+      finish(type) {
+        let _this = this;
+        let File = new FormData();
+        if (type === 'blob') {
+          this.$refs.cropperFef.getCropBlob((data) => {
+            let img = window.URL.createObjectURL(data)
+            File.append('file', data, this.fileName)
+            console.log(File.get('file'))
+            this.$http.post(this.$api.upload, {file: File.get('file')}).then(res => {
+              if (res.code === 1000) {
+                console.log(res)
+              }
+            })
+          })
+        } else {
+          this.$refs.cropperFef.getCropData((data) => {
+            // console.log(data)
+            // test.location.href = data
+          })
+        }
+      },
       resetFilter() {
         this.pageApi = {
           pageIndex: 1,
@@ -342,13 +436,14 @@
       changePage(page) {
         this.pageApi.pageIndex = page;
       },
-      changeSize(size){
+      changeSize(size) {
         this.pageApi.pageSize = size;
       },
       openPanel(isEdit, item) {
         this.isEdit = isEdit;
         if (isEdit) {
           this.editItem = item || {};
+          this.cropperData.img = item.productImg;
           this.dataApi = {
             name: item.name,
             categoryId: item.categoryId,
@@ -484,7 +579,38 @@
       padding: 15px 0;
     }
   }
-  .warn{
+  
+  .warn {
     color: #ed4014;
+  }
+  
+  .btn {
+    display: inline-block;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    background: #fff;
+    border: 1px solid #c0ccda;
+    color: #1f2d3d;
+    text-align: center;
+    box-sizing: border-box;
+    outline: none;
+    margin: 0 10px 0px 0px;
+    padding: 8px 15px;
+    font-size: 14px;
+    border-radius: 4px;
+    color: #fff;
+    background-color: #2d8cf0;
+    border-color: #2d8cf0;
+    transition: all .2s ease;
+    text-decoration: none;
+    user-select: none;
+  }
+  
+  .cropper-body {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    margin-top: 10px;
   }
 </style>

@@ -10,17 +10,13 @@
         </FormItem>
         <FormItem label="订单金额：">
           <InputNumber :min="0" v-model.number="pageApi.amountMin" style="width: 93px;" placeholder="请输入"></InputNumber>
-          <!-- <Input v-model="pageApi.amountMin" type="text" placeholder="请输入" style="width: 93px;"></Input> -->
           <span class="split"></span>
           <InputNumber :min="0" v-model.number="pageApi.amountMax" style="width: 93px;" placeholder="请输入"></InputNumber>
-          <!-- <Input v-model="pageApi.amountMax" placeholder="请输入" style="width: 93px;"></Input> -->
         </FormItem>
         <FormItem label="实单金额：">
           <InputNumber :min="0" v-model.number="pageApi.realAmountMin" style="width: 93px;" placeholder="请输入"></InputNumber>
-          <!-- <Input v-model="pageApi.realAmountMin" placeholder="请输入" style="width: 93px;"></Input> -->
           <span class="split"></span>
           <InputNumber :min="0" v-model.number="pageApi.realAmountMax" style="width: 93px;" placeholder="请输入"></InputNumber>
-          <!-- <Input v-model="pageApi.realAmountMax" placeholder="请输入" style="width: 93px;"></Input> -->
         </FormItem>
         <FormItem label="下单方式：">
           <Select v-model="pageApi.orderType" style="width: 200px;">
@@ -342,7 +338,7 @@
           key: 'orderType',
           minWidth: 120,
           render: (h, params) => {
-            let str = params.row.orderType === 1 ? '客户下单' : '代客户下单';
+            let str = params.row.orderType === 1 ? '客户下单' : '代客下单';
             return h('div', str)
           },
         },{

@@ -21,7 +21,7 @@
   </div>
 </template>
   </Table>
-    <Modal title="订单详情" width="800" v-model="show" :mask-closable="false">
+    <Modal title="订单详情" width="1000" v-model="show" :mask-closable="false">
       <detailPage :order="detailItem"></detailPage>
       <div slot="footer">
         <Button @click="show = false">取消</Button>
