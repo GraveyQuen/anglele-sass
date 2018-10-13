@@ -8,18 +8,18 @@
         </FormItem>
         <FormItem label="所属分类：">
           <Select v-model="pageApi.categoryId" style="width: 160px;">
-                                                <Option v-for="(item,index) in categoryList" :value="item.id" :key="index">{{ item.name }}</Option>
-                                              </Select>
+                                                    <Option v-for="(item,index) in categoryList" :value="item.id" :key="index">{{ item.name }}</Option>
+                                                  </Select>
         </FormItem>
         <FormItem label="所属仓库：">
           <Select v-model="pageApi.wareHouseId" style="width: 160px;">
-                                                <Option v-for="(item,index) in storeList" :value="item.id" :key="index">{{ item.name }}</Option>
-                                              </Select>
+                                                    <Option v-for="(item,index) in storeList" :value="item.id" :key="index">{{ item.name }}</Option>
+                                                  </Select>
         </FormItem>
         <FormItem label="状态：">
           <Select v-model="pageApi.status" style="width: 160px;">
-                                                <Option v-for="(item,index) in [{name:'上架',id: 1},{name:'下架',id: 0}]" :value="item.id" :key="index">{{ item.name }}</Option>
-                                              </Select>
+                                                    <Option v-for="(item,index) in [{name:'上架',id: 1},{name:'下架',id: 0}]" :value="item.id" :key="index">{{ item.name }}</Option>
+                                                  </Select>
         </FormItem>
         <FormItem label="最近更新人：">
           <Input v-model="pageApi.updateUser" placeholder="请输入..."></Input>
@@ -31,9 +31,9 @@
       <div class="card-contnet">
         <Table width="100%" ref="productTable" border :columns="tableHeader" :data="list">
           <template slot="wareHouseProductSet" slot-scope="props">
-                                        <div v-for="(item,index) in props.row.wareHouseProductSet" :key="index" >
-                                          <div :class="item.warn === 'true' ? 'warn':''">{{item.wareHouseName}}：{{item.num}}{{item.unit}}</div>
-                                        </div>
+                                            <div v-for="(item,index) in props.row.wareHouseProductSet" :key="index" >
+                                              <div :class="item.warn === 'true' ? 'warn':''">{{item.wareHouseName}}：{{item.num}}{{item.unit}}</div>
+                                            </div>
 </template>
         </Table>
         <div class="paging">
@@ -104,7 +104,7 @@
       <!-- <vueCropper ref="cropper3" :img="cropperData.img" :original="cropperData.original" :centerBox="cropperData.centerBox" :outputType ="cropperData.outputType" :autoCrop="cropperData.autoCrop" :autoCropWidth="cropperData.autoCropWidth" :autoCropHeight="cropperData.autoCropHeight" :fixedBox="cropperData.fixedBox"></vueCropper> -->
       <div>
         <label class="btn" for="uploads">选择图片</label>
-        <input type="file" id="uploads" style="position:absolute; clip:rect(0 0 0 0);" accept="image/png, image/jpeg, image/gif, image/jpg" @change="uploadImg($event, 1)">
+        <input type="file" id="uploads" style="position:absolute; clip:rect(0 0 0 0);" accept="image/png, image/jpeg, image/gif, image/jpg" @change="uploadImg($event)">
       <button @click="finish('blob')" class="btn">上传图片</button>
       </div>
       <div class="cropper-body" v-if="cropperShow">
@@ -122,9 +122,13 @@
     </div>
       </div>
       <div slot="footer">
-        <Button type="primary">添加</Button>
+        <!-- <Button type="primary">添加</Button> -->
         <Button @click="cropperShow = false">取消</Button>
       </div>
+      <Spin fix v-if="spinShow">
+          <Icon type="ios-loading" size=18 class="spin-icon-load"></Icon>
+          <div>正在上传...</div>
+      </Spin>
     </Modal>
   </div>
 </template>
@@ -153,9 +157,9 @@
           outputSize: 1, //剪切后的图片质量（0.1-1）
           full: false, //输出原图比例截图 props名full
         },
-        fileImg: '',
         fileName: '',
         cropperShow: false,
+        spinShow: false,
         pageApi: {
           pageIndex: 1,
           pageSize: 10,
@@ -368,18 +372,21 @@
           this.getList(this.pageFilter);
         }, 200),
         deep: true
+      },
+      cropperShow(val) {
+        if (!val) {
+          this.cropperData.img = '';
+          this.$refs.cropperFef.clearCrop()
+        }
       }
     },
     methods: {
-      uploadImg(e, num) {
+      uploadImg(e) {
         var _this = this;
-        //上传图片 
         var file = e.target.files[0]
         _this.fileName = file.name;
-        //上传图片
-        // this.option.img
-        var file = e.target.files[0]
         if (!/\.(gif|jpg|jpeg|png|bmp|GIF|JPG|PNG)$/.test(e.target.value)) {
+          this.$Message.error('请上传正确的图片格式')
           return false
         }
         var reader = new FileReader()
@@ -391,16 +398,12 @@
           } else {
             data = e.target.result
           }
-          if (num === 1) {
-            this.cropperData.img = data
-          } else if (num === 2) {
-            this.example2.img = data
-          }
+          this.cropperData.img = data;
         }
         // 转化为base64
         // reader.readAsDataURL(file)
         // 转化为blob
-        reader.readAsArrayBuffer(file)
+        reader.readAsArrayBuffer(file);
       },
       finish(type) {
         let _this = this;
@@ -420,6 +423,7 @@
             let instance = axios.create({
               baseURL: host,
             });
+            _this.spinShow = true;
             instance.post('/api/file/upload', fd, config).then(res => {
               if (res.data.code === 1000) {
                 _this.cropperData.img = '';
@@ -428,6 +432,7 @@
                 _this.$Message.success('上传成功')
                 _this.dataApi.productImg = res.data.data;
               }
+              _this.spinShow = false;
             })
           })
         } else {
@@ -633,5 +638,21 @@
     width: 100%;
     height: 400px;
     margin-top: 10px;
+  }
+  
+  .spin-icon-load {
+    animation: ani-demo-spin 1s linear infinite;
+  }
+  
+  @keyframes ani-demo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    50% {
+      transform: rotate(180deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
   }
 </style>
