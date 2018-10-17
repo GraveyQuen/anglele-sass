@@ -6,6 +6,9 @@
         <FormItem label="入库单号：">
           <Input v-model="pageApi.id" placeholder="请输入" style="width: 200px;"></Input>
         </FormItem>
+        <FormItem label="采购单号：">
+          <Input v-model="pageApi.purchaseOrderId" placeholder="请输入" style="width: 200px;"></Input>
+        </FormItem>
         <FormItem label="开单人：">
           <Input v-model="pageApi.createUser" placeholder="请输入" style="width: 200px;"></Input>
         </FormItem>
@@ -114,13 +117,18 @@
           updateTimeBegin: '',
           updateTimeEnd: '',
           orderDateBegin: '',
-          orderDateEnd: ''
+          orderDateEnd: '',
+          purchaseOrderId: ''
         },
         list: [],
         totalCount: 0,
         tableHeader: [{
           title: '入库单号',
           key: 'id',
+          minWidth: 210
+        },{
+          title: '采购单号',
+          key: 'purchaseOrderId',
           minWidth: 210
         }, {
           title: '仓库名称',
@@ -206,7 +214,8 @@
           createUser: this.pageApi.createUser,
           driver: this.pageApi.driver,
           updateUser: this.pageApi.updateUser,
-          wareHouseId: this.pageApi.wareHouseId
+          wareHouseId: this.pageApi.wareHouseId,
+          purchaseOrderId: this.pageApi.purchaseOrderId
         }
       }
     },
@@ -261,7 +270,8 @@
           updateTimeBegin: '',
           updateTimeEnd: '',
           orderDateBegin: '',
-          orderDateEnd: ''
+          orderDateEnd: '',
+          purchaseOrderId: ''
         }
         this.dateValue = ['', ''];
         this.dateValue2 = ['', ''];

@@ -9,6 +9,7 @@
         <Col class="col" span="6">联系方式：{{detailItem.purchaseOrder.operatePersonPhone}}</Col>
         <Col class="col" span="6">采购日期：{{detailItem.purchaseOrder.purchaseDate}}</Col>
         <Col class="col" span="6">备注：{{detailItem.purchaseOrder.remark}}</Col>
+        <Col class="col" span="6" v-show="detailItem.purchaseOrder.status === 1">采购总金额：{{detailItem.purchaseOrder.totalAmount}}元</Col>
       </Row>
       <div class="order-main">
         <div class="order-main-header">
@@ -30,8 +31,12 @@
             <div class="purchaseOrder-main-list big">
               <div class="purchaseOrder-main-list-inner" v-for="(sub,i) in item.items">
                 <div class="inner-list">{{sub.productName}}</div>
-                <div class="inner-list more">{{sub.detail}}</div>
-                <div class="inner-list">{{sub.num}}{{sub.unit}}</div>
+                <div class="inner-list more" :class="detailItem.purchaseOrder.status === 1 ? 'lang':''">{{sub.detail}}</div>
+                <div class="inner-list last">
+                  <div class="">采购数量：{{sub.num}}{{sub.unit}}</div>
+                  <div class="" v-show="detailItem.purchaseOrder.status === 1">采购单价：{{sub.cost}}元/{{sub.unit}}</div>
+                  <div class="" v-show="detailItem.purchaseOrder.status === 1">采购金额：{{sub.realAmount}}元</div>
+                </div>
               </div>
             </div>
           </div>
@@ -197,12 +202,19 @@
             display: inline-block;
             width: 17.6%;
             padding: 0 15px;
+            &.last{
+              height: auto;
+              min-height: 40px;
+            }
             &.more {
               height: auto;
               min-height: 40px;
               width: 64.9%;
               border-right: 1px solid #e8eaec;
               border-left: 1px solid #e8eaec;
+              &.lang{
+                min-height: 120px;
+              }
             }
             &:last-child {
               border-right: 0;
