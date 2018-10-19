@@ -13,6 +13,7 @@ import md5 from 'js-md5'
 import VeLine from 'v-charts/lib/line.common' // 折线图
 import VePie from 'v-charts/lib/pie.common'  // 饼图
 
+
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })

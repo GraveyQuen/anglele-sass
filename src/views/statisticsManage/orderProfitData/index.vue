@@ -41,7 +41,7 @@
           <Row v-for="(item,index) in list" :key="index">
             <Col class-name="col" span="5">{{item.id}}</Col>
             <Col class-name="col" span="6">{{item.customerName}}</Col>
-            <Col class-name="col" span="3">{{item.createTime | dateformat('yyyy-MM-dd')}}</Col>
+            <Col class-name="col" span="3">{{item.newOrderDate | dateformat('yyyy-MM-dd')}}</Col>
             <Col class-name="col" span="2">￥{{item.amount}}</Col>
             <Col class-name="col" span="2">￥{{item.realAmount}}</Col>
             <Col class-name="col" span="2">￥{{item.cost}}</Col>
@@ -68,7 +68,7 @@
         <div class="order-detail-main">
           <Row class="order-row">
             <Col span="8" class="order-row-col">订单单号：{{detailItem.order.id}}</Col>
-            <Col span="8" class="order-row-col">下单日期：{{detailItem.order.createTime | dateformat('yyyy-MM-dd')}}</Col>
+            <Col span="8" class="order-row-col">下单日期：{{detailItem.order.newOrderDate | dateformat('yyyy-MM-dd')}}</Col>
             <Col span="8" class="order-row-col">下单金额：￥{{detailItem.order.amount}}</Col>
             <Col span="8" class="order-row-col">销售金额：￥{{detailItem.order.realAmount}}</Col>
             <Col span="8" class="order-row-col">销售成本：￥{{detailItem.order.cost}}</Col>

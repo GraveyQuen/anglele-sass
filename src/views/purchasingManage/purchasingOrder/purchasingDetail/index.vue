@@ -34,8 +34,8 @@
                 <div class="inner-list more" :class="detailItem.purchaseOrder.status === 1 ? 'lang':''">{{sub.detail}}</div>
                 <div class="inner-list last">
                   <div class="">采购数量：{{sub.num}}{{sub.unit}}</div>
-                  <div class="" v-show="detailItem.purchaseOrder.status === 1">采购单价：{{sub.cost}}元/{{sub.unit}}</div>
-                  <div class="" v-show="detailItem.purchaseOrder.status === 1">采购金额：{{sub.realAmount}}元</div>
+                  <div class="" v-show="detailItem.purchaseOrder.status === 1 && sub.cost !=''">采购单价：{{sub.cost}}元/{{sub.unit}}</div>
+                  <div class="" v-show="detailItem.purchaseOrder.status === 1 && sub.realAmount !=''">采购金额：{{sub.realAmount}}元</div>
                 </div>
               </div>
             </div>

@@ -59,10 +59,10 @@
   }
   
   .col-left {
-    padding-right: 30px;
+    padding-right: 10px;
   }
   
   .col-right {
-    padding-left: 30px;
+    padding-left: 10px;
   }
 </style>
