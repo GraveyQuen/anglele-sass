@@ -11,7 +11,7 @@
             <Col span="8" class="order-row-col">下单金额：￥{{order.amount}}</Col>
             <Col span="8" class="order-row-col">{{order.realAmount != '' ? `实单金额：￥${order.realAmount}`:''}}</Col>
             <Col span="8" class="order-row-col">订单状态：{{order.settlementStatus | settlementStatus}}</Col>
-            <Col span="8" class="order-row-col">下单日期：{{order.createTime | dateformat('yyyy-MM-dd')}}</Col>
+            <Col span="8" class="order-row-col">下单日期：{{order.newOrderDate | dateformat('yyyy-MM-dd')}}</Col>
             <Col span="8" class="order-row-col">客户联系人：{{order.contactPeople}}</Col>
             <Col span="8" class="order-row-col">客户联系方式：{{order.contactPhone}}</Col>
             <Col span="8" class="order-row-col">备注：{{order.remark}}</Col>

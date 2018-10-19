@@ -79,10 +79,10 @@
           minWidth: 220
         }, {
           title: '下单日期',
-          key: 'createTime',
+          key: 'newOrderDate',
           minWidth: 120,
           render: (h, params) => {
-            return h('span', params.row.createTime != '' ? dateformat(params.row.createTime, 'yyyy-MM-dd') : '暂无')
+            return h('span', params.row.newOrderDate != '' ? dateformat(params.row.newOrderDate, 'yyyy-MM-dd') : '暂无')
           }
         }, {
           title: '下单金额',

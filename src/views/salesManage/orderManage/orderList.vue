@@ -83,7 +83,7 @@
             <Col span="8" class="order-row-col">订单单号：{{detailItem.order.id}}</Col>
             <Col span="8" class="order-row-col">下单金额：￥{{detailItem.order.amount}}</Col>
             <Col span="8" class="order-row-col">订单状态：{{detailItem.order.status | orderStatus}}</Col>
-            <Col span="8" class="order-row-col">下单日期：{{detailItem.order.createTime | dateformat('yyyy-MM-dd')}}</Col>
+            <Col span="8" class="order-row-col">下单日期：{{detailItem.order.newOrderDate | dateformat('yyyy-MM-dd')}}</Col>
             <Col span="8" class="order-row-col">客户联系人：{{detailItem.order.contactPeople}}</Col>
             <Col span="8" class="order-row-col">客户联系方式：{{detailItem.order.contactPhone}}</Col>
             <Col span="8" class="order-row-col">{{detailItem.order.realAmount != '' ? `实单金额：￥${detailItem.order.realAmount}`:''}}</Col>
@@ -294,9 +294,9 @@
           minWidth: 160
         }, {
           title: '下单日期',
-          key: 'createTime',
+          key: 'newOrderDate',
           render: (h, params) => {
-            return h('div', dateformat(params.row.createTime, 'yyyy-MM-dd'))
+            return h('div', dateformat(params.row.newOrderDate, 'yyyy-MM-dd'))
           },
           minWidth: 120
         }, {
