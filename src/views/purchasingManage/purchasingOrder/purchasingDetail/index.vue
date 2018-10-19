@@ -62,9 +62,9 @@
           key: 'customerName'
         }, {
           title: '下单时间',
-          key: 'updateTime',
+          key: 'newOrderDate',
           render: (h, params) => {
-            return h('div', dateformat(params.row.createTime))
+            return h('div', dateformat(params.row.newOrderDate))
           },
           minWidth: 120
         }]
