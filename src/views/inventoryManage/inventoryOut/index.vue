@@ -320,6 +320,9 @@
                 this.$Message.success('出库成功')
                 this.getList(this.pageFilter);
                 this.outShow = false;
+                this.outApi.id = '';
+                this.outApi.deliveryManId = '';
+                this.$refs[name].resetFields();
               } else {
                 this.$Message.error(res.message);
               }

@@ -1,5 +1,3 @@
-import code2Url from './code2url'
-
 export const MathRand = () => {
   let Num = "";
   for (var i = 0; i < 6; i++) {
