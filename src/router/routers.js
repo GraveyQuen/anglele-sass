@@ -21,7 +21,8 @@ export default [{
     name: 'index',
     component: resolve => require(['@/views/frontViews/index/index.vue'], resolve),
     meta: {
-      hideInMenu: true
+      hideInMenu: true,
+      isFront: true
     }
   }]
 }, {
