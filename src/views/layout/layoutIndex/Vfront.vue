@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div class="front">
     <router-view/>
   </div>
 </template>
@@ -13,8 +13,6 @@
   }
 </script>
 
-<style lang='less'>
-  body {
-    background: #f5f5f5!important;
-  }
+<style lang='less' scoped>
+
 </style>

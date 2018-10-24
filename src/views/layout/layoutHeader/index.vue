@@ -1,6 +1,6 @@
 <template>
   <div class="layout-header">
-    <a class="logo" href="/home">
+    <a class="logo" href="/index">
       <img src="https://resource.anglele.com/saas/static/saas-logo.png">
       <span class="name">后台管理系统</span>
     </a>

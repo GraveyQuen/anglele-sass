@@ -1,4 +1,5 @@
-import Main from '../views/layout/layoutTmp/Vlayout.vue'
+import Main from '../views/layout/layoutTmp/Vlayout.vue';
+import indexMain from '../views/layout/layoutIndex/Vfront.vue'
 export default [{
   path: '/login',
   name: 'login',
@@ -9,6 +10,22 @@ export default [{
   }
 }, {
   path: '/',
+  name: '_index',
+  redirect: '/_index',
+  component: indexMain,
+  meta: {
+    hideInMenu: true
+  },
+  children: [{
+    path: '/index',
+    name: 'index',
+    component: resolve => require(['@/views/frontViews/index/index.vue'], resolve),
+    meta: {
+      hideInMenu: true
+    }
+  }]
+}, {
+  path: '/_home',
   name: '_home',
   redirect: '/home',
   component: Main,
@@ -23,7 +40,7 @@ export default [{
       title: '首页',
       hideInMenu: true
     }
-  },{
+  }, {
     path: '/account/userInfo',
     name: 'userInfo',
     component: resolve => require(['@/views/account/userInfo/user/index.vue'], resolve),
@@ -249,28 +266,28 @@ export default [{
         meta: {
           title: '采购单管理',
         }
-      },{
+      }, {
         path: '/purchasingManage/purchasingOrder/purchasingAdd',
         name: 'purchasingAdd',
         component: resolve => require(['@/views/purchasingManage/purchasingOrder/purchasingAdd/index.vue'], resolve),
         meta: {
           title: '新增采购单',
         }
-      },{
+      }, {
         path: '/purchasingManage/purchasingOrder/purchasingEdit',
         name: 'purchasingEdit',
         component: resolve => require(['@/views/purchasingManage/purchasingOrder/purchasingEdit/index.vue'], resolve),
         meta: {
           title: '编辑采购单',
         }
-      },{
+      }, {
         path: '/purchasingManage/purchasingOrder/purchasingIn',
         name: 'purchasingIn',
         component: resolve => require(['@/views/purchasingManage/purchasingOrder/purchasingIn/index.vue'], resolve),
         meta: {
           title: '采购入库',
         }
-      },{
+      }, {
         path: '/purchasingManage/purchasingOrder/purchasingDetail',
         name: 'purchasingDetail',
         component: resolve => require(['@/views/purchasingManage/purchasingOrder/purchasingDetail/index.vue'], resolve),
