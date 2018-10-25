@@ -20,18 +20,18 @@
         </FormItem>
         <FormItem label="下单方式：">
           <Select v-model="pageApi.orderType" style="width: 200px;">
-                            <Option v-for="(item,index) in [{value: 1,name:'客户下单'},{value: 2,name: '代客下单'}]" :value="item.value" :key="index">{{ item.name }}</Option>
-                          </Select>
+                                          <Option v-for="(item,index) in [{value: 1,name:'客户下单'},{value: 2,name: '代客下单'}]" :value="item.value" :key="index">{{ item.name }}</Option>
+                                        </Select>
         </FormItem>
         <FormItem label="配送人：">
           <Select v-model="pageApi.deliveryManId" style="width: 200px;">
-                            <Option v-for="(item,index) in deliveryList" :value="item.id" :key="index">{{ item.name }}</Option>
-                          </Select>
+                                          <Option v-for="(item,index) in deliveryList" :value="item.id" :key="index">{{ item.name }}</Option>
+                                        </Select>
         </FormItem>
         <FormItem label="状态：">
           <Select v-model="pageApi.status" style="width: 200px;">
-                            <Option v-for="(item,index) in orderStatus" :value="item.value" :key="index">{{ item.name }}</Option>
-                          </Select>
+                                          <Option v-for="(item,index) in orderStatus" :value="item.value" :key="index">{{ item.name }}</Option>
+                                        </Select>
         </FormItem>
         <FormItem label="下单日期：">
           <DatePicker type="daterange" placement="bottom-end" v-model="dateValue" placeholder="选择日期" style="width: 200px"></DatePicker>
@@ -50,10 +50,10 @@
         <Table width="100%" ref="orderTable" :columns="tableHeader" border :data="list">
           <!-- 操作 -->
           <template slot="action" slot-scope="props">
-                              <Button type="warning" size="small" style="margin-right:8px;" v-if="props.row.status === 4" @click="overOrder(props.row)">完成订单</Button>
-                              <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看订单</Button>
-                              <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1" @click="confirm(props.row)">确认订单</Button>
-                              <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1 || props.row.status === 2 || props.row.status === 3 || props.row.status === 4" @click="cancelOrder(props.row)">取消订单</Button>
+                                            <Button type="warning" size="small" style="margin-right:8px;" v-if="props.row.status === 4" @click="overOrder(props.row)">完成订单</Button>
+                                            <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看订单</Button>
+                                            <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1" @click="confirm(props.row)">确认订单</Button>
+                                            <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1 || props.row.status === 2 || props.row.status === 3 || props.row.status === 4" @click="cancelOrder(props.row)">取消订单</Button>
 </template>
         </Table>
         <div class="paging">
@@ -130,22 +130,63 @@
       <div class="order-ok-header">请仔细核对订单中的产品实单数量、实单单价后进行确认</div>
       <Table ref="overTable" border :columns="goodsHeader" :data="overApi.outItems" >
         <!-- 实单数量 -->
-      <template slot="realNum" slot-scope="props">
-        <Form :ref="'formRow'+props.idx" :model="props.row">
-          <FormItem prop="realNum" :rules="{required: true, message: '请输入数量', trigger: 'blur', type: 'number'}">
-            <InputNumber :min="0" v-model.number="props.row.realNum" size="small" style="width:60px;"></InputNumber>{{props.row.unit}}
-          </FormItem>
-        </Form>
-      </template>
-      <!-- 实单单价 -->
-      <template slot="realPrice" slot-scope="props">
-        <Form :ref="'formRow'+props.idx" :model="props.row">
-          <FormItem prop="realPrice" :rules="{required: true, message: '请输入单价', trigger: 'blur', type: 'number'}">
-            <InputNumber :min="0" v-model.number="props.row.realPrice" size="small" style="width:60px;"></InputNumber>元/{{props.row.unit}}
-          </FormItem>
-        </Form>
-      </template>
+        <template slot="realNum" slot-scope="props">
+          <Form :ref="'formRow'+props.idx" :model="props.row">
+            <FormItem prop="realNum" :rules="{required: true, message: '请输入数量', trigger: 'blur', type: 'number'}">
+              <InputNumber :min="0" v-model.number="props.row.realNum" size="small" style="width:60px;"></InputNumber>{{props.row.unit}}
+            </FormItem>
+          </Form>
+        </template>
+                <!-- 实单单价 -->
+        <template slot="realPrice" slot-scope="props">
+          <Form :ref="'formRow'+props.idx" :model="props.row">
+            <FormItem prop="realPrice" :rules="{required: true, message: '请输入单价', trigger: 'blur', type: 'number'}">
+              <InputNumber :min="0" v-model.number="props.row.realPrice" size="small" style="width:60px;"></InputNumber>元/{{props.row.unit}}
+            </FormItem>
+          </Form>
+        </template>
       </Table>
+      <div class="add-fee page-inner">
+        <Button type="primary" @click="addFee" style="margin-bottom:20px;">添加其他费用</Button>
+        <div class="card-contnet">
+        <div class="table-contnet">
+          <Row class-name="head">
+            <Col class-name="col" span="4">费用名称</Col>
+            <Col class-name="col" span="4">金额</Col>
+            <Col class-name="col" span="4">数量</Col>
+            <Col class-name="col" span="4">小计</Col>
+            <Col class-name="col" span="4">备注</Col>
+            <Col class-name="col" span="4">操作</Col>
+          </Row>
+          <Row v-for="(item,index) in overApi.orderFees" :key="index">
+            <Col class-name="col" span="4" style="height: auto;overflow: inherit;">
+            <Select v-model="item.feeName" size="small" @on-change="feeNameSelect(index,$event)">
+                <Option v-for="(option,i) in feeList" :value="option.feeName" :key="option.id">{{ option.feeName }}</Option>
+            </Select>
+            </Col>
+            <Col class-name="col" span="4">
+              <InputNumber :min="0" v-model.number="item.feeAmount" size="small" style="width:80px;"></InputNumber>
+            </Col>
+            <Col class-name="col" span="4">
+              <InputNumber :min="0" v-model.number="item.totalNum" size="small" style="width:80px;"></InputNumber>
+            </Col>
+            <Col class-name="col" span="4">
+              {{`￥${(item.feeAmount * item.totalNum).toFixed(2)}`}}
+            </Col>
+            <Col class-name="col" span="4">
+            <Input v-model="item.remark" placeholder="请输入" size="small"></Input>
+            </Col>
+            <Col class-name="col" span="4">
+            <Button type="error" size="small" @click="delRow(index)">删除</Button>
+            </Col>
+          </Row>
+          </Row>
+          <Row v-if="overApi.orderFees.length == 0">
+            <Col class-name="col" span="24">暂无费用</Col>
+          </Row>
+        </div>
+      </div>
+      </div>
       <div slot="footer">
         <Button type="primary" @click="overSubmit" :loading="loading">保存</Button>
         <Button @click="overReset">取消</Button>
@@ -193,7 +234,8 @@
         act: false, // 更新渲染
         overApi: {
           id: '',
-          outItems: []
+          outItems: [],
+          orderFees: []
         },
         cancelApi: {
           id: '',
@@ -211,6 +253,8 @@
         dateValue: ['', ''],
         dateValue2: ['', ''],
         list: [],
+        feeList: [],
+        feeIndex: 1,
         totalCount: 0,
         show: false,
         formRow: {},
@@ -341,7 +385,7 @@
             let str = params.row.orderType === 1 ? '客户下单' : '代客下单';
             return h('div', str)
           },
-        },{
+        }, {
           title: '配送人',
           key: 'deliveryManName',
           minWidth: 150
@@ -399,7 +443,7 @@
           deliveryManId: this.pageApi.deliveryManId
         }
       },
-      getId(){
+      getId() {
         return this.$route.query.orderStatus;
       }
     },
@@ -449,7 +493,7 @@
       changePage(page) {
         this.pageApi.pageIndex = page;
       },
-      changeSize(size){
+      changeSize(size) {
         this.pageApi.pageSize = size;
       },
       getItem(item, key) {
@@ -488,7 +532,7 @@
                 this.cancelShow = false;
                 this.getList(this.pageFilter);
                 this.$Message.success('取消成功');
-              }else{
+              } else {
                 this.$Message.error(res.message);
               }
               this.loading = false;
@@ -520,6 +564,7 @@
         this.loading = true;
         let params = this.$clearData(this.overApi);
         params.outItems = JSON.stringify(params.outItems)
+        params.orderFees = JSON.stringify(params.orderFees)
         this.$http.post(this.$api.wareHouseOutfinishOut, params).then(res => {
           if (res.code === 1000) {
             this.overShow = false;
@@ -533,18 +578,55 @@
       },
       overReset() {
         this.overShow = false;
+        this.overApi.orderFees = [];
       },
-      getDelivery(){
-        this.$http.post(this.$api.findAllDeliveryMan,{manType: 1}).then(res =>{
-          if(res.code === 1000){
+      getDelivery() {
+        this.$http.post(this.$api.findAllDeliveryMan, {
+          manType: 1
+        }).then(res => {
+          if (res.code === 1000) {
             this.deliveryList = res.data;
           }
+        })
+      },
+      getFee() {
+        this.$http.post(this.$api.findAllFee).then(res => {
+          if (res.code === 1000) {
+            this.feeList = res.data;
+          }
+        })
+      },
+      feeNameSelect(idx,eve){
+        this.feeList.map(el =>{
+          if(el.feeName === eve){
+            this.overApi.orderFees[idx].feeAmount = el.feeAmount;
+          }
+        })
+      },
+      //  增加费用行
+      addFee() {
+        this.feeIndex++;
+        this.overApi.orderFees.push({
+          feeId: '',
+          feeName: '',
+          feeAmount: 0,
+          totalNum: 1,
+          amount: 0,
+          remark: ''
+        })
+      },
+      //  删除费用行
+      delRow(idx) {
+        this.overApi.orderFees.splice(idx, 1)
+        this.$nextTick(() => {
+          this.act = !this.act
         })
       }
     },
     created() {
       this.getList(this.pageFilter);
       this.getDelivery();
+      this.getFee();
       if (this.old) {
         this.orderStatus = [{
             value: 5,
@@ -567,9 +649,9 @@
           name: '配送中'
         }]
       }
-
+  
       // 订单状态
-      if(this.getId){
+      if (this.getId) {
         this.pageApi.status = this.getId;
       }
     },
@@ -583,15 +665,17 @@
 
 <style lang='less' scoped>
   @import url('../../../assets/less/base.less');
-  .order-ok-header{
+  .order-ok-header {
     margin-bottom: 15px;
     color: #ed4014;
   }
-  .card{
+  
+  .card {
     margin-top: -17px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
   }
+  
   .split {
     display: inline-block;
     vertical-align: middle;
@@ -621,5 +705,9 @@
         }
       }
     }
+  }
+  
+  .add-fee {
+    padding-top: 20px;
   }
 </style>

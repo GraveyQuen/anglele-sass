@@ -12,9 +12,20 @@ const router = new Router({
   routes,
   mode: 'history',
   linkActiveClass: 'active',
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return {
+        x: 0,
+        y: 0
+      }
+    }
+  }
 })
 
 const LOGIN_PAGE_NAME = 'login'
+
 router.beforeEach((to, from, next) => {
   if (to.meta.isFront) {
     //  前端页面不需要验证登录

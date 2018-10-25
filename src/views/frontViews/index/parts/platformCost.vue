@@ -16,7 +16,7 @@
             </div>
           </div>
           <div class="price-main-item-btn">
-            <a href="">服务功能</a>
+            <router-link to="/pricing">服务功能</router-link>
           </div>
         </div>
         <div class="price-main-item">
@@ -32,7 +32,7 @@
             </div>
           </div>
           <div class="price-main-item-btn">
-            <a href="" class="orange">服务功能</a>
+            <router-link to="/pricing" class="orange">服务功能</router-link>
           </div>
         </div>
       </div>

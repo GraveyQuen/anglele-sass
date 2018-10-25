@@ -40,7 +40,7 @@
       onClick(data) {
         if (data === 'logOut') {
           this.loginOut();
-          window.location.href = '/login';
+          window.location.href = '/index';
         } else if(data === 'account'){
           this.$router.push({name: 'userInfo'})
         }

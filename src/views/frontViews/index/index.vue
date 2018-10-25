@@ -65,6 +65,10 @@
 </script>
 
 <style lang='less'>
+  .front-wrapper {
+    margin-top: -80px;
+  }
+  
   .sections {
     padding: 60px 0;
     .front-section {
@@ -76,6 +80,4 @@
       }
     }
   }
-  
-
 </style>

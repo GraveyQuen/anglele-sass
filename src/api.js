@@ -99,6 +99,36 @@ export const delUnit = '/sys/unit/delUnit'
 export const findUnit = '/sys/unit/findUnit'
 
 
+
+/**
+ * 费用分页
+ */
+export const findFeeList = '/sys/fee/findFeeList'
+
+
+/**
+ * 费用分页
+ */
+export const updateFee = '/sys/fee/updateFee'
+
+
+/**
+ * 费用分页
+ */
+export const saveFee = '/sys/fee/saveFee'
+
+/**
+ * 费用删除
+ */
+export const delFee = '/sys/fee/delFee'
+
+
+/**
+ * 所有费用
+ */
+export const findAllFee = '/sys/fee/findAllFee'
+
+
 /**
  * 仓库分页查询
  */
