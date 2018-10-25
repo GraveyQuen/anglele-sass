@@ -129,6 +129,25 @@ export const delFee = '/sys/fee/delFee'
 export const findAllFee = '/sys/fee/findAllFee'
 
 
+
+/**
+ * 包含物料费的订单列表
+ */
+export const orderFeePage = '/sys/orderFee/page'
+
+
+/**
+ * 更新订单费用
+ */
+export const orderFeeChange = '/sys/orderFee/change'
+
+
+/**
+ * 订单费用历史
+ */
+export const orderFeeHistory = '/sys/orderFee/history'
+
+
 /**
  * 仓库分页查询
  */

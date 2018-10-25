@@ -49,7 +49,7 @@
             </Table>
           </div>
           <div class="btns">
-            <Button type="primary" @click="save" style="margin-right: 20px;">保存</Button>
+            <Button type="primary" :loading="loading"  @click="save" style="margin-right: 20px;">保存</Button>
             <Button @click="reset">取消</Button>
           </div>
         </div>
@@ -214,6 +214,7 @@
       save() {
         if (this.goodsList.length > 0) {
           if (this.checkNum) {
+            this.loading = true;
             let params = this.$clearData(this.dataApi);
             params.items = JSON.stringify(this.goodsList);
             this.$http.post(this.$api.businessSaveOrder,params).then(res =>{
@@ -223,6 +224,7 @@
               }else{
                 this.$Message.error(res.message);
               }
+              this.loading = false;
             })
           } else {
             this.$Message.error('下单数量不能为空')

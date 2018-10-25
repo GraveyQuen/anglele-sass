@@ -201,6 +201,13 @@ export default [{
         meta: {
           title: '代客开单',
         },
+      }, {
+        path: '/salesManage/orderFee',
+        name: 'orderFee',
+        component: resolve => require(['@/views/salesManage/orderFee/index.vue'], resolve),
+        meta: {
+          title: '订单回收管理',
+        },
       }]
     }, {
       path: '/financeManage',

@@ -592,13 +592,17 @@
       getFee() {
         this.$http.post(this.$api.findAllFee).then(res => {
           if (res.code === 1000) {
-            this.feeList = res.data;
+            this.feeList = res.data.map(el =>{
+              el.disabled = false;
+              return el;
+            });
           }
         })
       },
       feeNameSelect(idx,eve){
         this.feeList.map(el =>{
           if(el.feeName === eve){
+            this.overApi.orderFees[idx].feeId = el.id;
             this.overApi.orderFees[idx].feeAmount = el.feeAmount;
           }
         })
