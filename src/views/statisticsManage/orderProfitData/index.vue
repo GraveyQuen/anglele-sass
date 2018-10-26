@@ -117,29 +117,20 @@
           <div class="card-contnet">
             <div class="table-contnet">
               <Row class-name="head">
-                <Col class-name="col" span="5">费用名称</Col>
-                <Col class-name="col" span="3">单价</Col>
-                <Col class-name="col" span="3">数量</Col>
-                <Col class-name="col" span="3">金额</Col>
-                <Col class-name="col" span="3">待回收数量</Col>
-                <Col class-name="col" span="3">待回收金额</Col>
-                <Col class-name="col" span="4">备注</Col>
+                <Col class-name="col" span="4">费用名称</Col>
+                <Col class-name="col" span="4">单价</Col>
+                <Col class-name="col" span="4">数量</Col>
+                <Col class-name="col" span="4">金额</Col>
+                <Col class-name="col" span="4">待回收数量</Col>
+                <Col class-name="col" span="4">待回收金额</Col>
               </Row>
               <Row v-for="(item,index) in detailItem.order.orderFees">
-                <Col class-name="col" span="5">{{item.feeName}}</Col>
-                <Col class-name="col" span="3">￥{{item.feeAmount}}</Col>
-                <Col class-name="col" span="3">{{item.totalNum}}</Col>
-                <Col class-name="col" span="3">￥{{item.totalAmount}}</Col>
-                <Col class-name="col" span="3">{{item.currentNum}}</Col>
-                <Col class-name="col" span="3">{{item.totalAmount}}</Col>
-                <Col class-name="col" span="4" :style="item.remark != '' ? 'height: auto;overflow: inherit;':''">
-                  <Tooltip placement="top" v-show="item.remark != ''">
-                    <Button size="small">查看备注</Button>
-                    <div slot="content">
-                        <div class="Tooltip">{{item.remark}}</div>
-                    </div>
-                </Tooltip>
-                </Col>
+                <Col class-name="col" span="4">{{item.feeName}}</Col>
+                <Col class-name="col" span="4">￥{{item.feeAmount}}</Col>
+                <Col class-name="col" span="4">{{item.totalNum}}</Col>
+                <Col class-name="col" span="4">￥{{item.totalAmount}}</Col>
+                <Col class-name="col" span="4">{{item.currentNum}}</Col>
+                <Col class-name="col" span="4">{{item.totalAmount}}</Col>
               </Row>
         </div></div></div></div></div>
          <div class="order-detail-title">
