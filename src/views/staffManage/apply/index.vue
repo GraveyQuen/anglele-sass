@@ -8,27 +8,34 @@
         <FormItem label="联系方式：">
           <Input v-model="pageApi.userContact" style="width: 200px;" placeholder="请输入"></Input>
         </FormItem>
+        <FormItem label="状态：">
+          <Select v-model="pageApi.status" style="width:200px">
+            <Option v-for="item in [{id:'0',name:'未处理'},{id: '1',name:'已处理'}]" :value="item.id" :key="item.id">{{ item.name }}</Option>
+        </Select>
+        </FormItem>
         <FormItem label="备注：">
           <Input v-model="pageApi.remark" style="width: 200px;" placeholder="请输入"></Input>
         </FormItem>
         <FormItem>
-          <Button type="warning" @click.native="resetFilter">清除</Button>
+          <Button type="warning" @click="resetFilter">清除</Button>
         </FormItem>
       </Form>
       <div class="card-contnet">
         <div class="table-contnet">
           <Row class-name="head">
-            <Col class-name="col" span="5">姓名</Col>
-            <Col class-name="col" span="5">联系方式</Col>
-            <Col class-name="col" span="5">状态</Col>
+            <Col class-name="col" span="4">姓名</Col>
+            <Col class-name="col" span="4">联系方式</Col>
+            <Col class-name="col" span="4">状态</Col>
             <Col class-name="col" span="6">备注</Col>
+            <Col class-name="col" span="3">最近更新时间</Col>
             <Col class-name="col" span="3">操作</Col>
           </Row>
           <Row v-for="(item,index) in list" :key="index">
-            <Col class-name="col" span="5">{{item.userName}}</Col>
-            <Col class-name="col" span="5">{{item.userContact}}</Col>
-            <Col class-name="col" span="5">{{item.status === 0 ? '未处理':'已处理'}}</Col>
+            <Col class-name="col" span="4">{{item.userName}}</Col>
+            <Col class-name="col" span="4">{{item.userContact}}</Col>
+            <Col class-name="col" span="4">{{item.status === 0 ? '未处理':'已处理'}}</Col>
             <Col class-name="col" span="6">{{item.remark}}</Col>
+            <Col class-name="col" span="3">{{item.updateTime | dateformat}}</Col>
             <Col class-name="col" span="3">
             <Button type="warning" size="small" @click="deal(item)">处理</Button>
             </Col>
@@ -91,7 +98,28 @@
         }
       }
     },
+    watch: {
+      'pageFilter': {
+        handler: _.debounce(function(val, oldVal) {
+          // 是否是翻页操作
+          if (val.pageIndex == oldVal.pageIndex)
+            this.pageApi.pageIndex = 1;
+          this.getList(this.pageFilter);
+        }, 200),
+        deep: true
+      }
+    },
     methods: {
+      resetFilter() {
+        this.pageApi = {
+          userName: '',
+          userContact: '',
+          status: '',
+          remark: '',
+          pageIndex: 1,
+          pageSize: 10
+        }
+      },
       getList(params) {
         this.$http.post(this.$api.productApplyPage, params).then(res => {
           if (res.code === 1000) {
