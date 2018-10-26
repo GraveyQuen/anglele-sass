@@ -8,7 +8,7 @@
         <span>智慧安农</span>
       </div>
       <div class="header-operation">
-        <a class="operation-item" href="/login" v-if="!isLogin"><span class="iconfont ang-user"></span>登录</a>
+        <a class="operation-item" href="/login" v-if="!isLogin"><span class="iconfont ang-user"></span>供应商登录</a>
         <a class="operation-item" href="/home" v-if="isLogin"><span class="iconfont ang-user"></span>供应商后台</a>
         <a class="operation-item" href="http://anglele.com/" target="_blank"><span class="iconfont ang-home"></span>官网</a>
       </div>

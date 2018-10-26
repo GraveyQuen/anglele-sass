@@ -42,9 +42,7 @@
       todayCustomer
     },
     data() {
-      return {
-        role: {}
-      }
+      return {}
     },
     methods: {
   

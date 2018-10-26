@@ -63,12 +63,12 @@ axios.interceptors.response.use(response => {
         content: response.data.message,
         onOk() {
             router.replace({
-                path: '/'
+                path: '/home'
             })
         },
         onCancel() {
           router.replace({
-            path: '/'
+            path: '/home'
           })
         }
     })

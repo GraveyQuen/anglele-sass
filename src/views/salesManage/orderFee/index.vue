@@ -158,23 +158,25 @@
             <div class="table-contnet">
               <Row class-name="head">
                 <Col class-name="col" span="3">费用名称</Col>
-                <Col class-name="col" span="3">单价</Col>
-                <Col class-name="col" span="3">数量</Col>
-                <Col class-name="col" span="3">金额</Col>
+                <Col class-name="col" span="2">单价</Col>
+                <Col class-name="col" span="2">数量</Col>
+                <Col class-name="col" span="2">金额</Col>
                 <Col class-name="col" span="2">回收数量</Col>
                 <Col class-name="col" span="2">回收金额</Col>
                 <Col class-name="col" span="2">剩余金额</Col>
+                <Col class-name="col" span="3">备注</Col>
                 <Col class-name="col" span="3">操作人</Col>
                 <Col class-name="col" span="3">操作时间</Col>
               </Row>
               <Row v-for="(item,index) in logList" :key="index">
                 <Col class-name="col" span="3">{{item.feeName}}</Col>
-                <Col class-name="col" span="3">￥{{item.feeAmount}}</Col>
-                <Col class-name="col" span="3">{{item.totalNum}}</Col>
-                <Col class-name="col" span="3">￥{{item.totalAmount}}</Col>
+                <Col class-name="col" span="2">￥{{item.feeAmount}}</Col>
+                <Col class-name="col" span="2">{{item.totalNum}}</Col>
+                <Col class-name="col" span="2">￥{{item.totalAmount}}</Col>
                 <Col class-name="col" span="2">{{item.changeNum}}</Col>
                 <Col class-name="col" span="2">￥{{item.changeAmount}}</Col>
                 <Col class-name="col" span="2">￥{{item.totalAmount}}</Col>
+                <Col class-name="col" span="3">{{item.remark}}</Col>
                 <Col class-name="col" span="3">{{item.updateUser}}</Col>
                 <Col class-name="col" span="3">{{item.updateTime | dateformat}}</Col>
               </Row>

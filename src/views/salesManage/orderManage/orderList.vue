@@ -20,18 +20,23 @@
         </FormItem>
         <FormItem label="下单方式：">
           <Select v-model="pageApi.orderType" style="width: 200px;">
-              <Option v-for="(item,index) in [{value: 1,name:'客户下单'},{value: 2,name: '代客下单'}]" :value="item.value" :key="index">{{ item.name }}</Option>
-            </Select>
+                <Option v-for="(item,index) in [{value: 1,name:'客户下单'},{value: 2,name: '代客下单'}]" :value="item.value" :key="index">{{ item.name }}</Option>
+              </Select>
+        </FormItem>
+        <FormItem label="是否有其他费用：">
+          <Select v-model="pageApi.hasFee" style="width: 200px;">
+                <Option v-for="(item,index) in [{value: 0,name:'无回收费用'},{value: 1,name: '未回收完成'},{value: 2,name: '回收完成'}]" :value="item.value" :key="index">{{ item.name }}</Option>
+              </Select>
         </FormItem>
         <FormItem label="配送人：">
           <Select v-model="pageApi.deliveryManId" style="width: 200px;">
-                                                <Option v-for="(item,index) in deliveryList" :value="item.id" :key="index">{{ item.name }}</Option>
-                                              </Select>
+                <Option v-for="(item,index) in deliveryList" :value="item.id" :key="index">{{ item.name }}</Option>
+              </Select>
         </FormItem>
         <FormItem label="状态：">
           <Select v-model="pageApi.status" style="width: 200px;">
-                                                <Option v-for="(item,index) in orderStatus" :value="item.value" :key="index">{{ item.name }}</Option>
-                                              </Select>
+                <Option v-for="(item,index) in orderStatus" :value="item.value" :key="index">{{ item.name }}</Option>
+              </Select>
         </FormItem>
         <FormItem label="下单日期：">
           <DatePicker type="daterange" placement="bottom-end" v-model="dateValue" placeholder="选择日期" style="width: 200px"></DatePicker>
@@ -50,10 +55,10 @@
         <Table width="100%" ref="orderTable" :columns="tableHeader" border :data="list">
           <!-- 操作 -->
           <template slot="action" slot-scope="props">
-                                                  <Button type="warning" size="small" style="margin-right:8px;" v-if="props.row.status === 4" @click="overOrder(props.row)">完成订单</Button>
-                                                  <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看订单</Button>
-                                                  <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1" @click="confirm(props.row)">确认订单</Button>
-                                                  <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1 || props.row.status === 2 || props.row.status === 3 || props.row.status === 4" @click="cancelOrder(props.row)">取消订单</Button>
+                                                            <Button type="warning" size="small" style="margin-right:8px;" v-if="props.row.status === 4" @click="overOrder(props.row)">完成订单</Button>
+                                                            <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看订单</Button>
+                                                            <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1" @click="confirm(props.row)">确认订单</Button>
+                                                            <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1 || props.row.status === 2 || props.row.status === 3 || props.row.status === 4" @click="cancelOrder(props.row)">取消订单</Button>
 </template>
         </Table>
         <div class="paging">
@@ -131,23 +136,25 @@
             <div class="table-contnet">
               <Row class-name="head">
                 <Col class-name="col" span="3">费用名称</Col>
-                <Col class-name="col" span="3">单价</Col>
-                <Col class-name="col" span="3">数量</Col>
-                <Col class-name="col" span="3">金额</Col>
+                <Col class-name="col" span="2">单价</Col>
+                <Col class-name="col" span="2">数量</Col>
+                <Col class-name="col" span="2">金额</Col>
                 <Col class-name="col" span="2">回收数量</Col>
                 <Col class-name="col" span="2">回收金额</Col>
                 <Col class-name="col" span="2">剩余金额</Col>
+                <Col class-name="col" span="3">备注</Col>
                 <Col class-name="col" span="3">操作人</Col>
                 <Col class-name="col" span="3">操作时间</Col>
               </Row>
               <Row v-for="(item,index) in logList" :key="index">
-                <Col class-name="col" span="3">{{item.feeName}}</Col>
-                <Col class-name="col" span="3">￥{{item.feeAmount}}</Col>
-                <Col class-name="col" span="3">{{item.totalNum}}</Col>
+                <Col class-name="col" span="2">{{item.feeName}}</Col>
+                <Col class-name="col" span="2">￥{{item.feeAmount}}</Col>
+                <Col class-name="col" span="2">{{item.totalNum}}</Col>
                 <Col class-name="col" span="3">￥{{item.totalAmount}}</Col>
                 <Col class-name="col" span="2">{{item.changeNum}}</Col>
                 <Col class-name="col" span="2">￥{{item.changeAmount}}</Col>
                 <Col class-name="col" span="2">￥{{item.totalAmount}}</Col>
+                <Col class-name="col" span="3">{{item.remark}}</Col>
                 <Col class-name="col" span="3">{{item.updateUser}}</Col>
                 <Col class-name="col" span="3">{{item.updateTime | dateformat}}</Col>
               </Row>
@@ -166,20 +173,20 @@
     </Modal>
     <Modal title="完成订单" width="1000" v-model="overShow" :mask-closable="false">
       <div class="order-ok-header">请仔细核对订单中的产品实单数量、实单单价后进行确认</div>
-      <Table ref="overTable" border :columns="goodsHeader" :data="overApi.outItems" >
+      <Table ref="overTable" disabled-hover border :columns="goodsHeader" :data="overApi.outItems" >
         <!-- 实单数量 -->
 <template slot="realNum" slot-scope="props">
   <Form :ref="'formRow'+props.idx" :model="props.row">
     <FormItem prop="realNum" :rules="{required: true, message: '请输入数量', trigger: 'blur', type: 'number'}">
-      <InputNumber :min="0" v-model.number="props.row.realNum" size="small" style="width:60px;"></InputNumber>{{props.row.unit}}
+      <InputNumber @on-change="numChange(props.row,$event)" :min="0" v-model.number="props.row.realNum" size="small" style="width:60px;"></InputNumber>{{props.row.unit}}
     </FormItem>
   </Form>
 </template>
-                <!-- 实单单价 -->
+                        <!-- 实单单价 -->
 <template slot="realPrice" slot-scope="props">
   <Form :ref="'formRow'+props.idx" :model="props.row">
     <FormItem prop="realPrice" :rules="{required: true, message: '请输入单价', trigger: 'blur', type: 'number'}">
-      <InputNumber :min="0" v-model.number="props.row.realPrice" size="small" style="width:60px;"></InputNumber>元/{{props.row.unit}}
+      <InputNumber @on-change="numChange(props.row,$event)" :min="0" v-model.number="props.row.realPrice" size="small" style="width:60px;"></InputNumber>元/{{props.row.unit}}
     </FormItem>
   </Form>
 </template>
@@ -225,6 +232,7 @@
         </div>
       </div>
       </div>
+      <div class="price-total">费用合计：￥<span>{{orderTotalPrice}}</span></div>
       <div slot="footer">
         <Button type="primary" @click="overSubmit" :loading="loading">保存</Button>
         <Button @click="overReset">取消</Button>
@@ -264,7 +272,8 @@
           startUpdateTime: '',
           endUpdateTime: '',
           finishStatus: this.old ? 1 : 0,
-          deliveryManId: ''
+          deliveryManId: '',
+          hasFee: ''
         },
         detailItem: {},
         cancelShow: false,
@@ -493,7 +502,8 @@
           orderType: this.pageApi.orderType,
           updateUser: this.pageApi.updateUser,
           finishStatus: this.old ? 1 : 0,
-          deliveryManId: this.pageApi.deliveryManId
+          deliveryManId: this.pageApi.deliveryManId,
+          hasFee: this.pageApi.hasFee
         }
       },
       getId() {
@@ -509,6 +519,17 @@
           })
         }
         return isOk;
+      },
+      orderTotalPrice() {
+        let price1 = 0;
+        let price2 = 0;
+        this.overApi.outItems.forEach(item => {
+          price1 += item.realPrice * item.realNum
+        })
+        this.overApi.orderFees.forEach(el => {
+          price2 += el.feeAmount * el.totalNum
+        })
+        return (price1 + price2).toFixed(2);
       }
     },
     watch: {
@@ -523,6 +544,9 @@
       }
     },
     methods: {
+      numChange(data, eve) {
+        this.$set(this.overApi.outItems, data._index, Object.assign({}, data))
+      },
       getList(params) {
         this.$http.post(this.$api.orderPage, params).then(res => {
           if (res.code === 1000) {
@@ -549,7 +573,8 @@
           startUpdateTime: '',
           endUpdateTime: '',
           finishStatus: this.old ? 1 : 0,
-          deliveryManId: ''
+          deliveryManId: '',
+          hasFee: ''
         }
         this.dateValue = ['', ''];
         this.dateValue2 = ['', ''];
@@ -713,7 +738,6 @@
       //  删除费用行
       delRow(idx, item) {
         this.overApi.orderFees.splice(idx, 1);
-  
         this.feeList.map(el => {
           if (el.feeName === item.feeName) {
             el.disabled = false;
@@ -807,5 +831,14 @@
   
   .add-fee {
     padding-top: 20px;
+  }
+  
+  .price-total {
+    padding-top: 20px;
+    text-align: right;
+    span {
+      display: inline-block;
+      color: #ed4014;
+    }
   }
 </style>
