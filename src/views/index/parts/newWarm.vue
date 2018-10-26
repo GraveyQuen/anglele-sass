@@ -82,6 +82,11 @@
             margin-right: 5px;
           }
         }
+        .warehouse-list{
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
       }
     }
   }
