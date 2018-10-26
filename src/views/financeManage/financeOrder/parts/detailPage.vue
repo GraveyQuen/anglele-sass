@@ -73,7 +73,7 @@
                 <Col class-name="col" span="3">￥{{item.totalAmount}}</Col>
                 <Col class-name="col" span="3">{{item.currentNum}}</Col>
                 <Col class-name="col" span="3">{{item.totalAmount}}</Col>
-                <Col class-name="col" span="4">
+                <Col class-name="col" span="4" :style="item.remark != '' ? 'height: auto;overflow: inherit;':''">
                 <Tooltip placement="top" v-show="item.remark != ''">
                   <Button size="small">查看备注</Button>
                   <div slot="content">
