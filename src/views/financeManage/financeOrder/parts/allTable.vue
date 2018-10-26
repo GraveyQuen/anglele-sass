@@ -118,7 +118,13 @@
     methods: {
       detail(item) {
         this.show = true;
-        this.detailItem = Object.assign({}, item)
+        this.$http.post(this.$api.findOneOrder, {
+          id: item.id
+        }).then(res => {
+          if (res.code === 1000) {
+            this.detailItem = Object.assign({}, res.data)
+          }
+        })
         this.getLog(item)
       },
       getLog(item) {
@@ -126,7 +132,6 @@
           orderId: item.id
         }).then(res => {
           if (res.code === 1000) {
-            console.log(res)
             this.logList = res.data;
           }
         })

@@ -3,7 +3,7 @@
     <Table width="100%" ref="settledTable" border :columns="tableHeader" :data="lists" @on-selection-change="selectRow">
       <!-- 操作 -->
       <template slot="action" slot-scope="props">
-          <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看</Button>
+            <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看</Button>
 </template>
     </Table>
         <Modal title="订单详情" width="1000" v-model="show" :mask-closable="false">
@@ -134,7 +134,13 @@
       },
       detail(item) {
         this.show = true;
-        this.detailItem = Object.assign({}, item)
+        this.$http.post(this.$api.findOneOrder, {
+          id: item.id
+        }).then(res => {
+          if (res.code === 1000) {
+            this.detailItem = Object.assign({}, res.data)
+          }
+        })
         this.getLog(item)
       },
       getLog(item) {
