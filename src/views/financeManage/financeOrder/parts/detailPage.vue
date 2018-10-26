@@ -73,6 +73,9 @@
                 <Col class-name="col" span="4">{{item.currentNum}}</Col>
                 <Col class-name="col" span="4">{{item.totalAmount}}</Col>
               </Row>
+              <Row v-if="order.order.orderFees.length == 0">
+                <Col class-name="col" span="24">暂无其他费用</Col>
+              </Row>
             </div>
           </div>
         </div>
