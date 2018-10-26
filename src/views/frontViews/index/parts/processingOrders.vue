@@ -4,7 +4,7 @@
       <div class="processing-title">如何快速处理订单</div>
       <div class="processing-text">客户通过手机APP、小程序快速下单，商家高效处理订单，一键打印报表，订单一目了然</div>
       <div class="processing-icon">
-        <img src="../../../../assets/images/processing-icon.png" />
+        <img src="https://resource.anglele.com/saas/static/processing-icon.png" />
       </div>
     </div>
   </div>

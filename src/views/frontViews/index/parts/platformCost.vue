@@ -79,7 +79,7 @@
             message: '不能为空',
             trigger: 'blur'
           }]
-        },
+        }
       }
     },
     methods: {
@@ -94,6 +94,8 @@
             this.$http.post(this.$api.applySaas, params).then(res => {
               if (res.code === 1000) {
                 this.show = false;
+                this.applyApi.userName = '';
+                this.applyApi.userContact = '';
                 this.$Modal.success({
                     title: '提交成功',
                     content: '我们工作人员会尽快和您联系'
@@ -123,7 +125,7 @@
   .platform-cost {
     position: relative;
     height: 700px;
-    background: url('../../../../assets/images/platform-cost-bg.png');
+    background: url('https://resource.anglele.com/saas/static/platform-cost-bg.png');
     .platform-cost-main {
       position: absolute;
       top: 80px;

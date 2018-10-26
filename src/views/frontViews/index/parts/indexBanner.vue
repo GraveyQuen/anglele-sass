@@ -15,14 +15,14 @@
             <div class="app-item">
               <span class="app-item-text qr">扫一扫下载<span>APP</span></span>
               <span class="app-item-img">
-                  <img src="../../../../assets/images/sun-qr.png">
+                  <img src="../../../../assets/images/downloadQr.png">
                 </span>
             </div>
           </div>
         </div>
         <div class="banner-main-item">
           <div class="banner-main-item-right">
-            <img src="../../../../assets/images/banner-right-pic.png" alt="">
+            <img src="https://resource.anglele.com/saas/static/banner-right-pic.png" alt="">
           </div>
         </div>
       </div>
@@ -43,7 +43,7 @@
   .index-banner {
     position: relative;
     height: 680px;
-    background: top center url('../../../../assets/images/index-banner.png') no-repeat;
+    background: top center url('https://resource.anglele.com/saas/static/index-banner.png') no-repeat;
     .front-section {
       width: 1200px;
       margin-left: auto;

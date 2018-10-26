@@ -16,7 +16,7 @@
 <style lang='less' scoped>
   .bright {
     height: 800px;
-    background: top center url('../../../../assets/images/bright-bg.png') no-repeat;
+    background: top center url('https://resource.anglele.com/saas/static/bright-bg.png') no-repeat;
     .title {
       text-align: center;
       font-size: 36px;

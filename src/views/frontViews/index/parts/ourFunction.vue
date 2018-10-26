@@ -85,7 +85,7 @@
       flex: 0 0 auto;
       width: 270px;
       height: 340px;
-      background: url('../../../../assets/images/function-bg.png') no-repeat;
+      background: url('https://resource.anglele.com/saas/static/function-bg.png') no-repeat;
       transition: all .2s linear;
       &:hover {
         background: #fff;
@@ -97,7 +97,7 @@
           width: 80px;
           height: 80px;
           border-radius: 50%;
-          background: url('../../../../assets/images/function-icon.png') no-repeat;
+          background: url('https://resource.anglele.com/saas/static/function-icon.png') no-repeat;
           &.icon-0 {
             background-position: 0 0;
           }

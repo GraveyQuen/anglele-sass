@@ -1,7 +1,7 @@
 <template>
   <div class="service">
     <div class="icon">
-      <img src="../../../../assets/images/service-icon.png">
+      <img src="https://resource.anglele.com/saas/static/service-icon.png">
     </div>
     <div class="service-main">
       <div class="service-item" v-for="(item,index) in list" :key="index">

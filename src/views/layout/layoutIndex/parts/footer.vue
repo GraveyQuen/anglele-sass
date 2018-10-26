@@ -15,7 +15,7 @@
           <div class="text">微信小程序</div>
         </div>
         <div class="footer-col footer-col-imgs">
-          <div class="footer-col-img"><img src="../../../../assets/images/sun-qr.png"></div>
+          <div class="footer-col-img"><img src="../../../../assets/images/downloadQr.png"></div>
           <div class="text">APP下载</div>
         </div>
       </div>

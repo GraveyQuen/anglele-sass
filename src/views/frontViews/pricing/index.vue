@@ -21,7 +21,7 @@
                     <div class="cost-detail-title">维护费</div>
                     <div class="cost-detail-price">￥5800/年</div>
                   </div>
-                  <div class="cost-btn"><a>立即开通</a></div>
+                  <div class="cost-btn"><a @click="showTest" href="javascript:;">立即开通</a></div>
                 </div>
               </th>
               <th>
@@ -35,304 +35,273 @@
                     <div class="cost-detail-title">维护费</div>
                     <div class="cost-detail-price">￥12000/年</div>
                   </div>
-                  <div class="cost-btn"><a class="orange">立即开通</a></div>
+                  <div class="cost-btn"><a @click="showTest" href="javascript:;" class="orange">立即开通</a></div>
                 </div>
               </th>
             </tr>
           </thead>
           <tbody>
-            <!-- <tr>
-                              <td colspan="2" class="table-td-header function-app">功能应用</td>
-                              <td>
-                                <div class="cost-main">
-                                  <div class="cost-main-title">基础版</div>
-                                  <div class="cost-detail">
-                                    <div class="cost-detail-title">使用费</div>
-                                    <div class="cost-detail-price">￥18000</div>
-                                  </div>
-                                  <div class="cost-detail">
-                                    <div class="cost-detail-title">维护费</div>
-                                    <div class="cost-detail-price">￥5800/年</div>
-                                  </div>
-                                  <div class="cost-btn"><a>立即开通</a></div>
-                                </div>
-                              </td>
-                              <td>
-                                <div class="cost-main">
-                                  <div class="cost-main-title">旗舰版</div>
-                                  <div class="cost-detail">
-                                    <div class="cost-detail-title">定制交付</div>
-                                    <div class="cost-detail-price">￥158000</div>
-                                  </div>
-                                  <div class="cost-detail">
-                                    <div class="cost-detail-title">维护费</div>
-                                    <div class="cost-detail-price">￥12000/年</div>
-                                  </div>
-                                  <div class="cost-btn"><a class="orange">立即开通</a></div>
-                                </div>
-                              </td>
-                            </tr> -->
             <tr>
               <td rowspan="2" class="table-td-header">商品管理</td>
               <td class="table-td-title">功能应用</td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
             </tr>
             <tr>
               <td>录入商品基本信息</td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
             </tr>
             <tr>
               <td rowspan="2" class="table-td-header">采购管理</td>
               <td>自动汇总订单数据</td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
             </tr>
             <tr>
               <td>自动分拣订单数据</td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
             </tr>
             <tr>
               <td rowspan="4" class="table-td-header">销售管理</td>
               <td>控制用户下单时间</td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
             </tr>
             <tr>
               <td>实时查看下单数据</td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
             </tr>
             <tr>
               <td>代替用户在后台下单</td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
             </tr>
             <tr>
               <td>实配为准，客户价格不同</td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
             </tr>
             <tr>
               <td rowspan="3" class="table-td-header">库存管理</td>
               <td>一键入库，高效管理</td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
             </tr>
             <tr>
               <td>实时查看商品库存量</td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
             </tr>
             <tr>
               <td>自动报损报缺，及时报警</td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
             </tr>
             <tr>
               <td rowspan="2" class="table-td-header">客户管理</td>
               <td>维护现有客户信息</td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
             </tr>
             <tr>
               <td>方便客户登陆APP下单</td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
             </tr>
             <tr>
               <td rowspan="2" class="table-td-header">财务结算</td>
               <td>多维度结算系统</td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
             </tr>
             <tr>
               <td>结算单打印</td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
             </tr>
             <tr>
               <td rowspan="2" class="table-td-header">移动端</td>
               <td>手机APP</td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
             </tr>
             <tr>
               <td>微信小程序</td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
             </tr>
             <tr>
               <td rowspan="3" class="table-td-header">数据分析</td>
               <td>折线图，饼图反映直观数据</td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
             </tr>
             <tr>
               <td>每日运营数据，日常营收数据</td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
             </tr>
             <tr>
               <td>交易汇总报表，销售报表，利润报表，库存报表统一管理</td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
             </tr>
             <tr>
               <td rowspan="2" class="table-td-header">数据安全</td>
               <td>定期数据备份</td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
             </tr>
             <tr>
               <td>数据存储加密</td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
             </tr>
             <tr>
               <td rowspan="3" class="table-td-header">增值服务</td>
               <td>个性化功能定制</td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
             </tr>
             <tr>
               <td>特殊专业处理</td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
             </tr>
             <tr>
               <td>独立技术支持</td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
             </tr>
             <tr>
               <td rowspan="3" class="table-td-header">第三方应用集成</td>
               <td>API数据接口调用</td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
             </tr>
             <tr>
               <td>微信服务号对接支持</td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
             </tr>
             <tr>
               <td>微信企业号对接支持</td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18">
+                <span class="iconfont ang-dui"></span>
               </td>
             </tr>
           </tbody>
@@ -351,9 +320,9 @@
             <tr>
               <td>专属服务服务器</td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18"></td>
+                <span class="iconfont ang-cuohao"></span></td>
               <td>
-                <img src="../../../assets/images/support-icon.png" width="18"></td>
+                <span class="iconfont ang-dui"></span></td>
             </tr>
             <tr>
               <td>上门培训</td>
@@ -379,21 +348,99 @@
         </table>
       </div>
     </div>
+  
+    <Modal title="免费体验" width="500" v-model="show" @on-cancel="close('formModel')" :mask-closable="false">
+      <Form ref="formModel" :model="applyApi" :rules="rule" :label-width="100">
+        <Alert type="success">提交后我们工作人员会尽快和您联系。</Alert>
+        <FormItem label="姓名：" prop="userName">
+          <Input v-model="applyApi.userName" placeholder="请输入..."></Input>
+        </FormItem>
+        <FormItem label="联系方式：" prop="userContact">
+          <Input v-model="applyApi.userContact" placeholder="请输入..."></Input>
+        </FormItem>
+      </Form>
+      <div slot="footer">
+        <Button type="primary" @click="submit('formModel')" :loading="loading">提交</Button>
+        <Button @click="close('formModel')">取消</Button>
+      </div>
+    </Modal>
   </div>
 </template>
 
 <script>
   export default {
     data() {
-      return {}
+      return {
+        show: false,
+        applyApi: {
+          userName: '',
+          userContact: ''
+        },
+        loading: false,
+        rule: {
+          userName: [{
+            required: true,
+            message: '不能为空',
+            trigger: 'blur'
+          }],
+          userContact: [{
+            required: true,
+            message: '不能为空',
+            trigger: 'blur'
+          }]
+        }
+      }
     },
-    methods: {}
+    methods: {
+      showTest() {
+        this.show = true;
+      },
+      submit(name) {
+        this.$refs[name].validate((valid) => {
+          if (valid) {
+            this.loading = true;
+            let params = this.$clearData(this.applyApi);
+            this.$http.post(this.$api.applySaas, params).then(res => {
+              if (res.code === 1000) {
+                this.show = false;
+                this.applyApi.userName = '';
+                this.applyApi.userContact = '';
+                this.$Modal.success({
+                  title: '提交成功',
+                  content: '我们工作人员会尽快和您联系'
+                });
+              } else {
+                this.$Message.error(res.message);
+              }
+              this.loading = false;
+            })
+          } else {
+            this.$Message.error('表单验证失败');
+          }
+        })
+      },
+      close(name) {
+        this.applyApi.userName = '';
+        this.applyApi.userContact = '';
+        this.show = false;
+        this.loading = false;
+        this.$refs[name].resetFields();
+      }
+    }
   }
 </script>
 
 <style lang='less' scoped>
   .pricing {
     margin-top: -80px;
+  }
+  
+  .iconfont {
+    color: #16D0FF;
+    font-weight: bold;
+    &.ang-cuohao {
+      color: #FF6F36;
+    }
   }
   
   .pricing-main {
@@ -404,7 +451,7 @@
   
   .pricing-banner {
     height: 680px;
-    background: top center url('../../../assets/images/pricing-banner.png') no-repeat;
+    background: top center url('https://resource.anglele.com/saas/static/pricing-banner.png') no-repeat;
     text-align: center;
     color: #fff;
     .title {
