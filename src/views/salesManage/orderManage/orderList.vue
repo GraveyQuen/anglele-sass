@@ -627,6 +627,8 @@
               this.logList = res.data;
             }
           })
+        }else{
+          this.logList = [];
         }
       },
       /// 提交取消订单

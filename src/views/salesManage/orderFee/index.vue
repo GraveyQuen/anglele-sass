@@ -176,7 +176,7 @@
                 <Col class-name="col" span="2">{{item.changeNum}}</Col>
                 <Col class-name="col" span="2">￥{{item.changeAmount}}</Col>
                 <Col class-name="col" span="2">￥{{item.totalAmount}}</Col>
-                <Col class-name="col" span="3" style="height: auto;overflow: inherit;">
+                <Col class-name="col" span="3" :style="item.remark != '' ? 'height: auto;overflow: inherit;':''">
                 <Tooltip placement="top" v-show="item.remark != ''">
                     <Button size="small">查看备注</Button>
                     <div slot="content">
