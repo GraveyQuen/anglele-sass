@@ -3,24 +3,25 @@
   
     <Table class="fake-table-header" ref="settledTable" border :columns="tableHeader" :data="[]">
       <template slot="action" slot-scope="props">
-          <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看</Button>
-          <Button type="warning" size="small"  @click="updateId(props.row)">更新结算单号</Button>
+            <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看</Button>
+            <Button type="warning" size="small"  @click="updateId(props.row)">更新结算单号</Button>
 </template>
   </Table>
   <Table class="real-table-body" ref ="settledRow" stripe highlight-row :show-header="false" :columns="fakeHead" :data="listData">
 <template slot="options" slot-scope="props">
   <Button type="success" size="small" style="margin-right:8px;" @click="print(props.row)">打印</Button>
 </template>
+
 <template slot="info" slot-scope="props">
   <div class="info">
     <span>结算单号：{{props.row.id}}</span>
     <span>结算日期：{{props.row.createTime | dateformat}}</span>
-    <span>结算金额：{{props.row.totalPrice}}</span>
+    <span>结算金额：￥{{props.row.totalPrice}}</span>
   </div>
 </template>
   </Table>
     <Modal title="订单详情" width="1000" v-model="show" :mask-closable="false">
-      <detailPage :order="detailItem"></detailPage>
+      <detailPage :order="detailItem" :logList="logList"></detailPage>
       <div slot="footer">
         <Button @click="show = false">取消</Button>
     </div>
@@ -164,7 +165,8 @@
         ],
         show: false,
         detailItem: {},
-        updateShow: false
+        updateShow: false,
+        logList: []
       }
     },
     computed: {
@@ -183,6 +185,16 @@
       detail(item) {
         this.show = true;
         this.detailItem = Object.assign({}, item)
+        this.getLog(item)
+      },
+      getLog(item) {
+        this.$http.post(this.$api.orderFeeHistory, {
+          orderId: item.id
+        }).then(res => {
+          if (res.code === 1000) {
+            this.logList = res.data;
+          }
+        })
       },
       // 更新结算
       updateId(item) {
@@ -268,8 +280,9 @@
       }
     }
   }
-  .info{
-    span{
+  
+  .info {
+    span {
       display: inline-block;
       margin-right: 30px;
     }

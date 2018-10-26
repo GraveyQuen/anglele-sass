@@ -20,8 +20,8 @@
         </FormItem>
         <FormItem label="费用名称：">
           <Select v-model="pageApi.feeId" style="width: 200px;">
-                              <Option v-for="(option,i) in feeList" :value="option.id" :key="option.id">{{ option.feeName }}</Option>
-                          </Select>
+                                <Option v-for="(option,i) in feeList" :value="option.id" :key="option.id">{{ option.feeName }}</Option>
+                            </Select>
         </FormItem>
         <FormItem label="下单日期：">
           <DatePicker type="daterange" placement="bottom-end" v-model="dateValue" placeholder="选择日期" style="width: 200px"></DatePicker>
@@ -39,9 +39,9 @@
       <div class="card-contnet">
         <Table width="100%" ref="orderTable" :columns="tableHeader" border :data="list">
           <template slot="orderFees" slot-scope="props">
-                    <div>
-                      <span class="fee" v-for="(fee,i) in props.row.orderFees" :key="i">{{`${fee.feeName},${fee.currentNum},￥${fee.totalAmount}`}}</span>
-                    </div>
+                      <div>
+                        <span class="fee" v-for="(fee,i) in props.row.orderFees" :key="i">{{`${fee.feeName},${fee.currentNum},￥${fee.totalAmount}`}}</span>
+                      </div>
 </template>
               <!-- 操作 -->
 <template slot="action" slot-scope="props">
@@ -176,7 +176,14 @@
                 <Col class-name="col" span="2">{{item.changeNum}}</Col>
                 <Col class-name="col" span="2">￥{{item.changeAmount}}</Col>
                 <Col class-name="col" span="2">￥{{item.totalAmount}}</Col>
-                <Col class-name="col" span="3">{{item.remark}}</Col>
+                <Col class-name="col" span="3" style="height: auto;overflow: inherit;">
+                <Tooltip placement="top" v-show="item.remark != ''">
+                    <Button size="small">查看备注</Button>
+                    <div slot="content">
+                        <div class="Tooltip">{{item.remark}}</div>
+                    </div>
+                </Tooltip>
+                </Col>
                 <Col class-name="col" span="3">{{item.updateUser}}</Col>
                 <Col class-name="col" span="3">{{item.updateTime | dateformat}}</Col>
               </Row>
@@ -464,5 +471,10 @@
         }
       }
     }
+  }
+  
+  .Tooltip {
+    word-break: break-all;
+    white-space: normal;
   }
 </style>

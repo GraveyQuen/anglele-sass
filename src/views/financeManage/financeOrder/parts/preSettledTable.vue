@@ -17,12 +17,12 @@
   <div class="info">
     <span>预结算单号：{{props.row.id}}</span>
     <span>预结算日期：{{props.row.createTime | dateformat}}</span>
-    <span>预结算金额：{{props.row.totalPrice}}</span>
+    <span>预结算金额：￥{{props.row.totalPrice}}</span>
   </div>
 </template>
   </Table>
     <Modal title="订单详情" width="1000" v-model="show" :mask-closable="false">
-      <detailPage :order="detailItem"></detailPage>
+      <detailPage :order="detailItem" :logList="logList"></detailPage>
       <div slot="footer">
         <Button @click="show = false">取消</Button>
     </div>
@@ -48,6 +48,7 @@
     data() {
       return {
         isCancel: false,
+        logList:[],
         tableHeader: [{
           title: '订单编号',
           key: 'id',
@@ -160,7 +161,17 @@
     methods: {
       detail(item) {
         this.show = true;
-        this.detailItem = Object.assign({}, item)
+        this.detailItem = Object.assign({}, item);
+        this.getLog(item)
+      },
+      getLog(item){
+        this.$http.post(this.$api.orderFeeHistory, {
+          orderId: item.id
+        }).then(res => {
+          if (res.code === 1000) {
+            this.logList = res.data;
+          }
+        })
       },
       // 取消结算
       cancelSettled(item) {

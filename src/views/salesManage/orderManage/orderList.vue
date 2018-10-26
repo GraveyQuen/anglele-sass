@@ -20,23 +20,23 @@
         </FormItem>
         <FormItem label="下单方式：">
           <Select v-model="pageApi.orderType" style="width: 200px;">
-                <Option v-for="(item,index) in [{value: 1,name:'客户下单'},{value: 2,name: '代客下单'}]" :value="item.value" :key="index">{{ item.name }}</Option>
-              </Select>
+                  <Option v-for="(item,index) in [{value: 1,name:'客户下单'},{value: 2,name: '代客下单'}]" :value="item.value" :key="index">{{ item.name }}</Option>
+                </Select>
         </FormItem>
         <FormItem label="是否有其他费用：">
           <Select v-model="pageApi.hasFee" style="width: 200px;">
-                <Option v-for="(item,index) in [{value: 0,name:'无回收费用'},{value: 1,name: '未回收完成'},{value: 2,name: '回收完成'}]" :value="item.value" :key="index">{{ item.name }}</Option>
-              </Select>
+                  <Option v-for="(item,index) in [{value: 0,name:'无回收费用'},{value: 1,name: '未回收完成'},{value: 2,name: '回收完成'}]" :value="item.value" :key="index">{{ item.name }}</Option>
+                </Select>
         </FormItem>
         <FormItem label="配送人：">
           <Select v-model="pageApi.deliveryManId" style="width: 200px;">
-                <Option v-for="(item,index) in deliveryList" :value="item.id" :key="index">{{ item.name }}</Option>
-              </Select>
+                  <Option v-for="(item,index) in deliveryList" :value="item.id" :key="index">{{ item.name }}</Option>
+                </Select>
         </FormItem>
         <FormItem label="状态：">
           <Select v-model="pageApi.status" style="width: 200px;">
-                <Option v-for="(item,index) in orderStatus" :value="item.value" :key="index">{{ item.name }}</Option>
-              </Select>
+                  <Option v-for="(item,index) in orderStatus" :value="item.value" :key="index">{{ item.name }}</Option>
+                </Select>
         </FormItem>
         <FormItem label="下单日期：">
           <DatePicker type="daterange" placement="bottom-end" v-model="dateValue" placeholder="选择日期" style="width: 200px"></DatePicker>
@@ -55,10 +55,10 @@
         <Table width="100%" ref="orderTable" :columns="tableHeader" border :data="list">
           <!-- 操作 -->
           <template slot="action" slot-scope="props">
-                                                            <Button type="warning" size="small" style="margin-right:8px;" v-if="props.row.status === 4" @click="overOrder(props.row)">完成订单</Button>
-                                                            <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看订单</Button>
-                                                            <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1" @click="confirm(props.row)">确认订单</Button>
-                                                            <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1 || props.row.status === 2 || props.row.status === 3 || props.row.status === 4" @click="cancelOrder(props.row)">取消订单</Button>
+                                                              <Button type="warning" size="small" style="margin-right:8px;" v-if="props.row.status === 4" @click="overOrder(props.row)">完成订单</Button>
+                                                              <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看订单</Button>
+                                                              <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1" @click="confirm(props.row)">确认订单</Button>
+                                                              <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1 || props.row.status === 2 || props.row.status === 3 || props.row.status === 4" @click="cancelOrder(props.row)">取消订单</Button>
 </template>
         </Table>
         <div class="paging">
@@ -147,14 +147,21 @@
                 <Col class-name="col" span="3">操作时间</Col>
               </Row>
               <Row v-for="(item,index) in logList" :key="index">
-                <Col class-name="col" span="2">{{item.feeName}}</Col>
+                <Col class-name="col" span="3">{{item.feeName}}</Col>
                 <Col class-name="col" span="2">￥{{item.feeAmount}}</Col>
                 <Col class-name="col" span="2">{{item.totalNum}}</Col>
-                <Col class-name="col" span="3">￥{{item.totalAmount}}</Col>
+                <Col class-name="col" span="2">￥{{item.totalAmount}}</Col>
                 <Col class-name="col" span="2">{{item.changeNum}}</Col>
                 <Col class-name="col" span="2">￥{{item.changeAmount}}</Col>
                 <Col class-name="col" span="2">￥{{item.totalAmount}}</Col>
-                <Col class-name="col" span="3">{{item.remark}}</Col>
+                <Col class-name="col" span="3" :style="item.remark != '' ? 'height: auto;overflow: inherit;':''">
+                <Tooltip placement="top" v-show="item.remark != ''">
+                    <Button>查看备注</Button>
+                    <div slot="content">
+                        <div class="Tooltip">{{item.remark}}</div>
+                    </div>
+                </Tooltip>
+                </Col>
                 <Col class-name="col" span="3">{{item.updateUser}}</Col>
                 <Col class-name="col" span="3">{{item.updateTime | dateformat}}</Col>
               </Row>
@@ -840,5 +847,10 @@
       display: inline-block;
       color: #ed4014;
     }
+  }
+  
+  .Tooltip {
+    word-break: break-all;
+    white-space: normal;
   }
 </style>

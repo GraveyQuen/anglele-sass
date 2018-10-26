@@ -3,11 +3,11 @@
     <Table width="100%" ref="settledTable" border :columns="tableHeader" :data="lists">
       <!-- 操作 -->
       <template slot="action" slot-scope="props">
-        <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看</Button>
-      </template>
+          <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看</Button>
+</template>
     </Table>
     <Modal title="订单详情" width="1000" v-model="show" :mask-closable="false">
-      <detailPage :order="detailItem"></detailPage>
+      <detailPage :order="detailItem" :logList="logList"></detailPage>
       <div slot="footer">
         <Button @click="show = false">取消</Button>
       </div>
@@ -111,14 +111,26 @@
           }
         }],
         detailItem: {},
-        show: false
+        show: false,
+        logList: []
       }
     },
     methods: {
-      detail(item){
+      detail(item) {
         this.show = true;
-        this.detailItem = Object.assign({},item)
-      }
+        this.detailItem = Object.assign({}, item)
+        this.getLog(item)
+      },
+      getLog(item) {
+        this.$http.post(this.$api.orderFeeHistory, {
+          orderId: item.id
+        }).then(res => {
+          if (res.code === 1000) {
+            console.log(res)
+            this.logList = res.data;
+          }
+        })
+      },
     }
   }
 </script>
