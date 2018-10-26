@@ -34,7 +34,8 @@
             <Input v-model="dataApi.feeName" placeholder="请输入..."></Input>
           </FormItem>
           <FormItem label="金额：" prop="feeAmount">
-            <Input v-model="dataApi.feeAmount" placeholder="请输入..."></Input>
+            <!-- <Input v-model="dataApi.feeAmount" placeholder="请输入..."></Input> -->
+            <InputNumber :min="0" v-model.number="dataApi.feeAmount" style="width:100%;"></InputNumber>
           </FormItem>
           <FormItem label="备注：">
             <Input v-model="dataApi.remark" placeholder="请输入..."></Input>
@@ -61,7 +62,7 @@
         },
         dataApi: {
           feeName: '',
-          feeAmount: '',
+          feeAmount: 0,
           remark: ''
         },
         rule: {
@@ -73,7 +74,8 @@
           feeAmount: [{
             required: true,
             message: '不能为空',
-            trigger: 'blur'
+            trigger: 'blur',
+            type:'number'
           }]
         },
         loading: false,
@@ -92,7 +94,7 @@
         })
       },
       // 分页
-      changePage(page){
+      changePage(page) {
         this.pageApi.pageIndex = page;
         this.getList();
       },
@@ -105,7 +107,7 @@
           this.dataApi.remark = item.remark;
         } else {
           this.dataApi.feeName = '';
-          this.dataApi.feeAmount = '';
+          this.dataApi.feeAmount = 0;
           this.dataApi.remark = '';
         }
         this.show = true;
@@ -133,8 +135,9 @@
         })
       },
       reset(name) {
-        this.dataApi.cName = '';
-        this.dataApi.eName = '';
+        this.dataApi.feeName = '';
+        this.dataApi.feeAmount = 0;
+        this.dataApi.remark = '';
         this.show = false;
         this.$refs[name].resetFields();
       },
