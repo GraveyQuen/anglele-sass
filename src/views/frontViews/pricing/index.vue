@@ -318,7 +318,7 @@
           </thead>
           <tbody>
             <tr>
-              <td>专属服务服务器</td>
+              <td>专属服务器服务</td>
               <td>
                 <span class="iconfont ang-cuohao"></span></td>
               <td>

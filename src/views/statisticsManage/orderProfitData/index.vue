@@ -260,7 +260,7 @@
             this.detailItem = Object.assign({}, res.data)
           }
         })
-        this.getLog(item.id)
+        this.getLog(item);
       },
       getLog(item) {
         this.$http.post(this.$api.orderFeeHistory, {
