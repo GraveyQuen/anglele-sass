@@ -43,7 +43,7 @@
           <tbody>
             <tr>
               <td rowspan="2" class="table-td-header">商品管理</td>
-              <td class="table-td-title">功能应用</td>
+              <td class="table-td-title">录入商品基本信息</td>
               <td>
                 <span class="iconfont ang-dui"></span>
               </td>
@@ -52,7 +52,7 @@
               </td>
             </tr>
             <tr>
-              <td>录入商品基本信息</td>
+              <td>实时修改商品单价</td>
               <td>
                 <span class="iconfont ang-dui"></span>
               </td>

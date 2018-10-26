@@ -108,6 +108,52 @@
             </div>
           </div>
         </div>
+
+         <div class="order-detail-title">
+          <span>历史其他费用明细</span>
+        </div>
+        <div class="order-detail-main">
+        <div class="page-inner">
+          <div class="card-contnet">
+            <div class="table-contnet">
+              <Row class-name="head">
+                <Col class-name="col" span="3">费用名称</Col>
+                <Col class-name="col" span="2">单价</Col>
+                <Col class-name="col" span="2">数量</Col>
+                <Col class-name="col" span="2">金额</Col>
+                <Col class-name="col" span="2">回收数量</Col>
+                <Col class-name="col" span="2">回收金额</Col>
+                <Col class-name="col" span="2">剩余金额</Col>
+                <Col class-name="col" span="3">备注</Col>
+                <Col class-name="col" span="3">操作人</Col>
+                <Col class-name="col" span="3">操作时间</Col>
+              </Row>
+              <Row v-for="(item,index) in logList" :key="index">
+                <Col class-name="col" span="3">{{item.feeName}}</Col>
+                <Col class-name="col" span="2">￥{{item.feeAmount}}</Col>
+                <Col class-name="col" span="2">{{item.totalNum}}</Col>
+                <Col class-name="col" span="2">￥{{item.totalAmount}}</Col>
+                <Col class-name="col" span="2">{{item.changeNum}}</Col>
+                <Col class-name="col" span="2">￥{{item.changeAmount}}</Col>
+                <Col class-name="col" span="2">￥{{item.totalAmount}}</Col>
+                <Col class-name="col" span="3" :style="item.remark != '' ? 'height: auto;overflow: inherit;':''">
+                <Tooltip placement="top" v-show="item.remark != ''">
+                    <Button size="small">查看备注</Button>
+                    <div slot="content">
+                        <div class="Tooltip">{{item.remark}}</div>
+                    </div>
+                </Tooltip>
+                </Col>
+                <Col class-name="col" span="3">{{item.updateUser}}</Col>
+                <Col class-name="col" span="3">{{item.updateTime | dateformat}}</Col>
+              </Row>
+              <Row v-if="logList.length == 0">
+                <Col class-name="col" span="24">暂无历史费用</Col>
+              </Row>
+            </div>
+            </div>
+            </div>
+          </div>
       </div>
       <div slot="footer">
         <Button @click="show = false">关闭</Button>
@@ -135,6 +181,7 @@
         dateValue: ['', ''],
         list: [],
         totalCount: 0,
+        logList: [],
         money: {
           sale: 0,
           cost: 0,
@@ -213,6 +260,16 @@
             this.detailItem = Object.assign({}, res.data)
           }
         })
+        this.getLog(item.id)
+      },
+      getLog(item) {
+        this.$http.post(this.$api.orderFeeHistory, {
+          orderId: item.id
+        }).then(res => {
+          if (res.code === 1000) {
+            this.logList = res.data;
+          }
+        })
       }
     },
     created() {
@@ -261,5 +318,9 @@
         }
       }
     }
+  }
+    .Tooltip {
+    word-break: break-all;
+    white-space: normal;
   }
 </style>
