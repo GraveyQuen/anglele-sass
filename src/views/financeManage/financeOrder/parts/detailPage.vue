@@ -49,7 +49,6 @@
           </div>
           </div>
         </div>
-
          <div class="order-detail-title">
           <span>历史其他费用明细</span>
         </div>

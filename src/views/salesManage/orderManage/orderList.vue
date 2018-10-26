@@ -126,7 +126,7 @@
           </div>
           </div>
         </div>
-        <div class="logList" v-if="logList.length">
+        <div class="logList">
          <div class="order-detail-title">
           <span>历史其他费用明细</span>
         </div>
