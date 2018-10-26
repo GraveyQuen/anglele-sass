@@ -589,3 +589,18 @@ export const printPurchaseOrder = '/sys/purchaseOrder/printPurchaseOrder'
 
 
 
+// 产品试用申请
+export const applySaas = '/api/productApply/apply'
+
+
+
+// 申请列表
+export const productApplyPage = '/sys/productApply/page'
+
+
+// 完成联系
+export const productApplyFinish = '/sys/productApply/finish'
+
+
+
+

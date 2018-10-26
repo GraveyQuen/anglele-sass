@@ -42,14 +42,14 @@
       todayCustomer
     },
     data() {
-      return {}
+      return {
+        role: {}
+      }
     },
     methods: {
   
     },
-    created() {
-  
-    }
+    created() {}
   }
 </script>
 

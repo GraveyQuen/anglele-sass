@@ -127,6 +127,13 @@ export default [{
         meta: {
           title: '供应商管理',
         },
+      }, {
+        path: '/staffManage/apply',
+        name: 'apply',
+        component: resolve => require(['@/views/staffManage/apply/index.vue'], resolve),
+        meta: {
+          title: '申请试用管理',
+        },
       }]
     }, {
       path: '/inventoryManage',

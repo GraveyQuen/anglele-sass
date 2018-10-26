@@ -7,11 +7,11 @@
 </template>
 
 <script>
-    import * as types from '@/store/types'
-    import {
-      mapMutations,
-      mapActions
-    } from 'vuex'
+  import * as types from '@/store/types'
+  import {
+    mapMutations,
+    mapActions
+  } from 'vuex'
     import Footer from './parts/footer'
     import headerBar from './parts/header'
     export default {

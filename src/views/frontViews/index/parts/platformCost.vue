@@ -37,18 +37,85 @@
         </div>
       </div>
       <div class="btn">
-        <a>免费体验</a>
+        <a @click="showTest" href="javascript:;">免费体验</a>
       </div>
     </div>
+    <Modal title="免费体验" width="500" v-model="show" @on-cancel="close('formModel')" :mask-closable="false">
+      <Form ref="formModel" :model="applyApi" :rules="rule" :label-width="100">
+          <Alert type="success">提交后我们工作人员会尽快和您联系。</Alert>
+          <FormItem label="姓名：" prop="userName">
+            <Input v-model="applyApi.userName" placeholder="请输入..."></Input>
+          </FormItem>
+          <FormItem label="联系方式：" prop="userContact">
+            <Input v-model="applyApi.userContact" placeholder="请输入..."></Input>
+          </FormItem>
+        </Form>
+      <div slot="footer">
+        <Button type="primary" @click="submit('formModel')" :loading="loading">提交</Button>
+        <Button @click="close('formModel')">取消</Button>
+      </div>
+    </Modal>
   </div>
 </template>
 
 <script>
   export default {
     data() {
-      return {}
+      return {
+        show: false,
+        applyApi:{
+          userName: '',
+          userContact: ''
+        },
+        loading: false,
+        rule: {
+          userName: [{
+            required: true,
+            message: '不能为空',
+            trigger: 'blur'
+          }],
+          userContact: [{
+            required: true,
+            message: '不能为空',
+            trigger: 'blur'
+          }]
+        },
+      }
     },
-    methods: {}
+    methods: {
+      showTest(){
+        this.show  = true;
+      },
+      submit(name){
+        this.$refs[name].validate((valid) => {
+          if (valid) {
+            this.loading = true;
+            let params = this.$clearData(this.applyApi);
+            this.$http.post(this.$api.applySaas, params).then(res => {
+              if (res.code === 1000) {
+                this.show = false;
+                this.$Modal.success({
+                    title: '提交成功',
+                    content: '我们工作人员会尽快和您联系'
+                });
+              } else {
+                this.$Message.error(res.message);
+              }
+              this.loading = false;
+            })
+          } else {
+            this.$Message.error('表单验证失败');
+          }
+        })
+      },
+      close(name){
+        this.applyApi.userName = '';
+        this.applyApi.userContact = '';
+        this.show = false;
+        this.loading = false;
+        this.$refs[name].resetFields();
+      }
+    }
   }
 </script>
 
