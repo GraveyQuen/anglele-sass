@@ -39,13 +39,13 @@
                   </Select>
         </FormItem>
         <FormItem label="下单日期：">
-          <DatePicker type="daterange" placement="bottom-end" v-model="dateValue" placeholder="选择日期" style="width: 200px"></DatePicker>
+          <DatePicker type="daterange" placement="bottom-start" v-model="dateValue" placeholder="选择日期" style="width: 200px"></DatePicker>
         </FormItem>
         <FormItem label="最近更新人：">
           <Input v-model="pageApi.updateUser" placeholder="请输入" style="width: 200px;"></Input>
         </FormItem>
         <FormItem label="最近更新时间：">
-          <DatePicker type="daterange" placement="bottom-end" v-model="dateValue2" placeholder="选择日期" style="width: 200px"></DatePicker>
+          <DatePicker type="daterange" placement="bottom-start" v-model="dateValue2" placeholder="选择日期" style="width: 200px"></DatePicker>
         </FormItem>
         <FormItem>
           <Button type="warning" @click.native="resetFilter">清除筛选</Button>
@@ -837,6 +837,7 @@
     margin-top: -17px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
+    min-height: 600px;
   }
   
   .split {
