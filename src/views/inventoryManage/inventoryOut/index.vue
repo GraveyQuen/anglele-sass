@@ -38,7 +38,7 @@
                                 <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看明细</Button>
                                 <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1" @click="confirm(props.row)">确认</Button>
                                 <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 2" @click="out(props.row)">出库</Button>
-                                <Button type="info" size="small" v-if="props.row.status === 1 || props.row.status === 2 || props.row.status === 3" @click="print(props.row)">打印</Button>
+                                <Button type="info" size="small" v-if="props.row.status != 9" @click="print(props.row)">打印</Button>
 </template>
         </Table>
         <div class="paging">
