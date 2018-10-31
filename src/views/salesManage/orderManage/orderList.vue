@@ -61,6 +61,7 @@
             <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1 || props.row.status === 2 || props.row.status === 3 || props.row.status === 4" @click="cancelOrder(props.row)">取消订单</Button>
             <Button type="info" size="small" v-if="props.row.status === 5 && props.row.settlementStatus === 0 && props.row.hasRefund === 0" @click="returnBill(props.row)">退货</Button>
             <Button type="info" size="small" v-if="props.row.status === 5 && props.row.settlementStatus === 0 && props.row.hasRefund === ''" @click="returnBill(props.row)">退货</Button>
+            <Button type="info" size="small" v-if="props.row.status === 5 && props.row.settlementStatus === 0 && props.row.hasRefund === 1" @click="edit(props.row)">编辑退货</Button>
           </template>
         </Table>
         <div class="paging">
@@ -144,7 +145,7 @@
                 <Col class-name="col" span="4">待回收数量</Col>
                 <Col class-name="col" span="4">待回收金额</Col>
               </Row>
-              <Row v-for="(item,index) in detailItem.order.orderFees">
+              <Row v-for="(item,index) in detailItem.order.orderFees" :key="index">
                 <Col class-name="col" span="4">{{item.feeName}}</Col>
                 <Col class-name="col" span="4">￥{{item.feeAmount}}</Col>
                 <Col class-name="col" span="4">{{item.totalNum}}</Col>
@@ -461,6 +462,20 @@
           minWidth: 120,
           render: (h, params) => {
             return h('div', orderStatus(params.row.status))
+          },
+        }, {
+          title: '退货状态',
+          key: 'hasRefund',
+          minWidth: 120,
+          render: (h, params) => {
+            const hasRefund = params.row.hasRefund;
+             if(hasRefund === 1){
+              return h('div','暂存')
+            }else if(hasRefund === 2){
+              return h('div','退货完成')
+            }else{
+              return h('div','无退货')
+            }
           },
         }, {
           title: '结算状态',
@@ -804,6 +819,10 @@
       //   新增退货单
       returnBill(item){
         this.$router.push({name: 'returnBillAdd',query:{id: item.id}})
+      },
+      //  编辑退货单
+      edit(item){
+        this.$router.push({name:'returnBillEdit',query: {id: item.id}})
       }
     },
     created() {

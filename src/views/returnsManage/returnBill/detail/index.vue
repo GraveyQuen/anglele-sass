@@ -63,7 +63,7 @@
           title: '下单金额',
           key: 'totalPrice',
           render: (h, params) => {
-            const str = `${params.row.totalPrice}元`
+            const str = `￥${params.row.totalPrice}`
             return h('div', str)
           }
         }, {
@@ -84,7 +84,7 @@
           title: '实单金额',
           key: 'productName',
           render: (h, params) => {
-            const str = `${params.row.realTotalPrice}元`
+            const str = `￥${params.row.realTotalPrice}`
             return h('div', str)
           }
         }, {
@@ -112,7 +112,7 @@
           title: '剩余金额',
           key: 'returnMoney',
           render: (h, params) => {
-            const str = `${((params.row.realNum - params.row.refundNum)*params.row.realPrice).toFixed(2)}${params.row.unit}`
+            const str = `￥${((params.row.realNum - params.row.refundNum)*params.row.realPrice).toFixed(2)}`
             return h('div', str)
           }
         }]

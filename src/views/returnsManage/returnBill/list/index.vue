@@ -16,7 +16,7 @@
                     <Option v-for="(option,i) in [{id:1,name: '暂存'},{id:2,name: '完成'},{id:3,name: '取消'}]" :value="option.id" :key="option.id">{{ option.name }}</Option>
                 </Select>
         </FormItem>
-        <FormItem label="下单日期：">
+        <FormItem label="开单日期：">
           <DatePicker type="daterange" placement="bottom-end" v-model="dateValue" placeholder="选择日期" style="width: 200px"></DatePicker>
         </FormItem>
         <FormItem label="最近操作人：">
@@ -24,6 +24,9 @@
         </FormItem>
         <FormItem label="最近更新时间：">
           <DatePicker type="daterange" placement="bottom-end" v-model="dateValue2" placeholder="选择日期" style="width: 200px"></DatePicker>
+        </FormItem>
+        <FormItem>
+          <Button type="warning" @click="resetFilter">清除</Button>
         </FormItem>
       </Form>
       <div class="card-contnet">
@@ -157,6 +160,23 @@
       }
     },
     methods: {
+      resetFilter(){
+        this.pageApi = {
+          pageIndex: 1,
+          pageSize: 10,
+          thId: '',
+          orderId: '',
+          customerName: '',
+          startTime: '',
+          endTime: '',
+          status: '',
+          updateUser: '',
+          updateBeginTime: '',
+          updateEndTime: ''
+        };
+        this.dateValue = ['',''];
+        this.dateValue2 = ['',''];
+      },
       getList(params) {
         this.$http.post(this.$api.findOrderRefundList, params).then(res => {
           if (res.code === 1000) {
