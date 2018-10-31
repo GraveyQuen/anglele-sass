@@ -55,11 +55,13 @@
         <Table width="100%" ref="orderTable" :columns="tableHeader" border :data="list">
           <!-- 操作 -->
           <template slot="action" slot-scope="props">
-                                                                <Button type="warning" size="small" style="margin-right:8px;" v-if="props.row.status === 4" @click="overOrder(props.row)">完成订单</Button>
-                                                                <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看订单</Button>
-                                                                <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1" @click="confirm(props.row)">确认订单</Button>
-                                                                <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1 || props.row.status === 2 || props.row.status === 3 || props.row.status === 4" @click="cancelOrder(props.row)">取消订单</Button>
-</template>
+            <Button type="warning" size="small" style="margin-right:8px;" v-if="props.row.status === 4" @click="overOrder(props.row)">完成订单</Button>
+            <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看订单</Button>
+            <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1" @click="confirm(props.row)">确认订单</Button>
+            <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1 || props.row.status === 2 || props.row.status === 3 || props.row.status === 4" @click="cancelOrder(props.row)">取消订单</Button>
+            <Button type="info" size="small" v-if="props.row.status === 5 && props.row.settlementStatus === 0 && props.row.hasRefund === 0" @click="returnBill(props.row)">退货</Button>
+            <Button type="info" size="small" v-if="props.row.status === 5 && props.row.settlementStatus === 0 && props.row.hasRefund === ''" @click="returnBill(props.row)">退货</Button>
+          </template>
         </Table>
         <div class="paging">
           <Page class="page-count" size="small" @on-page-size-change="changeSize" show-sizer show-elevator :total="totalCount" show-total :current="pageApi.pageIndex" :page-size="pageApi.pageSize" @on-change="changePage"></Page>
@@ -146,7 +148,7 @@
                 <Col class-name="col" span="4">{{item.feeName}}</Col>
                 <Col class-name="col" span="4">￥{{item.feeAmount}}</Col>
                 <Col class-name="col" span="4">{{item.totalNum}}</Col>
-                <Col class-name="col" span="4">￥{{item.totalAmount}}</Col>
+                <Col class-name="col" span="4">￥{{item.feeTotalAmount}}</Col>
                 <Col class-name="col" span="4">{{item.currentNum}}</Col>
                 <Col class-name="col" span="4">{{item.totalAmount}}</Col>
               </Row>
@@ -178,7 +180,7 @@
                 <Col class-name="col" span="3">{{item.feeName}}</Col>
                 <Col class-name="col" span="2">￥{{item.feeAmount}}</Col>
                 <Col class-name="col" span="2">{{item.totalNum}}</Col>
-                <Col class-name="col" span="2">￥{{item.totalAmount}}</Col>
+                <Col class-name="col" span="2">￥{{item.feeTotalAmount}}</Col>
                 <Col class-name="col" span="2">{{item.changeNum}}</Col>
                 <Col class-name="col" span="2">￥{{item.changeAmount}}</Col>
                 <Col class-name="col" span="2">￥{{item.totalAmount}}</Col>
@@ -459,6 +461,20 @@
           minWidth: 120,
           render: (h, params) => {
             return h('div', orderStatus(params.row.status))
+          },
+        }, {
+          title: '结算状态',
+          key: 'settlementStatus',
+          minWidth: 120,
+          render: (h, params) => {
+            const settlementStatus = params.row.settlementStatus;
+            if(settlementStatus === 0){
+              return h('div','未结算')
+            }else if(settlementStatus === 1){
+              return h('div','预结算')
+            }else{
+              return h('div','已结算')
+            }
           },
         }, {
           title: '下单方式',
@@ -784,6 +800,10 @@
           }
         })
         this.changeTotalPrice();
+      },
+      //   新增退货单
+      returnBill(item){
+        this.$router.push({name: 'returnBillAdd',query:{id: item.id}})
       }
     },
     created() {

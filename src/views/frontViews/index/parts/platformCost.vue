@@ -8,7 +8,7 @@
           <div class="price-main-item-main">
             <div class="price-main-item-main-cell">
               <div class="cell-title">使用费</div>
-              <div class="cell-price green">18000元</div>
+              <div class="cell-price green">19800元</div>
             </div>
             <div class="price-main-item-main-cell">
               <div class="cell-title">维护费</div>

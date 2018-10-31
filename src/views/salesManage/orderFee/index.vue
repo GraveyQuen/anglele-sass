@@ -243,7 +243,6 @@
         }, {
           title: '下单日期',
           key: 'newOrderDate',
-          key: 'newOrderDate',
           render: (h, params) => {
             return h('div', dateformat(params.row.newOrderDate, 'yyyy-MM-dd'))
           }

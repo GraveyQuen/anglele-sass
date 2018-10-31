@@ -128,7 +128,7 @@
                 <Col class-name="col" span="4">{{item.feeName}}</Col>
                 <Col class-name="col" span="4">￥{{item.feeAmount}}</Col>
                 <Col class-name="col" span="4">{{item.totalNum}}</Col>
-                <Col class-name="col" span="4">￥{{item.totalAmount}}</Col>
+                <Col class-name="col" span="4">￥{{item.feeTotalAmount}}</Col>
                 <Col class-name="col" span="4">{{item.currentNum}}</Col>
                 <Col class-name="col" span="4">{{item.totalAmount}}</Col>
               </Row>
@@ -159,7 +159,7 @@
                 <Col class-name="col" span="3">{{item.feeName}}</Col>
                 <Col class-name="col" span="2">￥{{item.feeAmount}}</Col>
                 <Col class-name="col" span="2">{{item.totalNum}}</Col>
-                <Col class-name="col" span="2">￥{{item.totalAmount}}</Col>
+                <Col class-name="col" span="2">￥{{item.feeTotalAmount}}</Col>
                 <Col class-name="col" span="2">{{item.changeNum}}</Col>
                 <Col class-name="col" span="2">￥{{item.changeAmount}}</Col>
                 <Col class-name="col" span="2">￥{{item.totalAmount}}</Col>

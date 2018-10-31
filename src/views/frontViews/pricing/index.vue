@@ -15,7 +15,7 @@
                   <div class="cost-main-title">基础版</div>
                   <div class="cost-detail">
                     <div class="cost-detail-title">使用费</div>
-                    <div class="cost-detail-price">￥18000</div>
+                    <div class="cost-detail-price">￥19800</div>
                   </div>
                   <div class="cost-detail">
                     <div class="cost-detail-title">维护费</div>

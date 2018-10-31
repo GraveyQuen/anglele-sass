@@ -333,5 +333,50 @@ export default [{
         }
       }]
     }]
+  }, {
+    path: '/returnsManage',
+    name: 'returnsManage',
+    component: resolve => require(['@/views/returnsManage/index.vue'], resolve),
+    meta: {
+      title: '退货管理',
+    },
+    children: [{
+      path: '/returnsManage/returnBill',
+      name: 'returnBill',
+      component: resolve => require(['@/views/returnsManage/returnBill/index.vue'], resolve),
+      meta: {
+        hideInMenu: true
+      },
+      redirect: '/returnsManage/returnBill/returnBillList',
+      children: [{
+        path: '/returnsManage/returnBill/returnBillList',
+        name: 'returnBillList',
+        component: resolve => require(['@/views/returnsManage/returnBill/list/index.vue'], resolve),
+        meta: {
+          title: '退货单管理',
+        }
+      },{
+        path: '/returnsManage/returnBill/returnBillAdd',
+        name: 'returnBillAdd',
+        component: resolve => require(['@/views/returnsManage/returnBill/add/index.vue'], resolve),
+        meta: {
+          title: '新增退货单',
+        }
+      },{
+        path: '/returnsManage/returnBill/returnBillEdit',
+        name: 'returnBillEdit',
+        component: resolve => require(['@/views/returnsManage/returnBill/edit/index.vue'], resolve),
+        meta: {
+          title: '编辑退货单',
+        }
+      },{
+        path: '/returnsManage/returnBill/returnBillDetail',
+        name: 'returnBillDetail',
+        component: resolve => require(['@/views/returnsManage/returnBill/detail/index.vue'], resolve),
+        meta: {
+          title: '退货单详情',
+        }
+      }]
+    }]
   }]
 }]

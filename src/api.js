@@ -602,5 +602,15 @@ export const productApplyPage = '/sys/productApply/page'
 export const productApplyFinish = '/sys/productApply/finish'
 
 
+// 退货单列表
+export const findOrderRefundList = '/sys/refundOrder/findOrderRefundList'
+
+// 退货单单个查询
+export const findOneRefund = '/sys/refundOrder/findOneRefund'
+
+// 订单退货
+export const orderRefund = '/sys/refundOrder/orderRefund'
+
+
 
 
