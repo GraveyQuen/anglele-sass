@@ -124,7 +124,7 @@
                 <Col class-name="col" span="4">待回收数量</Col>
                 <Col class-name="col" span="4">待回收金额</Col>
               </Row>
-              <Row v-for="(item,index) in detailItem.order.orderFees">
+              <Row v-for="(item,index) in detailItem.order.orderFees" :key="index">
                 <Col class-name="col" span="4">{{item.feeName}}</Col>
                 <Col class-name="col" span="4">￥{{item.feeAmount}}</Col>
                 <Col class-name="col" span="4">{{item.totalNum}}</Col>

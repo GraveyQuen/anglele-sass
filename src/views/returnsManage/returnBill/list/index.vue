@@ -35,7 +35,7 @@
             <template slot="action" slot-scope="props">
               <Button type="warning" size="small" v-if="props.row.status === 1" @click="edit(props.row)">编辑</Button>
               <Button type="warning" size="small" style="margin: 0 5px;" @click="details(props.row)">查看</Button>
-              <Button type="warning" size="small" v-if="props.row.status === 3" @click="details(props.row)">取消</Button>
+              <Button type="warning" size="small" v-if="props.row.status === 1" @click="details(props.row)">取消</Button>
             </template>
         </Table>
         <div class="paging">
