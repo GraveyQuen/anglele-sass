@@ -169,6 +169,11 @@
         })
         return isOk
       },
+      isAllZero(){
+        let arr = []
+        arr = this.returnData.filter(el => el.refundNum === 0 || el.refundNum === null)
+        return arr
+      },
       newDate(){
         return this.dataApi.newOrderDate != '' ? this.dataApi.newOrderDate.getTime() : ''
       }
@@ -215,6 +220,7 @@
       },
       save(status) {
         if (this.isRefundNum) {
+          if(this.isAllZero.length != this.returnData.length){
           if (this.dataApi.newOrderDate != '') {
             this.$Modal.confirm({
               title: '订单退货',
@@ -239,6 +245,9 @@
             })
           } else {
             this.$Message.error('请选择开单日期')
+          }
+          }else{
+            this.$Message.error('退货数量不能全为0')
           }
         } else {
           this.$Message.error('退货数量不能为空')
