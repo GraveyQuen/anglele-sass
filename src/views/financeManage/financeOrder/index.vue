@@ -168,8 +168,8 @@
           updateUser: this.pageApi.updateUser,
           updateTimeBegin: this.dateValue[0] != '' ? this.dateValue[0].getTime() : '',
           updateTimeEnd: this.dateValue[1] != '' ? this.dateValue[1].getTime() : '',
-          settlementAmountBegin: this.pageApi.settlementAmountBegin,
-          settlementAmountEnd: this.pageApi.settlementAmountEnd
+          settlementAmountBegin: this.dateValue2[0] != '' ? this.dateValue2[0].getTime() : '',
+          settlementAmountEnd: this.dateValue2[1] != '' ? this.dateValue2[1].getTime() : ''
         }
       },
       getStatus(){

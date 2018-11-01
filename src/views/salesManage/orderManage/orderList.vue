@@ -99,7 +99,7 @@
           </Row>
           <Row class="order-row">
             <Col span="10" class="order-row-col">送货地址：{{detailItem.order.address}}</Col>
-            <Col span="4" class="order-row-col">备注：{{detailItem.order.remark}}</Col>
+            <Col span="4" class="order-row-col">备注：{{detailItem.order.remark != '' ? detailItem.order.remark : '暂无'}}</Col>
         </Row>
         </div>
          <div class="order-detail-title">
@@ -151,7 +151,7 @@
                 <Col class-name="col" span="4">{{item.totalNum}}</Col>
                 <Col class-name="col" span="4">￥{{item.feeTotalAmount}}</Col>
                 <Col class-name="col" span="4">{{item.currentNum}}</Col>
-                <Col class-name="col" span="4">{{item.totalAmount}}</Col>
+                <Col class-name="col" span="4">￥{{item.totalAmount}}</Col>
               </Row>
               <Row v-if="detailItem.order.orderFees.length == 0">
                 <Col class-name="col" span="24">暂无其他费用</Col>

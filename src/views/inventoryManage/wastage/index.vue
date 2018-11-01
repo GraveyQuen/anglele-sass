@@ -114,7 +114,7 @@
           {{editItem.status | toStatus}}
         </FormItem>
         <FormItem label="备注：">
-          {{editItem.remark}}
+          {{editItem.remark != '' ? editItem.remark : '暂无'}}
         </FormItem>
         <div class="choose-product">
           <div class="choose-product-table">

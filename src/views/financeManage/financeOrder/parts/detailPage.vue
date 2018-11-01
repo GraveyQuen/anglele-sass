@@ -14,7 +14,7 @@
         <Col span="8" class="order-row-col">下单日期：{{order.order.newOrderDate | dateformat('yyyy-MM-dd')}}</Col>
         <Col span="8" class="order-row-col">客户联系人：{{order.order.contactPeople}}</Col>
         <Col span="8" class="order-row-col">客户联系方式：{{order.order.contactPhone}}</Col>
-        <Col span="8" class="order-row-col">备注：{{order.order.remark}}</Col>
+        <Col span="8" class="order-row-col">备注：{{order.order.remark != '' ? order.order.remark : '暂无'}}</Col>
       </Row>
       <Row class="order-row">
         <Col span="10" class="order-row-col">送货地址：{{order.order.address}}</Col>
@@ -71,7 +71,7 @@
                 <Col class-name="col" span="4">{{item.totalNum}}</Col>
                 <Col class-name="col" span="4">￥{{item.feeTotalAmount}}</Col>
                 <Col class-name="col" span="4">{{item.currentNum}}</Col>
-                <Col class-name="col" span="4">{{item.totalAmount}}</Col>
+                <Col class-name="col" span="4">￥{{item.totalAmount}}</Col>
               </Row>
               <Row v-if="order.order.orderFees.length == 0">
                 <Col class-name="col" span="24">暂无其他费用</Col>

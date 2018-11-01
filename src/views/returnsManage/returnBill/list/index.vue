@@ -35,7 +35,7 @@
             <template slot="action" slot-scope="props">
               <Button type="warning" size="small" v-if="props.row.status === 1" @click="edit(props.row)">编辑</Button>
               <Button type="warning" size="small" style="margin: 0 5px;" @click="details(props.row)">查看</Button>
-              <Button type="warning" size="small" v-if="props.row.status === 1" @click="details(props.row)">取消</Button>
+              <Button type="warning" size="small" v-if="props.row.status === 1" @click="cancel(props.row)">取消</Button>
             </template>
         </Table>
         <div class="paging">
@@ -118,7 +118,8 @@
         }, {
           title: '操作',
           key: 'action',
-          maxWidth: 180,
+          minWidth: 70,
+          align: 'center',
           render: (h, params) => {
             return h(
               'div',
@@ -196,6 +197,24 @@
       },
       edit(item){
         this.$router.push({name:'returnBillEdit',query: {id: item.id}})
+      },
+      cancel(item){
+        this.$Modal.confirm({
+          title: '取消退货单',
+          content: '确认取消退货？',
+          onOk: () => {
+            this.$http.post(this.$api.cancelRefund, {
+              id: item.id
+            }).then(res => {
+              if (res.code === 1000) {
+                this.getList(this.pageFilter);
+                this.$Message.success('取消成功!');
+              } else {
+                this.$Message.error(res.message);
+              }
+            })
+          }
+        })
       }
     },
     created() {

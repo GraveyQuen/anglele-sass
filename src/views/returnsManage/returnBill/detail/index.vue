@@ -127,6 +127,7 @@
       getData(){
         this.$http.post(this.$api.findOneRefund,{id: this.id}).then(res =>{
           if(res.code === 1000){
+            res.data.refundOrder.refundOrderItems = res.data.refundOrder.refundOrderItems.filter(item => item.refundNum != 0);
             this.orders = Object.assign({},res.data)
           }
         })

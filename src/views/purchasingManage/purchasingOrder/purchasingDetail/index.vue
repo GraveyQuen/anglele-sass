@@ -8,7 +8,7 @@
         <Col class="col" span="6">采购员：{{detailItem.purchaseOrder.operatePerson}}</Col>
         <Col class="col" span="6">联系方式：{{detailItem.purchaseOrder.operatePersonPhone}}</Col>
         <Col class="col" span="6">采购日期：{{detailItem.purchaseOrder.purchaseDate}}</Col>
-        <Col class="col" span="6">备注：{{detailItem.purchaseOrder.remark}}</Col>
+        <Col class="col" span="6">备注：{{detailItem.purchaseOrder.remark != '' ? detailItem.purchaseOrder.remark : '暂无'}}</Col>
         <Col class="col" span="6" v-show="detailItem.purchaseOrder.status === 1">采购总金额：{{detailItem.purchaseOrder.totalAmount}}元</Col>
       </Row>
       <div class="order-main">
