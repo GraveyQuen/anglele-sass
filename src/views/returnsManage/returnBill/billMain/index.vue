@@ -169,6 +169,7 @@
         })
         return isOk
       },
+      //  全部为0时不能提交
       isAllZero(){
         let arr = []
         arr = this.returnData.filter(el => el.refundNum === 0 || el.refundNum === null)

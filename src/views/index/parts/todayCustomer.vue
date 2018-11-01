@@ -1,9 +1,10 @@
 <template>
   <div class="today">
     <div class="header">今日客户下单分布
-      <Select v-model="pageApi.categoryName" style="margin-left:10px;width:200px;" placeholder="产品分类">
+      <Select v-model="pageApi.categoryName" style="margin:0 10px;width:200px;" placeholder="产品分类">
                   <Option v-for="(item,index) in stroeList" :value="item.name" :key="index">{{ item.name }}</Option>
                 </Select>
+                <Button type="warning"@click="resetFilter">清除</Button>
     </div>
     <div class="pie">
       <Row>
@@ -66,6 +67,9 @@
       }
     },
     methods: {
+      resetFilter(){
+        this.pageApi.categoryName = '';
+      },
       getData() {
         this.$http.post(this.$api.todayCategoryPie, this.pageApi).then(res => {
           if (res.code === 1000) {

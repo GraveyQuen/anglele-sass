@@ -1,7 +1,8 @@
 <template>
   <div class="today-sales">
     <div class="header">今日产品销售分布
-      <Input v-model="pageApi.customerName" placeholder="请输入客户名称" style="margin-left:10px;width: 200px;"></Input>
+      <Input v-model="pageApi.customerName" placeholder="请输入客户名称" style="margin:0 10px;width: 200px;"></Input>
+      <Button type="warning"@click="resetFilter">清除</Button>
     </div>
     <div class="pie">
       <Row>
@@ -85,6 +86,9 @@
             }
           }
         })
+      },
+      resetFilter(){
+        this.pageApi.customerName = ''
       }
     },
     created() {

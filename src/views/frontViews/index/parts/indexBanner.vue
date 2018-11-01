@@ -9,13 +9,13 @@
             <div class="app-item">
               <span class="app-item-text wechat">微信小程序</span>
               <span class="app-item-img">
-                  <img src="../../../../assets/images/sun-qr.png">
+                  <img src="https://resource.anglele.com/saas/porta/wx_custom.jpg">
                 </span>
             </div>
             <div class="app-item">
               <span class="app-item-text qr">扫一扫下载<span>APP</span></span>
               <span class="app-item-img">
-                  <img src="../../../../assets/images/downloadQr.png">
+                  <img src="https://resource.anglele.com/saas/porta/APP.png">
                 </span>
             </div>
           </div>

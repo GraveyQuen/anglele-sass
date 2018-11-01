@@ -192,10 +192,10 @@
         this.pageApi.pageIndex = page;
       },
       details(item){
-        this.$router.push({name:'returnBillDetail',query: {id: item.orderId}})
+        this.$router.push({name:'returnBillDetail',query: {id: item.id}})
       },
       edit(item){
-        this.$router.push({name:'returnBillEdit',query: {id: item.orderId}})
+        this.$router.push({name:'returnBillEdit',query: {id: item.id}})
       }
     },
     created() {

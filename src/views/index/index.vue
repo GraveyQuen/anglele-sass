@@ -47,7 +47,8 @@
     methods: {
   
     },
-    created() {}
+    created() {
+    }
   }
 </script>
 

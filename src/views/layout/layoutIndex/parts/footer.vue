@@ -11,15 +11,20 @@
           <div class="col-info">服务时间：9:00-18:00（周一至周五）</div>
         </div>
         <div class="footer-col footer-col-imgs">
-          <div class="footer-col-img"><img src="../../../../assets/images/sun-qr.png"></div>
-          <div class="text">微信小程序</div>
+          <div class="footer-col-img"><img src="https://resource.anglele.com/saas/porta/wx_custom.jpg"></div>
+          <div class="text">微信小程序用户端</div>
         </div>
         <div class="footer-col footer-col-imgs">
-          <div class="footer-col-img"><img src="../../../../assets/images/downloadQr.png"></div>
-          <div class="text">APP下载</div>
+          <div class="footer-col-img"><img src="https://resource.anglele.com/saas/porta/wx_business.jpg"></div>
+          <div class="text">微信小程序商户端</div>
+        </div>
+        <div class="footer-col footer-col-imgs">
+          <div class="footer-col-img"><img src="https://resource.anglele.com/saas/porta/APP.png"></div>
+          <div class="text">用户端APP下载</div>
         </div>
       </div>
     </div>
+    <p class="copyright">COPYRIFHT © 2018 苏州安基利尔数据科技有限公司 版权所有 苏ICP备18053267号</p>
   </div>
 </template>
 
@@ -34,7 +39,7 @@
 
 <style lang='less' scoped>
   .footer {
-    padding: 60px 0;
+    padding: 60px 0 30px;
     background-color: #24252A;
     .footer-section {
       width: 1200px;
@@ -61,7 +66,7 @@
       }
       .footer-col {
         float: left;
-        width: 20%;
+        width: 15%;
         .col-title {
           font-size: 24px;
           margin-bottom: 15px;
@@ -74,8 +79,8 @@
         }
         .footer-col-img {
           img {
-            width: 158px;
-            height: 158px;
+            width: 128px;
+            height: 128px;
           }
         }
         .text {
@@ -88,5 +93,9 @@
         }
       }
     }
+  }
+  .copyright{
+    padding-top: 20px;
+    text-align: center;
   }
 </style>

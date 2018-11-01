@@ -9,13 +9,13 @@
           </FormItem>
           <FormItem label="仓库名称：" prop="wareHouseId">
             <Select v-model="baseApi.wareHouseId" style="width: 180px;">
-                                    <Option v-for="(item,index) in storeList" :value="item.id" :key="index">{{ item.name }}</Option>
-                                  </Select>
+              <Option v-for="(item,index) in storeList" :value="item.id" :key="index">{{ item.name }}</Option>
+            </Select>
           </FormItem>
           <FormItem label="入库类型：" prop="inType">
             <Select v-model="baseApi.inType" style="width: 180px;">
-                          <Option v-for="(item,index) in [{id:1,name: '采购入库'},{id:2,name: '退货入库'},{id:3,name:'其他入库'}]" :value="item.id" :key="index">{{ item.name }}</Option>
-                        </Select>
+              <Option v-for="(item,index) in [{id:1,name: '采购入库'},{id:2,name: '退货入库'},{id:3,name:'其他入库'}]" :value="item.id" :key="index">{{ item.name }}</Option>
+            </Select>
           </FormItem>
           <FormItem label="送货人：">
             <Input v-model="baseApi.driver" placeholder="请输入" style="width: 180px;"></Input>
