@@ -181,9 +181,13 @@ export const findWareHouse = '/sys/warehouse/findWareHouse'
  */
 export const deleteWareHouse = '/sys/warehouse/deleteWareHouse'
 
+/**
+ *查询商户下所有账号列表
+ */
+export const findEmployeeList = '/sys/business/findEmployeeList'
 
 /**
- * 配送人列表
+ *  配送人列表
  */
 export const findDeliveryManList = '/sys/deliveryMan/findDeliveryManList'
 

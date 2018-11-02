@@ -17,7 +17,6 @@
             <Button type="warning" size="small" @click="openPanel">编辑</Button>
             </Col>
           </Row>
-          </Row>
         </div>
       </div>
     </Card>

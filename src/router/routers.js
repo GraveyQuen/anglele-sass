@@ -112,6 +112,13 @@ export default [{
       meta: {
         title: '费用管理',
       },
+    }, {
+      path: '/setting/roleManage',
+      name: 'roleManage',
+      component: resolve => require(['@/views/setting/roleManage/index.vue'], resolve),
+      meta: {
+        title: '角色管理',
+      },
     }]
   }, {
     path: '/staffManage',

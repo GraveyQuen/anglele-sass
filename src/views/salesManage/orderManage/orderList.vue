@@ -98,8 +98,9 @@
             <Col span="8" class="order-row-col">配送人：{{detailItem.order.deliveryManName}}</Col>
           </Row>
           <Row class="order-row">
-            <Col span="10" class="order-row-col">送货地址：{{detailItem.order.address}}</Col>
-            <Col span="4" class="order-row-col">备注：{{detailItem.order.remark != '' ? detailItem.order.remark : '暂无'}}</Col>
+            <Col span="8" class="order-row-col">送货地址：{{detailItem.order.address}}</Col>
+            <Col span="8" class="order-row-col">备注：{{detailItem.order.remark != '' ? detailItem.order.remark : '暂无'}}</Col>
+            <Col span="8" class="order-row-col" v-show="detailItem.order.status === 9">取消备注：{{detailItem.order.cancelReason}}</Col>
         </Row>
         </div>
          <div class="order-detail-title">
@@ -113,17 +114,19 @@
                 <Col class-name="col" span="4">产品名称</Col>
                 <Col class-name="col" span="4">单价</Col>
                 <Col class-name="col" :span="detailItem.order.status === 5 ? 4 : 8">下单数量</Col>
-                <Col class-name="col" :span="detailItem.order.status === 5 ? 4 : 8">下单金额小计</Col>
-                <Col class-name="col" span="4" v-if="detailItem.order.status === 5">实单数量</Col>
-                <Col class-name="col" span="4" v-if="detailItem.order.status === 5">实单金额</Col>
+                <Col class-name="col" :span="detailItem.order.status === 5 ? 3 : 8">下单金额小计</Col>
+                <Col class-name="col" span="3" v-if="detailItem.order.status === 5">实单数量</Col>
+                <Col class-name="col" span="3" v-if="detailItem.order.status === 5">实单单价</Col>
+                <Col class-name="col" span="3" v-if="detailItem.order.status === 5">实单金额</Col>
               </Row>
               <Row v-for="(item,index) in detailItem.orderItem" :key="index">
                 <Col class-name="col" span="4">{{item.productName}}</Col>
                 <Col class-name="col" span="4">{{item.price}}元/{{item.unit}}</Col>
                 <Col class-name="col" :span="detailItem.order.status === 5 ? 4 : 8">{{item.num}}{{item.unit}}</Col>
-                <Col class-name="col" :span="detailItem.order.status === 5 ? 4 : 8">￥{{item.totalPrice}}</Col>
-                <Col class-name="col" span="4" v-if="detailItem.order.status === 5">{{item.realNum}}{{item.unit}}</Col>
-                <Col class-name="col" span="4" v-if="detailItem.order.status === 5">￥{{item.realTotalPrice}}</Col>
+                <Col class-name="col" :span="detailItem.order.status === 5 ? 3 : 8">￥{{item.totalPrice}}</Col>
+                <Col class-name="col" span="3" v-if="detailItem.order.status === 5">{{item.realNum}}{{item.unit}}</Col>
+                <Col class-name="col" span="3" v-if="detailItem.order.status === 5">{{item.realPrice}}元/{{item.unit}}</Col>
+                <Col class-name="col" span="3" v-if="detailItem.order.status === 5">￥{{item.realTotalPrice}}</Col>
               </Row>
             </div>
           </div>

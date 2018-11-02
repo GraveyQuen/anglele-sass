@@ -7,16 +7,22 @@
           <div class="banner-main-item-text">让生鲜配送更简单</div>
           <div class="banner-app">
             <div class="app-item">
-              <span class="app-item-text wechat">微信小程序</span>
               <span class="app-item-img">
-                  <img src="https://resource.anglele.com/saas/porta/wx_custom.jpg">
-                </span>
+                <img src="https://resource.anglele.com/saas/porta/wx_custom.jpg">
+              </span>
+              <span class="app-item-text">微信小程序用户端</span>
             </div>
             <div class="app-item">
-              <span class="app-item-text qr">扫一扫下载<span>APP</span></span>
               <span class="app-item-img">
-                  <img src="https://resource.anglele.com/saas/porta/APP.png">
-                </span>
+                <img src="https://resource.anglele.com/saas/porta/wx_business.jpg">
+              </span>
+              <span class="app-item-text">微信小程序商户端</span>
+            </div>
+            <div class="app-item">
+              <span class="app-item-img">
+                <img src="https://resource.anglele.com/saas/porta/APP.png">
+              </span>
+              <span class="app-item-text">用户端APP下载</span>
             </div>
           </div>
         </div>
@@ -70,15 +76,15 @@
     }
     .app-item {
       display: inline-block;
-      width: 198px;
-      height: 158px;
+      width: 128px;
+      height: 128px;
       margin-right: 30px;
       vertical-align: top;
       .app-item-img {
         vertical-align: top;
         display: inline-block;
-        width: 158px;
-        height: 158px;
+        width: 128px;
+        height: 128px;
         font-size: 0;
         img {
           max-width: 100%;
@@ -86,29 +92,13 @@
         }
       }
       .app-item-text {
-        display: inline-block;
-        padding: 0 10px;
-        width: 40px;
+        display: block;
         text-align: center;
-        height: 158px;
-        font-size: 16px;
+        height: 30px;
+        line-height: 30px;
+        font-size: 12px;
         color: #fff;
         background-color: rgba(0, 0, 0, 0.5);
-        line-height: 18px;
-        &.wechat {
-          padding-top: 30px;
-        }
-        &.qr {
-          padding-top: 15px;
-        }
-        span {
-          padding-left: 5px;
-          padding-top: 15px;
-          display: inline-block;
-          -moz-transform: rotate(90deg);
-          -webkit-transform: rotate(90deg);
-          transform: rotate(90deg);
-        }
       }
     }
   }

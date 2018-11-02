@@ -319,8 +319,8 @@ import {
       }
     },
     created() {
+      this.getList(this.pageFilter);
       this.findBusinessUser();
-      this.getList(this.pageFilter)
     }
   }
 </script>
