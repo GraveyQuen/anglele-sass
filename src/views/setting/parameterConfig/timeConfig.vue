@@ -29,7 +29,7 @@
         </FormItem>
         <FormItem label="状态：">
           <RadioGroup v-model="dataApi.status">
-            <Radio v-for="(st,index) in [{id:0,name:'禁用'},{id: 1,name: '启用'}]" :label="st.id">
+            <Radio v-for="(st,index) in [{id:0,name:'禁用'},{id: 1,name: '启用'}]" :key="index" :label="st.id">
               <span>{{st.name}}</span>
             </Radio>
           </RadioGroup>
