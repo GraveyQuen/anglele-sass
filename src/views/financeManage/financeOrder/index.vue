@@ -97,7 +97,9 @@
           updateTimeBegin: '',
           updateTimeEnd: '',
           settlementAmountBegin: null,
-          settlementAmountEnd: null
+          settlementAmountEnd: null,
+          settlementTimeBegin: '',
+          settlementTimeEnd: ''
         },
         dateValue: ['', ''],
         dateValue1: ['', ''],
@@ -168,8 +170,10 @@
           updateUser: this.pageApi.updateUser,
           updateTimeBegin: this.dateValue[0] != '' ? this.dateValue[0].getTime() : '',
           updateTimeEnd: this.dateValue[1] != '' ? this.dateValue[1].getTime() : '',
-          settlementAmountBegin: this.dateValue2[0] != '' ? this.dateValue2[0].getTime() : '',
-          settlementAmountEnd: this.dateValue2[1] != '' ? this.dateValue2[1].getTime() : ''
+          settlementTimeBegin: this.dateValue2[0] != '' ? this.dateValue2[0].getTime() : '',
+          settlementTimeEnd: this.dateValue2[1] != '' ? this.dateValue2[1].getTime() : '',
+          settlementAmountBegin: this.pageApi.settlementAmountBegin,
+          settlementAmountEnd: this.pageApi.settlementAmountEnd,
         }
       },
       getStatus(){
@@ -213,7 +217,9 @@
           updateTimeBegin: '',
           updateTimeEnd: '',
           settlementAmountBegin: null,
-          settlementAmountEnd: null
+          settlementAmountEnd: null,
+          settlementTimeBegin: '',
+          settlementTimeEnd: ''
         }
         this.dateValue = ['', '']
         this.dateValue1 = ['', '']
