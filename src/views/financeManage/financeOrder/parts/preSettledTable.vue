@@ -13,6 +13,7 @@
           </Row>
           <div v-for="(items ,idx) in list" :key="idx">
           <div class="settle-info">
+            <Button type="warning" class="okSettled" size="small"  @click="okSettled(items)">完成结算</Button>
             <span class="pointer" @click="toggleItem(items,idx)"><Icon :type="items.isShow ? 'ios-arrow-down':'ios-arrow-forward'" /></span>
             <span>预结算单号：{{items.id}}</span>
             <span>预结算日期：{{items.createTime | dateformat}}</span>
@@ -27,8 +28,7 @@
             <Col class-name="col" span="3">￥{{item.realAmount}}</Col>
             <Col class-name="col" span="3">{{item.settlementStatus | settlementStatus}}</Col>
             <Col class-name="col" span="3">
-              <Button type="success" size="small" style="margin-right:8px;" @click="detail(item)">查看</Button>
-              <Button type="warning" size="small"  @click="updateId(item)">更新结算单号</Button>
+              <Button type="success" size="small" style="margin-right:8px;" @click="cancelSettled(item)">取消</Button>
             </Col>
             </div>
           </Row>
@@ -164,32 +164,25 @@
 </script>
 
 <style lang='less'>
-  .tables {
-    .fake-table-header .ivu-table-tip {
-      display: none;
+  .settle-info {
+    border-bottom: 1px solid #e8eaec;
+    border-right: 1px solid #e8eaec;
+    text-align: left;
+    .pointer{
+      cursor: pointer;
     }
-    .real-table-body {
-      border-top: 0;
-      td.ivu-table-expanded-cell {
-        padding: 0;
-      }
-    }
-    .sub-table {
-      border: 0;
-    }
-    .ivu-table {
-      td {
-        &.ivu-table-expanded-cell {
-          padding: 0;
-        }
-      }
-    }
-  }
-  
-  .info {
     span {
       display: inline-block;
-      margin-right: 30px;
+      margin-left: 20px;
     }
   }
+  .row-body{
+    background-color: #f8f8f9;
+  }
+  .okSettled{
+    float: right;
+    margin-top: 8px;
+    margin-right: 20px;
+  }
+
 </style>
