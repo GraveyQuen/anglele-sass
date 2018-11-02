@@ -11,6 +11,10 @@
           <div class="col-info">服务时间：9:00-18:00（周一至周五）</div>
         </div>
         <div class="footer-col footer-col-imgs">
+          <div class="footer-col-img"><img src="https://resource.anglele.com/saas/porta/wx_dyh.jpg"></div>
+          <div class="text">智慧安农订阅号</div>
+        </div>
+        <div class="footer-col footer-col-imgs">
           <div class="footer-col-img"><img src="https://resource.anglele.com/saas/porta/wx_custom.jpg"></div>
           <div class="text">微信小程序用户端</div>
         </div>
@@ -66,7 +70,7 @@
       }
       .footer-col {
         float: left;
-        width: 15%;
+        width: 12%;
         .col-title {
           font-size: 24px;
           margin-bottom: 15px;

@@ -8,6 +8,12 @@
           <div class="banner-app">
             <div class="app-item">
               <span class="app-item-img">
+                <img src="https://resource.anglele.com/saas/porta/wx_dyh.jpg">
+              </span>
+              <span class="app-item-text">智慧安农订阅号</span>
+            </div>
+            <div class="app-item">
+              <span class="app-item-img">
                 <img src="https://resource.anglele.com/saas/porta/wx_custom.jpg">
               </span>
               <span class="app-item-text">微信小程序用户端</span>
@@ -78,7 +84,7 @@
       display: inline-block;
       width: 128px;
       height: 128px;
-      margin-right: 30px;
+      margin-right: 22px;
       vertical-align: top;
       .app-item-img {
         vertical-align: top;

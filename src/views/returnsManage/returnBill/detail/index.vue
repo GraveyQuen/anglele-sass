@@ -29,7 +29,7 @@
         </div>
       </div>
       <div class="order-main">
-        <div class="order-main-header">订单明细</div>
+        <div class="order-main-header"><span>退货总金额：￥{{orders.refundOrder.refundAmount}}</span>订单明细</div>
         <div class="order-main-content">
           <Table ref="orderItems" border :data="orders.refundOrder.refundOrderItems" :columns="tableHeader"></Table>
         </div>
@@ -152,6 +152,9 @@
       padding: 0 15px;
       margin-bottom: 15px;
       font-weight: 700;
+      span{
+        float: right;
+      }
     }
     .order-row-col {
       margin-bottom: 10px;
