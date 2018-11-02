@@ -13,10 +13,11 @@
           </Row>
           <div v-for="(items ,idx) in list" :key="idx">
           <div class="settle-info">
-            <span class="pointer" @click="toggleItem(items,idx)"><Icon :type="items.isShow ? 'ios-arrow-down':'ios-arrow-forward'" /></span>
-            <span>结算单号：{{items.id}}</span>
-            <span>结算日期：{{items.createTime | dateformat}}</span>
-            <span>结算金额：￥{{items.totalPrice}}</span>
+            <Button type="warning" class="okSettled" style="margin-left:10px;" size="small" @click="print(items)">打印</Button>
+            <span class="pointer cell" @click="toggleItem(items,idx)"><Icon :type="items.isShow ? 'ios-arrow-down':'ios-arrow-forward'" /></span>
+            <span class="cell">结算单号：{{items.id}}</span>
+            <span class="cell">结算日期：{{items.createTime | dateformat}}</span>
+            <span class="cell">结算金额：￥{{items.totalPrice}}</span>
           </div>
           <Row class="row-body" v-for="(item,index) in items.orders" :key="index">
             <div v-show="items.isShow">
@@ -205,8 +206,10 @@
       cursor: pointer;
     }
     span {
+      &.cell{
       display: inline-block;
       margin-left: 20px;
+      }
     }
   }
   .row-body{
