@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="role === 'ADMIN'">
     <div class="row-list">
       <Row>
         <Col span="16" class="col-left">
@@ -28,6 +28,7 @@
 </template>
 
 <script>
+  import * as types from "@/store/types";
   import newWarm from './parts/newWarm';
   import newMessage from './parts/newMessage';
   import todayOrder from './parts/todayOrder';
@@ -42,13 +43,24 @@
       todayCustomer
     },
     data() {
-      return {}
+      return {
+        role: ''
+      }
+    },
+    computed: {
+      userInfo() {
+        return this.$store.state.base.loginInfo;
+      }
+    },
+    watch:{
+      userInfo(val){
+        this.role = val.currentRoleCode;
+      }
     },
     methods: {
   
     },
-    created() {
-    }
+    created() {}
   }
 </script>
 

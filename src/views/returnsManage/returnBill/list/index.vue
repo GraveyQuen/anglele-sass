@@ -82,6 +82,12 @@
           title: '客户名称',
           key: 'customerName'
         }, {
+          title: '退货金额',
+          key: 'refundAmount',
+          render: (h,params) =>{
+            return h('div',`￥${params.row.refundAmount}`)
+          }
+        }, {
           title: '仓库',
           key: 'wareHouseName'
         }, {
