@@ -1,33 +1,47 @@
 <template>
-  <div class="tables">
-  
-    <Table class="fake-table-header" ref="settledTable" border :columns="tableHeader" :data="[]">
-      <template slot="action" slot-scope="props">
-          <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看</Button>
-          <Button type="warning" size="small"  @click="cancelSettled(props.row)">取消结算</Button>
-</template>
-  </Table>
-  <Table class="real-table-body" ref ="settledRow" stripe highlight-row :show-header="false" :columns="fakeHead" :data="listData">
-<template slot="options" slot-scope="props">
-  <Button type="success" size="small" style="margin-right:8px;" @click="print(props.row)">打印</Button>
-  <Button type="warning" size="small" @click="okSettled(props.row)">完成结算</Button>
-</template>
-
-<template slot="info" slot-scope="props">
-  <div class="info">
-    <span>预结算单号：{{props.row.id}}</span>
-    <span>预结算日期：{{props.row.createTime | dateformat}}</span>
-    <span>预结算金额：￥{{props.row.totalPrice}}</span>
-  </div>
-</template>
-  </Table>
-    <Modal title="订单详情" width="1000" v-model="show" :mask-closable="false">
+      <div class="page-inner">
+      <div class="card-contnet">
+        <div class="table-contnet">
+          <Row class-name="head">
+            <Col class-name="col" span="4">订单编号</Col>
+            <Col class-name="col" span="4">客户名称</Col>
+            <Col class-name="col" span="4">下单日期</Col>
+            <Col class-name="col" span="3">下单金额</Col>
+            <Col class-name="col" span="3">实单金额	</Col>
+            <Col class-name="col" span="3">状态	</Col>
+            <Col class-name="col" span="3">操作</Col>
+          </Row>
+          <div v-for="(items ,idx) in list" :key="idx">
+          <div class="settle-info">
+            <span class="pointer" @click="toggleItem(items,idx)"><Icon :type="items.isShow ? 'ios-arrow-down':'ios-arrow-forward'" /></span>
+            <span>预结算单号：{{items.id}}</span>
+            <span>预结算日期：{{items.createTime | dateformat}}</span>
+            <span>预结算金额：￥{{items.totalPrice}}</span>
+          </div>
+          <Row class="row-body" v-for="(item,index) in items.orders" :key="index">
+            <div v-show="items.isShow">
+            <Col class-name="col" span="4">{{item.id}}</Col>
+            <Col class-name="col" span="4">{{item.customerName}}</Col>
+            <Col class-name="col" span="4">{{item.newOrderDate | dateformat('yyyy-MM-dd')}}</Col>
+            <Col class-name="col" span="3">￥{{item.amount}}</Col>
+            <Col class-name="col" span="3">￥{{item.realAmount}}</Col>
+            <Col class-name="col" span="3">{{item.settlementStatus | settlementStatus}}</Col>
+            <Col class-name="col" span="3">
+              <Button type="success" size="small" style="margin-right:8px;" @click="detail(item)">查看</Button>
+              <Button type="warning" size="small"  @click="updateId(item)">更新结算单号</Button>
+            </Col>
+            </div>
+          </Row>
+          </div>
+        </div>
+      </div>
+      <Modal title="订单详情" width="1000" v-model="show" :mask-closable="false">
       <detailPage :order="detailItem" :logList="logList"></detailPage>
       <div slot="footer">
         <Button @click="show = false">取消</Button>
     </div>
     </Modal>
-  </div>
+    </div>
 </template>
 
 <script>
@@ -49,116 +63,21 @@
       return {
         isCancel: false,
         logList:[],
-        tableHeader: [{
-          title: '订单编号',
-          key: 'id',
-          minWidth: 220
-        }, {
-          title: '客户名称',
-          key: 'customerName',
-          minWidth: 220
-        }, {
-          title: '下单日期',
-          key: 'newOrderDate',
-          minWidth: 120,
-          render: (h, params) => {
-            return h('span', params.row.newOrderDate != '' ? dateformat(params.row.newOrderDate, 'yyyy-MM-dd') : '暂无')
-          }
-        }, {
-          title: '下单金额',
-          key: 'amount',
-          minWidth: 120,
-          render: (h, params) => {
-            return h('div', `￥${params.row.amount}`)
-          }
-        }, {
-          title: '实单金额',
-          key: 'realAmount',
-          minWidth: 120,
-          render: (h, params) => {
-            return h('div', `￥${params.row.realAmount}`)
-          }
-        }, {
-          title: '状态',
-          key: 'settlementStatus',
-          minWidth: 100,
-          render: (h, params) => {
-            return h('div', settlementStatus(params.row.settlementStatus))
-          }
-        }, {
-          title: '操作',
-          key: 'action',
-          minWidth: 100,
-          align: 'center',
-          fixed: 'right',
-          render: (h, params) => {
-            return h(
-              'div',
-              this.$refs.settledTable.$scopedSlots.action({
-                row: params.row
-              })
-            )
-          }
-        }],
-        fakeHead: [{
-            type: 'expand',
-            width: 50,
-            render: (h, params) => {
-              return h('Table', {
-                class: 'sub-table',
-                props: {
-                  columns: this.tableHeader,
-                  data: params.row.orders,
-                  showHeader: false
-                }
-              })
-            }
-          },
-          {
-            title: '预结算单号',
-            minWidth: 260,
-            key: 'id',
-            render: (h, params) => {
-              return h(
-                'div',
-                this.$refs.settledRow.$scopedSlots.info({
-                  row: params.row
-                })
-              )
-            }
-          },
-          {
-            title: '操作',
-            maxWidth: 200,
-            key: 'createTime',
-            align: 'center',
-            render: (h, params) => {
-              return h(
-                'div',
-                this.$refs.settledRow.$scopedSlots.options({
-                  row: params.row
-                })
-              )
-            }
-          }
-        ],
         show: false,
-        detailItem: {}
+        detailItem: {},
+        list: []
       }
     },
-    computed: {
-      listData() {
-        let arr = [];
-        if (this.lists) {
-          this.lists.map(el => {
-            el._expanded = true;
-            arr.push(el)
-          })
-        }
-        return arr;
+    watch:{
+      lists(val){
+        this.list = [...val]
       }
     },
     methods: {
+      /// 展开收起
+      toggleItem(item,idx){
+        this.list[idx].isShow = !this.list[idx].isShow;
+      },
       detail(item) {
         this.show = true;
         this.$http.post(this.$api.findOneOrder, {

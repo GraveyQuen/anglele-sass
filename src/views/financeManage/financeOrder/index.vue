@@ -231,7 +231,10 @@
       getList(params) {
         this.$http.post(this.$api.settlementPage, params).then(res => {
           if (res.code === 1000) {
-            this.list = res.data.page.data;
+            this.list = res.data.page.data.map(el =>{
+              el.isShow = true;
+              return el;
+            });
             this.totalCount = res.data.page.totalCount;
           }
         })

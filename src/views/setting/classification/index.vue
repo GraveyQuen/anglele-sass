@@ -244,6 +244,6 @@
   }
 </script>
 
-<style lang='less' scoped>
+<style lang='less'>
   @import url('../../../assets/less/base.less');
 </style>
