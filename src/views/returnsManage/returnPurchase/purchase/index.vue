@@ -141,6 +141,7 @@
         serverTime: '',
         pshow: false,
         selectProduct: [],
+        selectList: [],
         act: false
       }
     },
@@ -182,7 +183,7 @@
             params.orderDate = this.currentData;
             this.$Modal.confirm({
               title: status === 0 ? '暂存退货采购':'保存退货采购',
-              content: status === 0 ? '确认暂存退货采购？':'确认暂存退货采购？',
+              content: status === 0 ? '确认暂存退货采购？':'确认保存退货采购？',
               onOk: () => {
                 this.$http.post(this.$api.purchaseRefund,params).then(res => {
                   if (res.code === 1000) {
@@ -227,22 +228,18 @@
       chooseBtn() {
         this.pshow = true;
       },
-      // 已选中产品
+      // 选择产品
       onselect(data) {
-        this.selectProduct = [...data];
+        this.selectList = [...data];
       },
+      // 确认选择产品
       chooseGoods() {
-        if (this.selectProduct.length > 0) {
-          this.dataApi.items = this.selectProduct.map(el => {
-            el.refundNum = null;
-            return el
-          })
-          this.pshow = false;
-        } else {
-          this.$Message.error('请选择产品')
-        }
+        this.dataApi.items = [...this.selectList];
+        this.pshow = false;
       },
+      // 取消选择产品
       resetGoods() {
+        this.selectList = [];
         this.pshow = false;
       },
       delProductRow(idex) {

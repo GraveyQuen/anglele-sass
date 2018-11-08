@@ -139,6 +139,7 @@
         this.$http.post(this.$api.findProductList, params).then(res => {
           res.data.data.map(el => {
             el.num = null;
+            el.refundNum = null;
             el.cost = null;
             el.isCheck = false;
             el.productId = el.id;
