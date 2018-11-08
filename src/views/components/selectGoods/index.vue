@@ -1,6 +1,6 @@
 <template>
   <div class="page-inner">
-    <Form :mode="pageApi" :label-width="100" inline>
+    <Form :mode="pageApi" :label-width="100" inline @submit.native.prevent>
       <FormItem label="产品名称：">
         <Input v-model="pageApi.name" placeholder="请输入"></Input>
       </FormItem>

@@ -615,10 +615,21 @@ export const findOneRefund = '/sys/refundOrder/findOneRefund'
 // 订单退货
 export const orderRefund = '/sys/refundOrder/orderRefund'
 
-
-
 // 取消订单退货
 export const cancelRefund = '/sys/refundOrder/cancelRefund'
+
+// 采购退货单列表
+export const findPurchaseRefundList = '/sys/purchaseRefund/findPurchaseRefundList'
+
+// 采购单退货
+export const purchaseRefund = '/sys/purchaseRefund/purchaseRefund'
+
+
+// 取消采购单退货
+export const cancelPurchaseOrder = '/sys/purchaseRefund/cancelPurchaseOrder'
+
+// 采购退货单查询
+export const findPurchaseRefund = '/sys/purchaseRefund/findPurchaseRefund'
 
 
 

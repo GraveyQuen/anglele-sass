@@ -77,13 +77,21 @@
           })
           item.isOpen = !item.isOpen;
         }
+      },
+      updateMenu(){
+        const route = this.$route.path.split('/');
+        if(route.length > 3){
+          this.currentRoute = `/${route[1]}/${route[2]}`;
+        }else{
+          this.currentRoute = this.$route.path;
+        }
       }
     },
     created() {
       this.initMenu();
     },
     mounted() {
-      this.currentRoute = this.$route.path;
+      this.updateMenu();
       this.initMenu();
     }
   }
@@ -92,6 +100,7 @@
 <style lang='less' scoped>
   .menu-box {
     overflow: hidden;
+    user-select: none;
     ul {
       width: 150px;
       li {

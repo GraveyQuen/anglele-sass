@@ -2,7 +2,7 @@
   <div class="page-inner">
     <Card :bordered="true" dis-hover title="仓库管理">
       <Button type="primary" slot="extra" class="extra-button" @click="openPanel(false)">新增仓库</Button>
-      <Form :mode="pageApi" :label-width="100" inline>
+      <Form :mode="pageApi" :label-width="100" inline @submit.native.prevent>
         <FormItem label="仓库名称：">
           <Input v-model="pageApi.wareHouseName" placeholder="请输入..."></Input>
         </FormItem>

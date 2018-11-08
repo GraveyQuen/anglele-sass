@@ -1,11 +1,15 @@
 <template>
   <div>
-    <router-view/>
+    <purchase :isEdit="true"></purchase>
   </div>
 </template>
 
 <script>
+import purchase from '../purchase/index'
   export default {
+    components:{
+      purchase
+    },
     data() {
       return {}
     },

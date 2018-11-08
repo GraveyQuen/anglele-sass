@@ -88,7 +88,8 @@
         let host = "";
         if (window.location.hostname == "localhost")
           host = "http://192.168.0.252:8082";
-        return host + this.$api.captcha + "?r=" + this.random;
+        if(this.random != '')
+          return host + this.$api.captcha + "?r=" + this.random;
       },
       valid() {
         return this.loginApi.userName != '' && this.loginApi.password != '' && this.loginApi.code != ''
@@ -97,11 +98,6 @@
         return this.loginApi.userName != '' && this.loginApi.password != '';
       }
     },
-    // watch:{
-    //   isValid(val){
-    //     if(val) this.validUser();
-    //   }
-    // },
     methods: {
       blurInput(e) {
         if (this.isValid) this.validUser();

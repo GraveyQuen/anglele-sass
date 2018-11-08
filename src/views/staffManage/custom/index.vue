@@ -2,7 +2,7 @@
   <div class="page-inner">
     <Card :bordered="true" dis-hover title="客户管理">
       <Button type="primary" slot="extra" class="extra-button" @click="openPanel(false)">新增客户</Button>
-      <Form :mode="pageApi" :label-width="0" inline>
+      <Form :mode="pageApi" :label-width="0" inline @submit.native.prevent>
         <FormItem>
           <Input v-model="pageApi.param" style="width: 300px;" placeholder="请输入客户名称或客户账号查询"></Input>
         </FormItem>

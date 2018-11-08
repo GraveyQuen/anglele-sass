@@ -5,6 +5,9 @@
         <FormItem label="订单单号：">
           <Input v-model="pageApi.id" placeholder="请输入" style="width: 200px;"></Input>
         </FormItem>
+        <FormItem label="产品名称：">
+          <Input v-model="pageApi.productName" placeholder="请输入" style="width: 200px;"></Input>
+        </FormItem>
         <FormItem label="客户名称：">
           <Input v-model="pageApi.customerName" placeholder="请输入" style="width: 200px;"></Input>
         </FormItem>
@@ -314,7 +317,8 @@
           endUpdateTime: '',
           finishStatus: this.old ? 1 : 0,
           deliveryManId: '',
-          hasFee: ''
+          hasFee: '',
+          productName: ''
         },
         detailItem: {},
         cancelShow: false,
@@ -573,7 +577,8 @@
           updateUser: this.pageApi.updateUser,
           finishStatus: this.old ? 1 : 0,
           deliveryManId: this.pageApi.deliveryManId,
-          hasFee: this.pageApi.hasFee
+          hasFee: this.pageApi.hasFee,
+          productName: this.pageApi.productName
         }
       },
       getId() {
@@ -644,7 +649,8 @@
           endUpdateTime: '',
           finishStatus: this.old ? 1 : 0,
           deliveryManId: '',
-          hasFee: ''
+          hasFee: '',
+          productName: ''
         }
         this.dateValue = ['', ''];
         this.dateValue2 = ['', ''];

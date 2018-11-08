@@ -362,26 +362,63 @@ export default [{
         meta: {
           title: '退货单管理',
         }
-      },{
+      }, {
         path: '/returnsManage/returnBill/returnBillAdd',
         name: 'returnBillAdd',
         component: resolve => require(['@/views/returnsManage/returnBill/add/index.vue'], resolve),
         meta: {
           title: '新增退货单',
         }
-      },{
+      }, {
         path: '/returnsManage/returnBill/returnBillEdit',
         name: 'returnBillEdit',
         component: resolve => require(['@/views/returnsManage/returnBill/edit/index.vue'], resolve),
         meta: {
           title: '编辑退货单',
         }
-      },{
+      }, {
         path: '/returnsManage/returnBill/returnBillDetail',
         name: 'returnBillDetail',
         component: resolve => require(['@/views/returnsManage/returnBill/detail/index.vue'], resolve),
         meta: {
           title: '退货单详情',
+        }
+      }]
+    }, {
+      path: '/returnsManage/returnPurchase',
+      name: 'returnPurchase',
+      component: resolve => require(['@/views/returnsManage/returnPurchase/index.vue'], resolve),
+      meta: {
+        hideInMenu: true
+      },
+      redirect: '/returnsManage/returnPurchase/returnPurchaseList',
+      children: [{
+        path: '/returnsManage/returnPurchase/returnPurchaseList',
+        name: 'returnPurchaseList',
+        component: resolve => require(['@/views/returnsManage/returnPurchase/list/index.vue'], resolve),
+        meta: {
+          title: '采购退货管理',
+        }
+      }, {
+        path: '/returnsManage/returnPurchase/returnPurchaseAdd',
+        name: 'returnPurchaseAdd',
+        component: resolve => require(['@/views/returnsManage/returnPurchase/add/index.vue'], resolve),
+        meta: {
+          title: '新增采购退货',
+        }
+      }, {
+        path: '/returnsManage/returnPurchase/returnPurchaseEdit',
+        name: 'returnPurchaseEdit',
+        component: resolve => require(['@/views/returnsManage/returnPurchase/edit/index.vue'], resolve),
+        meta: {
+          title: '编辑采购退货',
+        }
+      }, {
+        path: '/returnsManage/returnPurchase/returnPurchaseDetail',
+        name: 'returnPurchaseDetail',
+        component: resolve => require(['@/views/returnsManage/returnPurchase/detail/index.vue'], resolve),
+        meta: {
+          title: '采购退货详情',
         }
       }]
     }]
