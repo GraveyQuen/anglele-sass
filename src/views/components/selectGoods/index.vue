@@ -198,7 +198,20 @@
             this.selectList.push(el)
           })
         }
+        this.checkVal();
         this.$emit('on-select', this.selectList)
+      },
+      // 已选中赋值
+      checkVal(){
+        this.selectList.map(el =>{
+          this.checkList.map(item =>{
+            if(el.productId === item.productId){
+              el.refundNum = item.refundNum;
+              el.num = item.num;
+              el.cost = item.cost;
+            }
+          })
+        })
       },
       // 选择、取消选择
       checkItem(items, index) {
@@ -208,6 +221,7 @@
           this.selectList.push(items)
         }
         items.isCheck = !items.isCheck;
+        this.checkVal();
         this.$emit('on-select', this.selectList)
       },
       // 已选中的

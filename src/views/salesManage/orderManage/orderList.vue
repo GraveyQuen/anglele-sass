@@ -670,7 +670,7 @@
             if (key === 'over') { //完成订单
               res.data.orderItem.map(el => {
                 el.realNum = el.num;
-                el.realPrice = el.price;
+                el.realPrice = el.realPrice;
               })
               this.overApi.outItems = [...res.data.orderItem];
               this.changeTotalPrice();

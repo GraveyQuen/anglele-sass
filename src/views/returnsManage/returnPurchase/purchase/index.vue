@@ -208,7 +208,6 @@
       findWareHouse() {
         this.$http.post(this.$api.findWareHouse).then(res => {
           if (!this.isEdit) {
-            console.log('sdf')
             this.dataApi.wareHouseId = res.data[0].id
           }
           this.wareHouseList = res.data;
