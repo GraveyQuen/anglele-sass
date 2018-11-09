@@ -178,7 +178,6 @@
           if (this.isOk) {
             const params = this.$clearData(this.dataApi);
             params.status = status;
-            params.id = params.refundOrderId;
             params.items = JSON.stringify(params.items);
             params.orderDate = this.currentData;
             this.$Modal.confirm({
@@ -258,9 +257,9 @@
               el.price = el.cost;
             });
             this.dataApi = {
-              id: '',
+              id: res.data.order.id,
               orderDate: new Date(Date.parse(res.data.order.orderDate.replace(/-/g, "/"))),
-              refundOrderId: res.data.order.id,
+              refundOrderId: res.data.order.refundOrderId,
               wareHouseId: res.data.order.wareHouseId,
               provider: res.data.order.provider,
               providerPhone: res.data.order.providerPhone,
