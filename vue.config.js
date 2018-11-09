@@ -9,8 +9,15 @@ module.exports = {
   // webpack配置
   // see https://github.com/vuejs/vue-cli/blob/dev/docs/webpack.md
   chainWebpack: () => {},
-  configureWebpack: () => {},
-
+  configureWebpack: {
+    externals: {
+      'vue': 'Vue',
+      'vue-router': 'VueRouter',
+      'vuex': 'Vuex',
+      'iview': 'iview'
+    },
+  },
+  
   // 生产环境是否生成 sourceMap 文件
   productionSourceMap: false,
   // css相关配置
