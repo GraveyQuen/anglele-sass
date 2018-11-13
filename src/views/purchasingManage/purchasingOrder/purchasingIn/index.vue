@@ -71,7 +71,7 @@
       </div>
     </Card>
     <Modal title="选择产品" width="800" v-model="show" :mask-closable="false">
-      <selectGoods v-if="show" @on-select="onselect" :checkList="goodsList" :hasSelect="productIds"></selectGoods>
+      <selectGoods v-if="show" @on-select="onselect" :checkList="goodsList" :wareHouseId="baseApi.wareHouseId" :hasSelect="productIds"></selectGoods>
       <div slot="footer">
         <Button type="primary" @click="chooseGoods">选择</Button>
         <Button @click="resetGoods">取消</Button>

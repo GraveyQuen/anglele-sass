@@ -134,7 +134,6 @@
         })
       },
       submit() {
-        console.log(this.loginApi)
         if (this.valid) {
           let params = this.$clearData(this.loginApi);
           params.r = this.random;

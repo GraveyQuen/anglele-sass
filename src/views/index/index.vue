@@ -60,7 +60,9 @@
     methods: {
   
     },
-    created() {}
+    created() {
+      this.role = this.$store.state.base ?  this.$store.state.base.loginInfo.currentRoleCode : '';
+    }
   }
 </script>
 

@@ -11,10 +11,10 @@ module.exports = {
   chainWebpack: () => {},
   configureWebpack: {
     externals: {
-      'vue': 'Vue',
-      'vue-router': 'VueRouter',
-      'vuex': 'Vuex',
-      'iview': 'iview'
+      // 'vue': 'Vue',
+      // 'vue-router': 'VueRouter',
+      // 'vuex': 'Vuex',
+      // 'iview': 'iview'
     }
   },
   

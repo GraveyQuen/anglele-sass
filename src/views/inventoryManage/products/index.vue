@@ -469,7 +469,6 @@
         this.isEdit = isEdit;
         if (isEdit) {
           this.editItem = item || {};
-          // this.cropperData.img = item.productImg;
           this.dataApi = {
             name: item.name,
             categoryId: item.categoryId,

@@ -93,7 +93,7 @@
         </div>
     </Modal>
     <Modal title="选择产品" width="800" v-model="pshow" :mask-closable="false">
-      <selectGoods v-if="pshow" @on-select="onselect" :checkList="dataApi.items" :hasSelect="productIds"></selectGoods>
+      <selectGoods v-if="pshow" @on-select="onselect" :checkList="dataApi.items" :wareHouseId="dataApi.wareHouseId" :hasSelect="productIds"></selectGoods>
       <div slot="footer">
         <Button type="primary" @click="chooseGoods">选择</Button>
         <Button @click="resetGoods">取消</Button>

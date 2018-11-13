@@ -101,7 +101,7 @@
             }
           })
         })
-        if (this.list.length === arr.length) {
+        if (this.list.length === arr.length && this.list.length != 0) {
           return true;
         } else {
           return false
