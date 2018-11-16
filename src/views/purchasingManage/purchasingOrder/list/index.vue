@@ -11,13 +11,18 @@
         </FormItem>
         <FormItem label="采购员：">
           <Select v-model="pageApi.operatePerson" style="width: 200px;">
-                                  <Option v-for="(item,index) in purchaseMan" :value="item.id" :key="index">{{ item.name }}</Option>
-                                </Select>
+            <Option v-for="(item,index) in purchaseMan" :value="item.id" :key="index">{{ item.name }}</Option>
+          </Select>
         </FormItem>
+          <FormItem label="仓库名称：">
+            <Select v-model="pageApi.wareHouseId" style="width: 200px;">
+              <Option v-for="(item,index) in storeList" :value="item.id" :key="index">{{ item.name }}</Option>
+            </Select>
+          </FormItem>
         <FormItem label="采购状态：">
           <Select v-model="pageApi.status" style="width: 200px;">
-                                  <Option v-for="(item,index) in [{id:0,name:'进行中'},{id:1,name:'完成'}]" :value="item.id" :key="index">{{ item.name }}</Option>
-                                </Select>
+            <Option v-for="(item,index) in [{id:0,name:'进行中'},{id:1,name:'完成'}]" :value="item.id" :key="index">{{ item.name }}</Option>
+          </Select>
         </FormItem>
         <FormItem label="最近更新人：">
           <Input v-model="pageApi.updateUser" placeholder="请输入" style="width: 200px;"></Input>
@@ -31,6 +36,9 @@
       </Form>
       <div class="card-contnet">
         <Table width="100%" ref="purchasTable" :columns="tableHeader" border :data="list">
+          <template slot="wareHouse" slot-scope="props">
+            <div class="wareHouse"><span v-for="(item,index) in props.row.wareHouse" :key="index">{{item.name}}</span></div>
+          </template>
           <!-- 操作 -->
           <template slot="action" slot-scope="props">
                           <Button type="info" size="small" @click="print(props.row)" style="margin-right:8px;">打印</Button>
@@ -65,8 +73,10 @@
           status: '',
           updateUser: '',
           updateStartTime: '',
-          updateEndTime: ''
+          updateEndTime: '',
+          wareHouseId: ''
         },
+        storeList: [],
         list: [],
         totalCount: 0,
         purchaseMan: [],
@@ -83,19 +93,31 @@
         }, {
           title: '状态',
           key: 'status',
-          minWidth: 120,
+          minWidth: 100,
           render: (h, params) => {
             return h('div', params.row.status === 0 ? '采购中' : '完成')
           }
         }, {
           title: '采购员',
           key: 'operatePerson',
-          minWidth: 120
+          minWidth: 100
         }, {
           title: '联系方式',
           key: 'operatePersonPhone',
           minWidth: 120
         }, {
+          title: '仓库',
+          key: 'wareHouse',
+          minWidth: 120,
+          render: (h, params) => {
+            return h(
+              'div',
+              this.$refs.purchasTable.$scopedSlots.wareHouse({
+                row: params.row
+              })
+            )
+          }
+        },{
           title: '备注',
           key: 'remark',
           minWidth: 120
@@ -138,7 +160,8 @@
           status: this.pageApi.status,
           updateUser: this.pageApi.updateUser,
           updateStartTime: this.dateValue2[0] != '' ? this.dateValue2[0].getTime() : '',
-          updateEndTime: this.dateValue2[1] != '' ? this.dateValue2[1].getTime() : ''
+          updateEndTime: this.dateValue2[1] != '' ? this.dateValue2[1].getTime() : '',
+          wareHouseId: this.pageApi.wareHouseId
         }
       }
     },
@@ -165,7 +188,8 @@
           status: '',
           updateUser: '',
           updateStartTime: '',
-          updateEndTime: ''
+          updateEndTime: '',
+          wareHouseId: ''
         }
         this.dateValue = ['', ''];
         this.dateValue2 = ['', ''];
@@ -179,8 +203,19 @@
       getList(params) {
         this.$http.post(this.$api.findPurchaseOrderList, params).then(res => {
           if (res.code === 1000) {
+            res.data.data.map(el =>{
+              el.wareHouse = JSON.parse(el.wareHouse)
+            })
             this.list = res.data.data;
             this.totalCount = res.data.totalCount;
+          }
+        })
+      },
+      // 所有仓库
+      getWareHouse() {
+        this.$http.post(this.$api.findWareHouse).then(res => {
+          if (res.code === 1000) {
+            this.storeList = res.data;
           }
         })
       },
@@ -277,6 +312,7 @@
     created() {
       this.getList(this.pageFilter);
       this.getPurchaMan();
+      this.getWareHouse();
     }
   }
 </script>
@@ -285,5 +321,15 @@
   @import url('../../../../assets/less/base.less');
   .spin-icon-load {
     animation: ani-demo-spin 1s linear infinite;
+  }
+  .wareHouse{
+    span{
+      display: inline-block;
+      border-right: 1px solid #e6e6e6;
+      padding: 0 5px;
+      &:last-child{
+        border-right: 0;
+      }
+    }
   }
 </style>
