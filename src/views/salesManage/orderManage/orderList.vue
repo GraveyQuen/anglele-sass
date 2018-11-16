@@ -126,8 +126,9 @@
                 <Col class-name="col" span="4">{{item.productName}}</Col>
                 <Col class-name="col" span="4">{{item.price}}元/{{item.unit}}</Col>
                 <Col class-name="col" :span="detailItem.order.status === 5 ? 4 : 8" style="height: auto;overflow: inherit;">
-                <Tooltip placement="top" >
-                    <Button size="small">下单数量</Button>
+                {{item.num}}{{item.unit}}
+                <Tooltip placement="top" v-if="item.wareHouseOutItems.length">
+                    <Button size="small">明细</Button>
                     <div slot="content">
                   <div class="Tooltip" v-for="(sub,idx) in item.wareHouseOutItems" :key="idx">{{sub.wareHouseName}}：{{sub.num}}{{sub.unit}}</div>
                     </div>
@@ -135,10 +136,11 @@
                 </Col>
                 <Col class-name="col" :span="detailItem.order.status === 5 ? 3 : 8">￥{{item.totalPrice}}</Col>
                 <Col class-name="col" span="3" v-if="detailItem.order.status === 5" style="height: auto;overflow: inherit;">
-                <Tooltip placement="top" >
-                    <Button size="small">实单数量</Button>
+                {{item.realNum}}{{item.unit}}
+                <Tooltip placement="top" v-if="item.wareHouseOutItems.length">
+                    <Button size="small">明细</Button>
                     <div slot="content">
-                  <div class="Tooltip" v-for="(sub,idx) in item.wareHouseOutItems" :key="idx">{{sub.wareHouseName}}：{{sub.realNum}}{{sub.unit}}</div>
+                    <div class="Tooltip" v-for="(sub,idx) in item.wareHouseOutItems" :key="idx">{{sub.wareHouseName}}：{{sub.realNum}}{{sub.unit}}</div>
                     </div>
                 </Tooltip>
                 </Col>
@@ -1082,6 +1084,7 @@
   }
   
   .Tooltip {
+    width: 100px;
     word-break: break-all;
     white-space: normal;
   }
