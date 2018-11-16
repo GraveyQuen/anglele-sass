@@ -23,23 +23,23 @@
         </FormItem>
         <FormItem label="下单方式：">
           <Select v-model="pageApi.orderType" style="width: 200px;">
-                      <Option v-for="(item,index) in [{value: 1,name:'客户下单'},{value: 2,name: '代客下单'}]" :value="item.value" :key="index">{{ item.name }}</Option>
-                    </Select>
+                        <Option v-for="(item,index) in [{value: 1,name:'客户下单'},{value: 2,name: '代客下单'}]" :value="item.value" :key="index">{{ item.name }}</Option>
+                      </Select>
         </FormItem>
         <FormItem label="是否有其他费用：">
           <Select v-model="pageApi.hasFee" style="width: 200px;">
-                      <Option v-for="(item,index) in [{value: 0,name:'无回收费用'},{value: 1,name: '未回收完成'},{value: 2,name: '回收完成'}]" :value="item.value" :key="index">{{ item.name }}</Option>
-                    </Select>
+                        <Option v-for="(item,index) in [{value: 0,name:'无回收费用'},{value: 1,name: '未回收完成'},{value: 2,name: '回收完成'}]" :value="item.value" :key="index">{{ item.name }}</Option>
+                      </Select>
         </FormItem>
         <FormItem label="配送人：">
           <Select v-model="pageApi.deliveryManId" style="width: 200px;">
-                      <Option v-for="(item,index) in deliveryList" :value="item.id" :key="index">{{ item.name }}</Option>
-                    </Select>
+                        <Option v-for="(item,index) in deliveryList" :value="item.id" :key="index">{{ item.name }}</Option>
+                      </Select>
         </FormItem>
         <FormItem label="状态：">
           <Select v-model="pageApi.status" style="width: 200px;">
-                      <Option v-for="(item,index) in orderStatus" :value="item.value" :key="index">{{ item.name }}</Option>
-                    </Select>
+                        <Option v-for="(item,index) in orderStatus" :value="item.value" :key="index">{{ item.name }}</Option>
+                      </Select>
         </FormItem>
         <FormItem label="下单日期：">
           <DatePicker type="daterange" placement="bottom-start" v-model="dateValue" placeholder="选择日期" style="width: 200px"></DatePicker>
@@ -58,14 +58,14 @@
         <Table width="100%" ref="orderTable" :columns="tableHeader" border :data="list">
           <!-- 操作 -->
           <template slot="action" slot-scope="props">
-              <!-- <Button type="warning" size="small" style="margin-right:8px;" v-if="props.row.status === 4" @click="overOrder(props.row)">完成订单</Button> -->
-              <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看订单</Button>
-              <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1" @click="confirm(props.row)">确认订单</Button>
-              <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1 || props.row.status === 2 || props.row.status === 3 || props.row.status === 4" @click="cancelOrder(props.row)">取消订单</Button>
-              <Button type="info" size="small" v-if="props.row.status === 5 && props.row.settlementStatus === 0 && props.row.hasRefund === 0" @click="returnBill(props.row)">退货</Button>
-              <Button type="info" size="small" v-if="props.row.status === 5 && props.row.settlementStatus === 0 && props.row.hasRefund === ''" @click="returnBill(props.row)">退货</Button>
-              <Button type="info" size="small" v-if="props.row.status === 5 && props.row.settlementStatus === 0 && props.row.hasRefund === 1" @click="edit(props.row)">编辑退货</Button>
-          </template>
+                <!-- <Button type="warning" size="small" style="margin-right:8px;" v-if="props.row.status === 4" @click="overOrder(props.row)">完成订单</Button> -->
+                <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看订单</Button>
+                <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1" @click="confirm(props.row)">确认订单</Button>
+                <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1 || props.row.status === 2 || props.row.status === 3 || props.row.status === 4" @click="cancelOrder(props.row)">取消订单</Button>
+                <Button type="info" size="small" v-if="props.row.status === 5 && props.row.settlementStatus === 0 && props.row.hasRefund === 0" @click="returnBill(props.row)">退货</Button>
+                <Button type="info" size="small" v-if="props.row.status === 5 && props.row.settlementStatus === 0 && props.row.hasRefund === ''" @click="returnBill(props.row)">退货</Button>
+                <Button type="info" size="small" v-if="props.row.status === 5 && props.row.settlementStatus === 0 && props.row.hasRefund === 1" @click="edit(props.row)">编辑退货</Button>
+</template>
         </Table>
         <div class="paging">
           <Page class="page-count" size="small" @on-page-size-change="changeSize" show-sizer show-elevator :total="totalCount" show-total :current="pageApi.pageIndex" :page-size="pageApi.pageSize" @on-change="changePage"></Page>
@@ -219,21 +219,21 @@
       <div class="order-ok-header">请仔细核对订单中的产品实单数量、实单单价后进行确认</div>
       <Table ref="overTable" disabled-hover border :columns="goodsHeader" :data="overApi.outItems" >
         <!-- 实单数量 -->
-      <template slot="realNum" slot-scope="props">
-        <Form :ref="'formRow'+props.idx" :model="props.row">
-          <FormItem prop="realNum" :rules="{required: true, message: '请输入数量', trigger: 'blur', type: 'number'}">
-            <InputNumber @on-change="numChange" :min="0" v-model.number="props.row.realNum" size="small" style="width:60px;"></InputNumber>{{props.row.unit}}
-          </FormItem>
-        </Form>
-      </template>
+<template slot="realNum" slot-scope="props">
+  <Form :ref="'formRow'+props.idx" :model="props.row">
+    <FormItem prop="realNum" :rules="{required: true, message: '请输入数量', trigger: 'blur', type: 'number'}">
+      <InputNumber @on-change="numChange" :min="0" v-model.number="props.row.realNum" size="small" style="width:60px;"></InputNumber>{{props.row.unit}}
+    </FormItem>
+  </Form>
+</template>
                               <!-- 实单单价 -->
-      <template slot="realPrice" slot-scope="props">
-        <Form :ref="'formRow'+props.idx" :model="props.row">
-          <FormItem prop="realPrice" :rules="{required: true, message: '请输入单价', trigger: 'blur', type: 'number'}">
-            <InputNumber @on-change="numChange" :min="0" v-model.number="props.row.realPrice" size="small" style="width:60px;"></InputNumber>元/{{props.row.unit}}
-          </FormItem>
-        </Form>
-      </template>
+<template slot="realPrice" slot-scope="props">
+  <Form :ref="'formRow'+props.idx" :model="props.row">
+    <FormItem prop="realPrice" :rules="{required: true, message: '请输入单价', trigger: 'blur', type: 'number'}">
+      <InputNumber @on-change="numChange" :min="0" v-model.number="props.row.realPrice" size="small" style="width:60px;"></InputNumber>元/{{props.row.unit}}
+    </FormItem>
+  </Form>
+</template>
       </Table>
       <div class="add-fee page-inner">
         <Button type="primary" @click="addFee" style="margin-bottom:20px;">添加其他费用</Button>
@@ -287,17 +287,18 @@
       <p class="check-warm">因检测到产品存在多个仓库，故需要进行分仓出库</p>
       <Table ref="checkOrderTable" disabled-hover border :columns="checkOrderHeader" :data="checkOrderApi.items" >
           <!-- 实单数量 -->
-          <template slot="wareHouseNum" slot-scope="props">
-            <div v-for="(item,index) in props.row.wareHouseNum">
-              {{item.wareHouseName}}：{{item.num}}{{item.unit}}
-            </div>
-          </template>
+<template slot="wareHouseNum" slot-scope="props">
+  <div v-for="(item,index) in props.row.wareHouseNum">
+    {{item.wareHouseName}}：{{item.num}}{{item.unit}}
+  </div>
+</template>
           <!-- 实单单价 -->
-          <template slot="wareHouseProducts" slot-scope="props">
-            <div v-for="(item,index) in props.row.wareHouseProducts" class="checkNum-item">
-              {{item.wareHouseName}}：<InputNumber :min="0" @on-change="checkNumChange(props.row,index,$event)" v-model.number="item.checkNum" size="small" style="width:60px;"></InputNumber>{{props.row.unit}}
-            </div>
-          </template>
+<template slot="wareHouseProducts" slot-scope="props">
+  <div v-for="(item,index) in props.row.wareHouseProducts" class="checkNum-item">
+    {{item.wareHouseName}}：
+    <InputNumber :min="0" @on-change="checkNumChange(props.row,index,$event)" v-model.number="item.checkNum" size="small" style="width:60px;"></InputNumber>{{props.row.unit}}
+  </div>
+</template>
         </Table>
         <div slot="footer">
           <Button type="primary" @click="saveCheckOrder" :loading="loading">保存</Button>
@@ -583,24 +584,24 @@
           id: '',
           items: []
         },
-        checkOrderHeader:[{
+        checkOrderHeader: [{
           title: '产品名称',
           key: 'productName'
-        },{
+        }, {
           title: '产品分类',
           key: 'productCategory'
-        },{
+        }, {
           title: '订单数量',
           key: 'num',
-          render: (h,params) =>{
+          render: (h, params) => {
             const str = `${params.row.num}${params.row.unit}`;
-            return h('div',str)
+            return h('div', str)
           }
-        },{
+        }, {
           title: '现有库存',
           key: 'wareHouseNum',
           minWidth: 120,
-          render: (h,params) =>{
+          render: (h, params) => {
             return h(
               'div',
               this.$refs.checkOrderTable.$scopedSlots.wareHouseNum({
@@ -608,11 +609,11 @@
               })
             )
           }
-        },{
+        }, {
           title: '分仓出库',
           key: 'wareHouseProducts',
           minWidth: 120,
-          render: (h,params) =>{
+          render: (h, params) => {
             return h(
               'div',
               this.$refs.checkOrderTable.$scopedSlots.wareHouseProducts({
@@ -802,7 +803,7 @@
           id: item.id
         }).then(res => {
           if (res.code === 1000) {
-            res.data.orderItems.map(el =>{
+            res.data.orderItems.map(el => {
               el.wareHouseNum = el.wareHouseProducts
             })
             this.checkOrderItem = Object.assign({}, res.data);
@@ -813,24 +814,24 @@
         this.checkOrderShow = true;
       },
       // 取消确认订单
-      cancelCheckOrder(){
+      cancelCheckOrder() {
         this.checkOrderShow = false
       },
       //  保存确认订单
-      saveCheckOrder(){
+      saveCheckOrder() {
         const params = this.$clearData(this.checkOrderApi);
         params.items = JSON.stringify(params.items)
-        this.$http.post(this.$api.checkOrder,params).then(res =>{
-          if(res.code === 1000){
-          this.getList(this.pageFilter);
+        this.$http.post(this.$api.checkOrder, params).then(res => {
+          if (res.code === 1000) {
+            this.getList(this.pageFilter);
             this.$Message.success('订单确认成功');
             this.checkOrderShow = false;
-          }else{
+          } else {
             this.$Message.error(res.message);
           }
         })
       },
-      
+  
       // 完成订单
       overOrder(item) {
         this.getItem(item, 'over')
@@ -874,15 +875,15 @@
           }
         })
       },
-      checkNumChange(item,itemIndex,data){
-        this.checkOrderApi.items.map((el,index) =>{
-          if(el.id === item.id){
-            this.checkOrderApi.items[index].wareHouseProducts[itemIndex].checkNum = data;
-            console.log(this.checkOrderApi.items[index].wareHouseProducts[itemIndex].checkNum)
-          }
-        })
-        console.log(itemIndex)
-        console.log(data)
+      checkNumChange(item, itemIndex, data) {
+        _.debounce(function() {
+          this.checkOrderApi.items.map((el, index) => {
+            if (el.id === item.id) {
+              this.checkOrderApi.items[index].wareHouseProducts[itemIndex].checkNum = data;
+              console.log(this.checkOrderApi.items[index].wareHouseProducts[itemIndex].checkNum)
+            }
+          })
+        }, 500)
       },
       // 重置其他费用不可选
       clearFee() {
@@ -993,7 +994,8 @@
 
 <style lang='less' scoped>
   @import url('../../../assets/less/base.less');
-  .order-ok-header ,.check-warm{
+  .order-ok-header,
+  .check-warm {
     margin-bottom: 15px;
     color: #ed4014;
   }
@@ -1053,7 +1055,8 @@
     word-break: break-all;
     white-space: normal;
   }
-  .checkNum-item{
+  
+  .checkNum-item {
     margin: 10px 0;
   }
 </style>

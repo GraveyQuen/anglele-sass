@@ -143,10 +143,20 @@
         <Button @click="cancelOut('baseForm')">取消</Button>
       </div>
     </Modal>
-    <Modal title="打印出库单" width="500" v-model="printShow" :mask-closable="false">
-         <Form :label-width="110" >
+    <Modal title="打印出库单" width="500" v-model="printShow" :mask-closable="false" @on-cancel="printCancel">
+         <Form :label-width="220" >
+          <FormItem label="实配数量、单价、金额是否显示打印：">
+            <RadioGroup v-model="withReal">
+                <Radio :label="0">
+                    <span>不显示</span>
+                </Radio>
+                <Radio :label="1">
+                    <span>显示</span>
+                </Radio>
+            </RadioGroup>
+          </FormItem>
           <FormItem label="打印出库单：">
-            <RadioGroup v-model="printMore" vertical>
+            <RadioGroup v-model="printMore">
                 <Radio :label="1">
                     <span>按销售单打印</span>
                 </Radio>
@@ -158,7 +168,7 @@
           </Form>
       <div slot="footer">
         <Button type="primary" @click="printMuti">打印</Button>
-        <Button @click="printShow = false">取消</Button>
+        <Button @click="printCancel">取消</Button>
       </div>
     </Modal>
   </div>
@@ -365,7 +375,8 @@
         printId: '',
         feeIndex: 0,
         feeList: [],
-        isEdit: false
+        isEdit: false,
+        withReal: 0
       }
     },
     computed: {
@@ -432,6 +443,11 @@
         }).then(res => {
           if (res.code === 1000) {
             this.detailItem = Object.assign({}, res.data)
+            res.data.wareHouseOutItems.map(el =>{
+              if(el.realNum === ''){
+                el.realNum = null;
+              }
+            })
             this.outApi.outItems = [...res.data.wareHouseOutItems];
             if(isEdit){
               this.outApi.deliveryManId = res.data.deliveryMan.id;
@@ -543,13 +559,20 @@
         });
         this.$http.post(this.$api.wareHouseOutPrint, {
           wareHouseOutId: id,
-          multiWareHouseOutOrder: this.printMore
+          multiWareHouseOutOrder: this.printMore,
+          withReal: this.withReal
         }).then(res => {
           if (res.code === 1000) {
             window.open(res.data, '_blank')
             this.$Spin.hide();
           }
         })
+      },
+      //  取消打印
+      printCancel(){
+        this.printShow = false;
+        this.withReal = 0;
+        this.printMore = 1
       },
       getDelivery() {
         this.$http.post(this.$api.findAllDeliveryMan, {
