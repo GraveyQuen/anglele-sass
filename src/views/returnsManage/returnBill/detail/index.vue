@@ -51,7 +51,7 @@
                 <Row>
                   <Col span="24" class="wareHouseName">{{item.wareHouseName}}</Col>
                 </Row>
-                <Row v-for="(sub,idx) in item.item">
+                <Row v-for="(sub,idx) in item.item" :key="idx">
                 <Col class-name="col" span="4">{{sub.productName}}</Col>
                 <Col class-name="col" span="2">{{sub.price}}/{{sub.unit}}</Col>
                 <Col class-name="col" span="2">{{sub.num}}{{sub.unit}}</Col>
