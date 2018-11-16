@@ -83,7 +83,7 @@
         <Button @click="cancelReset('formCancel')">取消</Button>
       </div>
     </Modal>
-    <Modal title="订单详情" width="900" v-model="show" :mask-closable="false">
+    <Modal title="订单详情" width="1000" v-model="show" :mask-closable="false">
       <div class="order-detail" v-if="detailItem.order">
         <div class="order-detail-title">
           <span>基本信息</span>
@@ -125,9 +125,23 @@
               <Row v-for="(item,index) in detailItem.orderItem" :key="index">
                 <Col class-name="col" span="4">{{item.productName}}</Col>
                 <Col class-name="col" span="4">{{item.price}}元/{{item.unit}}</Col>
-                <Col class-name="col" :span="detailItem.order.status === 5 ? 4 : 8">{{item.num}}{{item.unit}}</Col>
+                <Col class-name="col" :span="detailItem.order.status === 5 ? 4 : 8" style="height: auto;overflow: inherit;">
+                <Tooltip placement="top" >
+                    <Button size="small">下单数量</Button>
+                    <div slot="content">
+                  <div class="Tooltip" v-for="(sub,idx) in item.wareHouseOutItems" :key="idx">{{sub.wareHouseName}}：{{sub.num}}{{sub.unit}}</div>
+                    </div>
+                </Tooltip>
+                </Col>
                 <Col class-name="col" :span="detailItem.order.status === 5 ? 3 : 8">￥{{item.totalPrice}}</Col>
-                <Col class-name="col" span="3" v-if="detailItem.order.status === 5">{{item.realNum}}{{item.unit}}</Col>
+                <Col class-name="col" span="3" v-if="detailItem.order.status === 5" style="height: auto;overflow: inherit;">
+                <Tooltip placement="top" >
+                    <Button size="small">实单数量</Button>
+                    <div slot="content">
+                  <div class="Tooltip" v-for="(sub,idx) in item.wareHouseOutItems" :key="idx">{{sub.wareHouseName}}：{{sub.realNum}}{{sub.unit}}</div>
+                    </div>
+                </Tooltip>
+                </Col>
                 <Col class-name="col" span="3" v-if="detailItem.order.status === 5">{{item.realPrice}}元/{{item.unit}}</Col>
                 <Col class-name="col" span="3" v-if="detailItem.order.status === 5">￥{{item.realTotalPrice}}</Col>
               </Row>
@@ -287,18 +301,18 @@
       <p class="check-warm">因检测到产品存在多个仓库，故需要进行分仓出库</p>
       <Table ref="checkOrderTable" disabled-hover border :columns="checkOrderHeader" :data="checkOrderApi.items" >
           <!-- 实单数量 -->
-<template slot="wareHouseNum" slot-scope="props">
-  <div v-for="(item,index) in props.row.wareHouseNum">
-    {{item.wareHouseName}}：{{item.num}}{{item.unit}}
-  </div>
-</template>
-          <!-- 实单单价 -->
-<template slot="wareHouseProducts" slot-scope="props">
-  <div v-for="(item,index) in props.row.wareHouseProducts" class="checkNum-item">
-    {{item.wareHouseName}}：
-    <InputNumber :min="0" @on-change="checkNumChange(props.row,index,$event)" v-model.number="item.checkNum" size="small" style="width:60px;"></InputNumber>{{props.row.unit}}
-  </div>
-</template>
+        <template slot="wareHouseNum" slot-scope="props">
+          <div v-for="(item,index) in props.row.wareHouseNum">
+            {{item.wareHouseName}}：{{item.num}}{{item.unit}}
+          </div>
+        </template>
+                  <!-- 实单单价 -->
+        <template slot="wareHouseProducts" slot-scope="props">
+          <div v-for="(item,index) in props.row.wareHouseProducts" class="checkNum-item">
+            {{item.wareHouseName}}：
+            <InputNumber :min="0" @on-change="checkNumChange(props.row,index,$event)" v-model.number="item.checkNum" size="small" style="width:60px;"></InputNumber>{{props.row.unit}}
+          </div>
+        </template>
         </Table>
         <div slot="footer">
           <Button type="primary" @click="saveCheckOrder" :loading="loading">保存</Button>
@@ -373,6 +387,7 @@
         feeIndex: 1,
         totalCount: 0,
         show: false,
+        warmProductName: '',
         formRow: {},
         goodsHeader: [{
           title: '产品名称',
@@ -817,8 +832,23 @@
       cancelCheckOrder() {
         this.checkOrderShow = false
       },
+      checkNumOk(){
+        let isOk = true;
+        this.checkOrderApi.items.map(el =>{
+          let total = 0;
+          el.wareHouseProducts.map(sub =>{
+            total += sub.checkNum;
+            if(el.num != total){
+              this.warmProductName = el.productName;
+              isOk = false
+            }
+          })
+        })
+        return isOk
+      },
       //  保存确认订单
       saveCheckOrder() {
+        if(this.checkNumOk()){
         const params = this.$clearData(this.checkOrderApi);
         params.items = JSON.stringify(params.items)
         this.$http.post(this.$api.checkOrder, params).then(res => {
@@ -830,6 +860,9 @@
             this.$Message.error(res.message);
           }
         })
+        }else{
+          this.$Message.error(`${this.warmProductName}分仓数量与下单数量不相等`)
+        }
       },
   
       // 完成订单
@@ -876,14 +909,11 @@
         })
       },
       checkNumChange(item, itemIndex, data) {
-        _.debounce(function() {
           this.checkOrderApi.items.map((el, index) => {
             if (el.id === item.id) {
               this.checkOrderApi.items[index].wareHouseProducts[itemIndex].checkNum = data;
-              console.log(this.checkOrderApi.items[index].wareHouseProducts[itemIndex].checkNum)
             }
           })
-        }, 500)
       },
       // 重置其他费用不可选
       clearFee() {

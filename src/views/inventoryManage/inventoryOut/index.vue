@@ -454,7 +454,7 @@
             this.detailItem = Object.assign({}, res.data)
             res.data.wareHouseOutItems.map(el =>{
               if(el.realNum === ''){
-                el.realNum = null;
+                el.realNum = el.num;
               }
             })
             this.outApi.outItems = [...res.data.wareHouseOutItems];

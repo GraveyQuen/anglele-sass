@@ -57,7 +57,7 @@
       </Form>
     </Card>
     <Modal title="选择产品" width="800" v-model="show" :mask-closable="false">
-      <selectGoods v-if="show" @on-select="onselect" :isBill="true" :hasSelect="productIds" :wareHouseId="wareHouseId" :checkList="goodsList"></selectGoods>
+      <selectGoods v-if="show" @on-select="onselect" :isBill="true" :hasSelect="productIds" :checkList="goodsList"></selectGoods>
       <div slot="footer">
         <Button type="primary" @click="chooseGoods">选择</Button>
         <Button @click="resetGoods">取消</Button>

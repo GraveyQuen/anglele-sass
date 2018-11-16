@@ -232,7 +232,11 @@
       },
       // 确认选择产品
       chooseGoods() {
-        this.dataApi.items = [...this.selectList];
+        this.dataApi.items = this.selectList.map(el =>{
+          el.productCategory = el.categoryName;
+          el.productName = el.name;
+          return el
+        });
         this.pshow = false;
       },
       // 取消选择产品

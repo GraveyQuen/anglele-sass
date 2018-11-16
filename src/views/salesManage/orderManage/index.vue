@@ -1,6 +1,6 @@
 <template>
   <div class="order-page">
-    <Tabs v-model="page" :animated="false" class="tab-main" @on-click="changeTabs">
+    <Tabs v-model="page" :animated="false" class="tab-main" @on-click="changeTabs" style="overflow:inherit">
       <TabPane label="进行中" name="order">
         <orderList :old="false" v-if="page === 'order'"></orderList>
       </TabPane>
