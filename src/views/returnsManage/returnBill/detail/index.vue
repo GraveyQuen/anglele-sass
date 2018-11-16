@@ -24,6 +24,7 @@
             <Col span="6" class="order-row-col">客户联系人：{{orders.order.contactPeople}}</Col>
             <Col span="6" class="order-row-col">客户联系方式：{{orders.order.contactPhone}}</Col>
             <Col span="6" class="order-row-col">送货地址：{{orders.order.address}}</Col>
+            <Col span="6" class="order-row-col">状态：{{orders.refundOrder.status === 2 ? "退货成功":"取消退货"}}</Col>
             <Col span="6" class="order-row-col">备注：{{orders.order.remark != '' ? orders.order.remark :'暂无'}}</Col>
           </Row>
         </div>
@@ -31,7 +32,6 @@
       <div class="order-main">
         <div class="order-main-header"><span>退货总金额：￥{{orders.refundOrder.refundAmount}}</span>订单明细</div>
         <div class="order-main-content page-inner">
-          <!-- <Table ref="orderItems" border :data="orders.refundOrder.refundOrderItems" :columns="tableHeader"></Table> -->
           <div class="card-contnet">
             <div class="table-contnet">
               <Row class-name="head">
@@ -79,80 +79,6 @@
     data() {
       return {
         orders: {},
-        tableHeader: [{
-          title: '产品名称',
-          key: 'productName'
-        }, {
-          title: '下单单价',
-          key: 'price',
-          render: (h, params) => {
-            const str = `${params.row.price}/${params.row.unit}`
-            return h('div', str)
-          }
-        }, {
-          title: '下单数量',
-          key: 'num',
-          render: (h, params) => {
-            const str = `${params.row.num}${params.row.unit}`
-            return h('div', str)
-          }
-        }, {
-          title: '下单金额',
-          key: 'totalPrice',
-          render: (h, params) => {
-            const str = `￥${params.row.totalPrice}`
-            return h('div', str)
-          }
-        }, {
-          title: '实单单价',
-          key: 'realPrice',
-          render: (h, params) => {
-            const str = `${params.row.realPrice}/${params.row.unit}`
-            return h('div', str)
-          }
-        }, {
-          title: '实单数量',
-          key: 'realNum',
-          render: (h, params) => {
-            const str = `${params.row.realNum}${params.row.unit}`
-            return h('div', str)
-          }
-        }, {
-          title: '实单金额',
-          key: 'productName',
-          render: (h, params) => {
-            const str = `￥${params.row.realTotalPrice}`
-            return h('div', str)
-          }
-        }, {
-          title: '退货数量',
-          key: 'refundNum',
-          render: (h, params) => {
-            const str = `${params.row.refundNum}${params.row.unit}`
-            return h('div', str)
-          }
-        }, {
-          title: '退货金额',
-          key: 'overplusMoney',
-          render: (h, params) => {
-            const str = `￥${(params.row.refundNum * params.row.realPrice).toFixed(2)}`
-            return h('div', str)
-          }
-        }, {
-          title: '剩余数量',
-          key: 'overplusNum',
-          render: (h, params) => {
-            const str = `${(params.row.realNum - params.row.refundNum).toFixed(2)}${params.row.unit}`
-            return h('div', str)
-          }
-        }, {
-          title: '剩余金额',
-          key: 'returnMoney',
-          render: (h, params) => {
-            const str = `￥${((params.row.realNum - params.row.refundNum)*params.row.realPrice).toFixed(2)}`
-            return h('div', str)
-          }
-        }]
       }
     },
     computed: {

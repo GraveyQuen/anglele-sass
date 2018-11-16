@@ -13,8 +13,8 @@
         </FormItem>
         <FormItem label="状态：">
           <Select v-model="pageApi.status" style="width: 200px;">
-                    <Option v-for="(option,i) in [{id:1,name: '暂存'},{id:2,name: '完成'},{id:3,name: '取消'}]" :value="option.id" :key="option.id">{{ option.name }}</Option>
-                </Select>
+                <Option v-for="(option,i) in [{id:2,name: '完成'},{id:3,name: '取消'}]" :value="option.id" :key="option.id">{{ option.name }}</Option>
+            </Select>
         </FormItem>
         <FormItem label="开单日期：">
           <DatePicker type="daterange" placement="bottom-end" v-model="dateValue" placeholder="选择日期" style="width: 200px"></DatePicker>
@@ -33,10 +33,9 @@
         <Table width="100%" ref="orderTable" :columns="tableHeader" border :data="list">
               <!-- 操作 -->
             <template slot="action" slot-scope="props">
-              <Button type="warning" size="small" v-if="props.row.status === 1" @click="edit(props.row)">编辑</Button>
-              <Button type="warning" size="small" style="margin: 0 5px;" @click="details(props.row)">查看</Button>
-              <Button type="warning" size="small" v-if="props.row.status === 2" @click="goPurchase(props.row)">采购退货</Button>
-              <Button type="warning" size="small" v-if="props.row.status === 1" @click="cancel(props.row)">取消</Button>
+              <Button type="warning" size="small" @click="details(props.row)">查看</Button>
+              <Button type="warning" size="small" style="margin: 0 5px;" v-if="props.row.status === 2" @click="goPurchase(props.row)">采购退货</Button>
+              <Button type="warning" size="small" v-if="props.row.status === 2 && props.row.settlementStatus === 0" @click="cancel(props.row)">取消退货</Button>
             </template>
         </Table>
         <div class="paging">
@@ -125,7 +124,7 @@
         }, {
           title: '操作',
           key: 'action',
-          minWidth: 70,
+          minWidth: 100,
           align: 'center',
           render: (h, params) => {
             return h(

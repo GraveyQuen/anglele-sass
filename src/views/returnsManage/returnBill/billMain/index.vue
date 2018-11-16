@@ -32,17 +32,45 @@
       </div>
       <div class="order-main">
         <div class="order-main-header">订单明细</div>
-        <div class="order-main-content">
-          <Table ref="orderItems" border :data="returnData" :columns="tableHeader">
-            <!-- 退货数量 -->
-            <template slot="refundNum" slot-scope="props">
-                        <Form :ref="'formRow'+props.idx" :model="props.row">
-                          <FormItem prop="num" :rules="{required: true, message: '请输入数量', trigger: 'blur',type: 'number'}">
-                            <InputNumber :min="0" :max="props.row.realNum" v-model.number="props.row.refundNum" size="small" style="width:80px;"></InputNumber>{{props.row.unit}}
-                          </FormItem>
-                        </Form>
-</template>
-          </Table>
+        <div class="order-main-content page-inner">
+          <div class="card-contnet">
+            <div class="table-contnet">
+              <Row class-name="head">
+                <Col class-name="col" span="4">产品名称</Col>
+                <Col class-name="col" span="2">下单单价</Col>
+                <Col class-name="col" span="2">下单数量</Col>
+                <Col class-name="col" span="2">下单金额	</Col>
+                <Col class-name="col" span="2">实单单价</Col>
+                <Col class-name="col" span="2">实单数量</Col>
+                <Col class-name="col" span="2">实单金额	</Col>
+                <Col class-name="col" span="2">退货数量</Col>
+                <Col class-name="col" span="2">退货金额</Col>
+                <Col class-name="col" span="2">剩余数量</Col>
+                <Col class-name="col" span="2">剩余金额</Col>
+              </Row>
+              <Row v-for="(item,index) in returnData" :key="index">
+                <Row>
+                  <Col span="24" class="wareHouseName">{{item.wareHouseName}}</Col>
+                </Row>
+                <Row v-for="(sub,idx) in item.item" :key="idx">
+                <Col class-name="col" span="4">{{sub.productName}}</Col>
+                <Col class-name="col" span="2">{{sub.price}}/{{sub.unit}}</Col>
+                <Col class-name="col" span="2">{{sub.num}}{{sub.unit}}</Col>
+                <Col class-name="col" span="2">￥{{sub.totalPrice}}</Col>
+                <Col class-name="col" span="2">{{sub.realPrice}}/{{sub.unit}}</Col>
+                <Col class-name="col" span="2">{{sub.realNum}}{{sub.unit}}</Col>
+                <Col class-name="col" span="2">￥{{sub.realTotalPrice}}	</Col>
+                <Col class-name="col" span="2">
+                  <InputNumber :min="0" :max="sub.realNum" v-model.number="sub.refundNum" size="small" style="width:80px;"></InputNumber>{{sub.unit}}
+                </Col>
+                <Col class-name="col" span="2">{{`￥${(sub.refundNum * sub.realPrice).toFixed(2)}`}}</Col>
+                <Col class-name="col" span="2">{{`${(sub.realNum - sub.refundNum).toFixed(2)}${sub.unit}`}}</Col>
+                <Col class-name="col" span="2">{{`￥${((sub.realNum - sub.refundNum)*sub.realPrice).toFixed(2)}`}}</Col>
+                </Row>
+              </Row>
+              </Row>
+            </div>
+          </div>
         </div>
       </div>
     </Card>
@@ -70,87 +98,7 @@
           orderId: '',
           status: '',
           refundOrderItems: []
-        },
-        tableHeader: [{
-          title: '产品名称',
-          key: 'productName'
-        }, {
-          title: '下单单价',
-          key: 'price',
-          render: (h, params) => {
-            const str = `${params.row.price}/${params.row.unit}`
-            return h('div', str)
-          }
-        }, {
-          title: '下单数量',
-          key: 'num',
-          render: (h, params) => {
-            const str = `${params.row.num}${params.row.unit}`
-            return h('div', str)
-          }
-        }, {
-          title: '下单金额',
-          key: 'totalPrice',
-          render: (h, params) => {
-            const str = `￥${params.row.totalPrice}`
-            return h('div', str)
-          }
-        }, {
-          title: '实单单价',
-          key: 'realPrice',
-          render: (h, params) => {
-            const str = `${params.row.realPrice}/${params.row.unit}`
-            return h('div', str)
-          }
-        }, {
-          title: '实单数量',
-          key: 'realNum',
-          render: (h, params) => {
-            const str = `${params.row.realNum}${params.row.unit}`
-            return h('div', str)
-          }
-        }, {
-          title: '实单金额',
-          key: 'productName',
-          render: (h, params) => {
-            const str = `￥${params.row.realTotalPrice}`
-            return h('div', str)
-          }
-        }, {
-          title: '退货数量',
-          key: 'overplusNum',
-          render: (h, params) => {
-            this.returnData[params.index] = params.row
-            return h(
-              'div',
-              this.$refs.orderItems.$scopedSlots.refundNum({
-                row: params.row,
-                idx: params.row._index
-              })
-            )
-          }
-        }, {
-          title: '退货金额',
-          key: 'overplusMoney',
-          render: (h, params) => {
-            const str = `￥${(params.row.refundNum * params.row.realPrice).toFixed(2)}`
-            return h('div', str)
-          }
-        }, {
-          title: '剩余数量',
-          key: 'overplusNum',
-          render: (h, params) => {
-            const str = `${(params.row.realNum - params.row.refundNum).toFixed(2)}${params.row.unit}`
-            return h('div', str)
-          }
-        }, {
-          title: '剩余金额',
-          key: 'returnMoney',
-          render: (h, params) => {
-            const str = `￥${((params.row.realNum - params.row.refundNum)*params.row.realPrice).toFixed(2)}`
-            return h('div', str)
-          }
-        }]
+        }
       }
     },
     computed: {
@@ -185,27 +133,8 @@
           id: this.id
         }).then(res => {
           if (res.code === 1000) {
-            if (!this.isEdit) {
               this.orders = res.data.order;
-              this.returnData = res.data.order.orderItems.map(el => {
-                el.refundNum = 0;
-                el.returnMoney = 0;
-                el.overplusNum = 0;
-                el.overplusMoney = 0;
-                return el
-              })
-            } else {
-              this.orders = res.data.order;
-              this.returnData = res.data.refundOrder.refundOrderItems.map(el => {
-                el.refundNum = el.refundNum;
-                el.returnMoney = 0;
-                el.overplusNum = 0;
-                el.overplusMoney = 0;
-                return el
-              })
-              this.dataApi.remark = res.data.refundOrder.remark;
-              this.dataApi.newOrderDate = dateformat(res.data.refundOrder.newOrderDate);
-            }
+              this.returnData = [...res.data.refundOrder.refundOrderItems]
           }
         })
       },
@@ -268,6 +197,7 @@
 </script>
 
 <style lang='less' scoped>
+  @import url('../../../../assets/less/base.less');
   .order-main {
     margin-top: 20px;
     .order-main-header {
@@ -277,9 +207,18 @@
       padding: 0 15px;
       margin-bottom: 15px;
       font-weight: 700;
+      span {
+        float: right;
+      }
     }
     .order-row-col {
       margin-bottom: 10px;
     }
+  }
+  .wareHouseName{
+    text-align: left;
+    padding-left: 20px;
+    border-bottom: 1px solid #e8eaec;
+    border-right: 1px solid #e8eaec
   }
 </style>
