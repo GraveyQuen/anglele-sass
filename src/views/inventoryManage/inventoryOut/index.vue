@@ -16,6 +16,11 @@
                                   <Option v-for="(item,index) in orderStatus" :value="item.value" :key="index">{{ item.name }}</Option>
                                 </Select>
         </FormItem>
+          <FormItem label="仓库名称：">
+            <Select v-model="pageApi.wareHouseId" style="width: 180px;">
+                              <Option v-for="(item,index) in storeList" :value="item.id" :key="index">{{ item.name }}</Option>
+                            </Select>
+          </FormItem>
         <FormItem label="配送人：">
           <Select v-model="pageApi.deliveryManId" style="width: 200px;">
                                 <Option v-for="(item,index) in deliveryList" :value="item.id" :key="index">{{ item.name }}</Option>
@@ -192,8 +197,10 @@
           updateTimeEnd: '',
           pageIndex: 1,
           pageSize: 10,
-          deliveryManId: ''
+          deliveryManId: '',
+          wareHouseId: ''
         },
+        storeList: [],
         outApi: {
           id: '',
           deliveryManId: '',
@@ -391,7 +398,8 @@
           updateTimeEnd: this.dateValue[1] != '' ? this.dateValue[1].getTime() : '',
           pageIndex: this.pageApi.pageIndex,
           pageSize: this.pageApi.pageSize,
-          deliveryManId: this.pageApi.deliveryManId
+          deliveryManId: this.pageApi.deliveryManId,
+          wareHouseId: this.pageApi.wareHouseId
         }
       }
     },
@@ -418,12 +426,13 @@
           updateTimeEnd: '',
           pageIndex: 1,
           pageSize: 10,
-          deliveryManId: ''
+          deliveryManId: '',
+          wareHouseId: ''
         }
         this.dateValue = ['', '']
       },
       getList(params) {
-        this.$http.post(this.$api.wareHouseOrderPage, params).then(res => {
+        this.$http.post(this.$api.wareHouseOrderPage1, params).then(res => {
           if (res.code === 1000) {
             this.list = res.data.data;
             this.totalCount = res.data.totalCount
@@ -629,15 +638,20 @@
           }
         })
       },
-      //  保存完成出库
-      outOver(){
-
-      }
+      // 所有仓库
+      getWareHouse() {
+        this.$http.post(this.$api.findWareHouse).then(res => {
+          if (res.code === 1000) {
+            this.storeList = res.data;
+          }
+        })
+      },
     },
     created() {
       this.getList(this.pageFilter);
       this.getDelivery();
       this.getFee();
+      this.getWareHouse();
     }
   }
 </script>

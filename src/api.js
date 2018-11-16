@@ -437,6 +437,7 @@ export const wareHouseOrderOut = '/sys/wareHouseOut/out'
  * 订单确认
  */
 export const wareHouseOrderPage = '/sys/wareHouseOut/page'
+export const wareHouseOrderPage1 = '/sys/wareHouseOut/page1'
 
 
 
