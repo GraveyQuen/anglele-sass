@@ -838,11 +838,11 @@
           let total = 0;
           el.wareHouseProducts.map(sub =>{
             total += sub.checkNum;
-            if(el.num != total){
-              this.warmProductName = el.productName;
-              isOk = false
-            }
           })
+          if(el.num != total){
+            this.warmProductName = el.productName;
+            isOk = false
+          }
         })
         return isOk
       },

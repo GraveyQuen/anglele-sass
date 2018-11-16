@@ -162,7 +162,7 @@
           </FormItem>
           <FormItem label="打印出库单：">
             <RadioGroup v-model="printMore">
-                <Radio :label="1">
+                <Radio :label="1" :disabled="this.role === 'ADMIN' ? false : true">
                     <span>按销售单打印</span>
                 </Radio>
                 <Radio :label="2">
@@ -401,6 +401,9 @@
           deliveryManId: this.pageApi.deliveryManId,
           wareHouseId: this.pageApi.wareHouseId
         }
+      },
+      role(){
+        return this.$store.state.base ?  this.$store.state.base.loginInfo.currentRoleCode : '';
       }
     },
     watch: {
@@ -492,9 +495,6 @@
       // 出库 isEdit  出库or完成出库
       out(isEdit,item) {
         this.isEdit = isEdit;
-        if(isEdit){
-
-        }
         this.getItem(isEdit,item)
         this.outApi.id = item.id;
         this.outShow = true;
@@ -581,7 +581,11 @@
       printCancel(){
         this.printShow = false;
         this.withReal = 0;
-        this.printMore = 1
+        if(this.role != 'ADMIN'){
+          this.printMore = 2;
+        }else{
+          this.printMore = 1
+        }
       },
       getDelivery() {
         this.$http.post(this.$api.findAllDeliveryMan, {
@@ -652,6 +656,9 @@
       this.getDelivery();
       this.getFee();
       this.getWareHouse();
+      if(this.role != 'ADMIN'){
+        this.printMore = 2;
+      }
     }
   }
 </script>
