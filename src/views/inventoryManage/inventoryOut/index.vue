@@ -60,14 +60,14 @@
           <Row class-name="head">
             <Col class-name="col" span="6">产品名称</Col>
             <Col class-name="col" span="6">所属分类</Col>
-            <Col class-name="col" :span="detailItem.status === 4 ? 6 : 12">下单出库数量</Col>
-            <Col class-name="col" span="6" v-if="detailItem.status === 4">实际出库数量</Col>
+            <Col class-name="col" :span="detailItem.status === 4 || detailItem.status === 3 ? 6 : 12">下单出库数量</Col>
+            <Col class-name="col" span="6" v-if="detailItem.status === 4 || detailItem.status === 3">实际出库数量</Col>
           </Row>
           <Row v-for="(item,index) in detailItem.wareHouseOutItems" :key="index">
             <Col class-name="col" span="6">{{item.productName}}</Col>
             <Col class-name="col" span="6">{{item.productCategory}}</Col>
-            <Col class-name="col" :span="detailItem.status === 4 ? 6 : 12">{{item.num}}{{item.unit}}</Col>
-            <Col class-name="col" span="6" v-if="detailItem.status === 4">{{item.realNum}}{{item.unit}}</Col>
+            <Col class-name="col" :span="detailItem.status === 4 || detailItem.status === 3 ? 6 : 12">{{item.num}}{{item.unit}}</Col>
+            <Col class-name="col" span="6" v-if="detailItem.status === 4 || detailItem.status === 3">{{item.realNum}}{{item.unit}}</Col>
           </Row>
         </div></div>
         </div>

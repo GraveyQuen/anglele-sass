@@ -2,7 +2,7 @@
   <div class="page-inner">
     <Card :bordered="true" dis-hover :title="isEdit ? '编辑退货单':'新增退货单'">
       <Button type="primary" slot="extra" @click="save(2)" class="extra-button" style="margin-right:15px;">保存</Button>
-      <Button type="warning" slot="extra" @click="save(1)" class="extra-button" style="margin-right:15px;">暂存</Button>
+      <!-- <Button type="warning" slot="extra" @click="save(1)" class="extra-button" style="margin-right:15px;">暂存</Button> -->
       <Button slot="extra" class="extra-button" @click="goBack">取消</Button>
       <Form :mode="dataApi" :label-width="100" inline>
         <FormItem label="开单日期：">

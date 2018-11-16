@@ -87,10 +87,10 @@
         },
         goodsHeader: [{
           title: '产品名称',
-          key: 'name',
+          key: 'productName',
         }, {
           title: '分类名称',
-          key: 'categoryName',
+          key: 'productCategory',
         }, {
           title: '现有库存',
           key: 'total',
@@ -288,7 +288,7 @@
               providerPhone: '',
               remark: res.data.refundOrder.remark,
               status: '',
-              items: res.data.refundOrder.refundOrderItems
+              items: res.data.refundOrder.refundOrderItems[0].item
             }
           }
         })

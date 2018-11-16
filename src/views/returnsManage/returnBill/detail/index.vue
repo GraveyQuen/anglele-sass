@@ -166,7 +166,8 @@
           id: this.id
         }).then(res => {
           if (res.code === 1000) {
-            res.data.refundOrder.refundOrderItems = res.data.refundOrder.refundOrderItems.filter(item => item.refundNum != 0);
+            // 退货数量为零不显示
+            res.data.refundOrder.refundOrderItems[0].item = res.data.refundOrder.refundOrderItems[0].item.filter(keys => keys.refundNum != 0);
             this.orders = Object.assign({}, res.data)
           }
         })
