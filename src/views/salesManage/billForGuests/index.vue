@@ -4,48 +4,48 @@
       <Form :label-width="100" style="max-width: 900px;" inline>
         <FormItem label="选择客户：">
           <Select v-model="dataApi.customerId" filterable remote clearable :remote-method="remote" :loading="loading" style="width:300px;">
-            <Option v-for="(option, index) in customerList" :value="option.id" :key="index">{{option.name}}</Option>
-          </Select>
+              <Option v-for="(option, index) in customerList" :value="option.id" :key="index">{{option.name}}</Option>
+            </Select>
         </FormItem>
         <div class="other-info-wrapper" v-if="hasCustonmer">
-        <div class="other-info">
-          <FormItem label="客户名称：">
-            {{customerData.name}}
-          </FormItem>
-          <FormItem label="客户联系人：">
-            {{customerData.contactPeople}}
-          </FormItem>
-          <FormItem label="客户联系电话：">
-            {{customerData.contactPhone}}
-          </FormItem>
-        </div>
-        <div class="other-info">
-          <FormItem label="送货地址：">
-            {{customerData.provinceName}}{{customerData.cityName}}{{customerData.districtName}}{{customerData.address}}
-          </FormItem>
-          <FormItem label="备注：">
-            <Input v-model="dataApi.remark" placeholder="请输入..."></Input>
-          </FormItem>
-        </div>
-        <div class="other-info">
-          <Button type="primary" @click="show = true">选择产品</Button>
-          <div class="table">
-            <Table ref="goodsTable" border :columns="goodsHeader" :data="goodsList" style="max-width: 752px;">
-              <!-- 下单数量 -->
-              <template slot="num" slot-scope="props">
-                <Form :ref="'formRow'+props.idx" :model="props.row">
-                  <FormItem prop="num" :rules="{required: true, message: '请输入数量', trigger: 'blur',type:'number'}">
-                    <!-- <Input v-model.number="props.row.num" size="small" placeholder="请输入" style="width:80px;"></Input> -->
-                    <InputNumber :min="0" v-model.number="props.row.num" size="small" style="width:80px;"></InputNumber>{{props.row.unit}}
-                  </FormItem>
-                </Form>
-              </template>
+          <div class="other-info">
+            <FormItem label="客户名称：">
+              {{customerData.name}}
+            </FormItem>
+            <FormItem label="客户联系人：">
+              {{customerData.contactPeople}}
+            </FormItem>
+            <FormItem label="客户联系电话：">
+              {{customerData.contactPhone}}
+            </FormItem>
+          </div>
+          <div class="other-info">
+            <FormItem label="送货地址：">
+              {{customerData.provinceName}}{{customerData.cityName}}{{customerData.districtName}}{{customerData.address}}
+            </FormItem>
+            <FormItem label="备注：">
+              <Input v-model="dataApi.remark" placeholder="请输入..."></Input>
+            </FormItem>
+          </div>
+          <div class="other-info">
+            <Button type="primary" @click="show = true">选择产品</Button>
+            <div class="table">
+              <Table ref="goodsTable" border :columns="goodsHeader" :data="goodsList" style="max-width: 752px;">
+                <!-- 下单数量 -->
+                <template slot="num" slot-scope="props">
+                  <Form :ref="'formRow'+props.idx" :model="props.row">
+                    <FormItem prop="num" :rules="{required: true, message: '请输入数量', trigger: 'blur',type:'number'}">
+                      <!-- <Input v-model.number="props.row.num" size="small" placeholder="请输入" style="width:80px;"></Input> -->
+                      <InputNumber :min="0" v-model.number="props.row.num" size="small" style="width:80px;"></InputNumber>{{props.row.unit}}
+                    </FormItem>
+                  </Form>
+</template>
               <!-- 操作 -->
-            <template slot="action" slot-scope="props">
-              <Poptip @on-ok="delRow(props.idx)" confirm title="确认删除此条产品？" transfer>
-                <Button type="warning" size="small">删除</Button>
-              </Poptip>
-            </template>
+<template slot="action" slot-scope="props">
+  <Poptip @on-ok="delRow(props.idx)" confirm title="确认删除此条产品？" transfer>
+    <Button type="warning" size="small">删除</Button>
+  </Poptip>
+</template>
             </Table>
           </div>
           <div class="btns">
@@ -142,18 +142,18 @@
       hasCustonmer() {
         return this.dataApi.customerId != '' && this.dataApi.customerId != undefined
       },
-      checkNum(){ // 验证下单数量不能为空
+      checkNum() { // 验证下单数量不能为空
         let isOK = true;
-        this.goodsList.map(el =>{
-          if(el.num === null){
+        this.goodsList.map(el => {
+          if (el.num === null) {
             isOK = false
           }
         })
         return isOK;
       },
-      productIds(){
+      productIds() {
         let arr = [];
-        this.goodsList.map(el =>{
+        this.goodsList.map(el => {
           arr.push(el.productId)
         })
         return arr.toString();
@@ -169,8 +169,14 @@
           })
         }
       },
-      'customerData.defaultWareHouseId'(val){
+      'customerData.defaultWareHouseId' (val) {
         this.wareHouseId = val;
+      },
+      hasCustonmer(val) {
+        if (!val) {
+          this.goodsList = [];
+          this.selectList = [];
+        }
       }
     },
     methods: {
@@ -217,11 +223,13 @@
             this.loading = true;
             let params = this.$clearData(this.dataApi);
             params.items = JSON.stringify(this.goodsList);
-            this.$http.post(this.$api.businessSaveOrder,params).then(res =>{
-              if(res.code === 1000){
+            this.$http.post(this.$api.businessSaveOrder, params).then(res => {
+              if (res.code === 1000) {
                 this.$Message.success('下单成功')
-                this.$router.push({name: 'orderManage'})
-              }else{
+                this.$router.push({
+                  name: 'orderManage'
+                })
+              } else {
                 this.$Message.error(res.message);
               }
               this.loading = false;
