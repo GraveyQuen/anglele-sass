@@ -530,17 +530,16 @@
       // 打印出库单
       print(item) {
         const isMulti = item.multiWareHouseOutOrder === 1 ? true : false;
-        if (isMulti) {
-          this.printMethod(item.id)
-        } else {
+        // if (isMulti) {
+          // this.printMethod(item.id)
+        // } else {
           this.printShow = true;
           this.printId = item.id;
-        }
+        // }
       },
       // 关联多个出库单打印
       printMuti() {
         this.printMethod(this.printId);
-        this.printShow = false;
       },
       printMethod(id) {
         this.$Spin.show({
@@ -563,6 +562,7 @@
           withReal: this.withReal
         }).then(res => {
           if (res.code === 1000) {
+            this.printCancel();
             window.open(res.data, '_blank')
             this.$Spin.hide();
           }
