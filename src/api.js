@@ -455,6 +455,9 @@ export const wareHouseOutconfirmOut = '/sys/wareHouseOut/confirmOut'
  * 货品出库
  */
 export const wareHouseOutproductOut = '/sys/wareHouseOut/productOut'
+/**
+ * 货品出库
+ */
 
 /**
  * 完成出库单
@@ -571,6 +574,11 @@ export const modifyShopTime = '/sys/shopTime/modifyShopTime'
 export const findPurchaseOrderList = '/sys/purchaseOrder/findPurchaseOrderList'
 
 
+
+// 采购单入库详情
+export const findPurchaseOrderIn = '/sys/purchaseOrder/findPurchaseOrderIn'
+
+
 // 采购单删除
 export const delPurchaseOrder = '/sys/purchaseOrder/delPurchaseOrder'
 
@@ -630,6 +638,13 @@ export const cancelPurchaseOrder = '/sys/purchaseRefund/cancelPurchaseOrder'
 
 // 采购退货单查询
 export const findPurchaseRefund = '/sys/purchaseRefund/findPurchaseRefund'
+
+
+// 待确认订单详情
+export const findCheckOrder = '/sys/order/findCheckOrder'
+
+// 订单确认
+export const checkOrder = '/sys/order/checkOrder'
 
 
 

@@ -282,13 +282,13 @@
       getWareHouse() {
         this.$http.post(this.$api.findWareHouse).then(res => {
           if (res.code === 1000) {
-            if (!this.isEdit) {
-              res.data.map((el, index) => {
-                if (index === 0) {
-                  this.baseApi.wareHouseId = el.id;
-                }
-              })
-            }
+            // if (!this.isEdit) {
+            //   res.data.map((el, index) => {
+            //     if (index === 0) {
+            //       this.baseApi.wareHouseId = el.id;
+            //     }
+            //   })
+            // }
             this.storeList = res.data;
           }
         })
@@ -348,7 +348,7 @@
         })
       },
       details() {
-        this.$http.post(this.$api.findPurchaseOrder, {
+        this.$http.post(this.$api.findPurchaseOrderIn, {
           id: this.itemId
         }).then(res => {
           if (res.code === 1000) {
@@ -359,6 +359,7 @@
                 sub.categoryName = sub.productCategory
               })
             })
+            this.baseApi.wareHouseId = JSON.parse(res.data.purchaseOrder.wareHouse)[0].id;
             this.detailItem = Object.assign({}, res.data)
           }
         })

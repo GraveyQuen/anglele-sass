@@ -55,11 +55,14 @@
       return {
         detailItem: {},
         orderHeader: [{
-          title: '订单编号',
+          title: '出库编号',
           key: 'id'
         }, {
           title: '客户名称',
-          key: 'customerName'
+          key: 'name'
+        }, {
+          title: '仓库',
+          key: 'wareHouseName'
         }, {
           title: '下单时间',
           key: 'newOrderDate',

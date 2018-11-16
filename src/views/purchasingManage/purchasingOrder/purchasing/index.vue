@@ -21,7 +21,7 @@
       </Form>
       <div class="order-main">
         <div class="order-main-header">今日订单明细
-          <Button size="small" @click="refresh" style="margin-left: 20px;" class="extra-button">刷新今日订单</Button>
+          <Button size="small" @click="refresh" style="margin-left: 20px;" class="extra-button">刷新出库单</Button>
         </div>
         <Form :mode="orderApi" :label-width="100" inline>
           <FormItem label="订单编号：">
@@ -29,6 +29,11 @@
           </FormItem>
           <FormItem label="客户名称：">
             <Input v-model="orderApi.customerName" placeholder="请输入" style="width: 200px;"></Input>
+          </FormItem>
+          <FormItem label="仓库名称：">
+            <Select v-model="orderApi.wareHouseId" style="width: 180px;">
+              <Option v-for="(item,index) in storeList" :value="item.id" :key="index">{{ item.name }}</Option>
+            </Select>
           </FormItem>
           <FormItem>
             <Button type="warning" @click.native="resetFilter">清除筛选</Button>
@@ -72,7 +77,8 @@
           id: '',
           customerName: '',
           checkIds: '',
-          purchaseOrderId: this.isEdit ? this.itemId : ''
+          purchaseOrderId: this.isEdit ? this.itemId : '',
+          wareHouseId: ''
         },
         orderList: [],
         tableHeader: [{
@@ -92,7 +98,8 @@
             return h('div', dateformat(params.row.updateTime))
           },
           minWidth: 120
-        }]
+        }],
+        storeList: []
       };
     },
     watch: {
@@ -135,7 +142,8 @@
           id: this.orderApi.id,
           customerName: this.orderApi.customerName,
           checkIds: this.orderApi.checkIds,
-          purchaseOrderId: this.isEdit ? this.itemId : ''
+          purchaseOrderId: this.isEdit ? this.itemId : '',
+          wareHouseId: this.orderApi.wareHouseId
         }
       }
     },
@@ -145,8 +153,18 @@
           id: '',
           customerName: '',
           checkIds: '',
-          purchaseOrderId: this.isEdit ? this.itemId : ''
+          purchaseOrderId: this.isEdit ? this.itemId : '',
+          wareHouseId: ''
         }
+      },
+
+      // 所有仓库
+      getWareHouse() {
+        this.$http.post(this.$api.findWareHouse).then(res => {
+          if (res.code === 1000) {
+            this.storeList = res.data;
+          }
+        })
       },
       //  获取当前服务器时间
       currentTime() {
@@ -240,6 +258,7 @@
       this.getpruMan();
       this.currentTime()
       this.getOrder(this.pageFilter);
+      this.getWareHouse();
       if (this.isEdit) this.details();
     }
   };

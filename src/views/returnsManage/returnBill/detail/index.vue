@@ -30,8 +30,44 @@
       </div>
       <div class="order-main">
         <div class="order-main-header"><span>退货总金额：￥{{orders.refundOrder.refundAmount}}</span>订单明细</div>
-        <div class="order-main-content">
-          <Table ref="orderItems" border :data="orders.refundOrder.refundOrderItems" :columns="tableHeader"></Table>
+        <div class="order-main-content page-inner">
+          <!-- <Table ref="orderItems" border :data="orders.refundOrder.refundOrderItems" :columns="tableHeader"></Table> -->
+          <div class="card-contnet">
+            <div class="table-contnet">
+              <Row class-name="head">
+                <Col class-name="col" span="4">产品名称</Col>
+                <Col class-name="col" span="2">下单单价</Col>
+                <Col class-name="col" span="2">下单数量</Col>
+                <Col class-name="col" span="2">下单金额	</Col>
+                <Col class-name="col" span="2">实单单价</Col>
+                <Col class-name="col" span="2">实单数量</Col>
+                <Col class-name="col" span="2">实单金额	</Col>
+                <Col class-name="col" span="2">退货数量</Col>
+                <Col class-name="col" span="2">退货金额</Col>
+                <Col class-name="col" span="2">剩余数量</Col>
+                <Col class-name="col" span="2">剩余金额</Col>
+              </Row>
+              <Row v-for="(item,index) in orders.refundOrder.refundOrderItems" :key="index">
+                <Row>
+                  <Col span="24" class="wareHouseName">{{item.wareHouseName}}</Col>
+                </Row>
+                <Row v-for="(sub,idx) in item.item">
+                <Col class-name="col" span="4">{{sub.productName}}</Col>
+                <Col class-name="col" span="2">{{sub.price}}/{{sub.unit}}</Col>
+                <Col class-name="col" span="2">{{sub.num}}{{sub.unit}}</Col>
+                <Col class-name="col" span="2">￥{{sub.totalPrice}}</Col>
+                <Col class-name="col" span="2">{{sub.realPrice}}/{{sub.unit}}</Col>
+                <Col class-name="col" span="2">{{sub.realNum}}{{sub.unit}}</Col>
+                <Col class-name="col" span="2">￥{{sub.realTotalPrice}}	</Col>
+                <Col class-name="col" span="2">{{sub.refundNum}}{{sub.unit}}</Col>
+                <Col class-name="col" span="2">{{`￥${(sub.refundNum * sub.realPrice).toFixed(2)}`}}</Col>
+                <Col class-name="col" span="2">{{`${(sub.realNum - sub.refundNum).toFixed(2)}${sub.unit}`}}</Col>
+                <Col class-name="col" span="2">{{`￥${((sub.realNum - sub.refundNum)*sub.realPrice).toFixed(2)}`}}</Col>
+                </Row>
+              </Row>
+              </Row>
+            </div>
+          </div>
         </div>
       </div>
     </Card>
@@ -42,7 +78,8 @@
   export default {
     data() {
       return {
-        orders: {},tableHeader: [{
+        orders: {},
+        tableHeader: [{
           title: '产品名称',
           key: 'productName'
         }, {
@@ -118,31 +155,35 @@
         }]
       }
     },
-    computed:{
-      id(){
+    computed: {
+      id() {
         return this.$route.query.id
       }
     },
     methods: {
-      getData(){
-        this.$http.post(this.$api.findOneRefund,{id: this.id}).then(res =>{
-          if(res.code === 1000){
+      getData() {
+        this.$http.post(this.$api.findOneRefund, {
+          id: this.id
+        }).then(res => {
+          if (res.code === 1000) {
             res.data.refundOrder.refundOrderItems = res.data.refundOrder.refundOrderItems.filter(item => item.refundNum != 0);
-            this.orders = Object.assign({},res.data)
+            this.orders = Object.assign({}, res.data)
           }
         })
       },
-      goBack(){
+      goBack() {
         this.$router.go(-1)
       }
-      
+  
     },
-    created(){
+    created() {
       this.getData();
     }
   }
 </script>
+
 <style lang='less' scoped>
+  @import url('../../../../assets/less/base.less');
   .order-main {
     margin-top: 20px;
     .order-main-header {
@@ -152,12 +193,18 @@
       padding: 0 15px;
       margin-bottom: 15px;
       font-weight: 700;
-      span{
+      span {
         float: right;
       }
     }
     .order-row-col {
       margin-bottom: 10px;
     }
+  }
+  .wareHouseName{
+    text-align: left;
+    padding-left: 20px;
+    border-bottom: 1px solid #e8eaec;
+    border-right: 1px solid #e8eaec
   }
 </style>
