@@ -312,7 +312,7 @@
         <template slot="wareHouseProducts" slot-scope="props">
           <div v-for="(item,index) in props.row.wareHouseProducts" class="checkNum-item">
             {{item.wareHouseName}}：
-            <InputNumber :min="0" @on-change="checkNumChange(props.row,index,$event)" v-model.number="item.checkNum" size="small" style="width:60px;"></InputNumber>{{props.row.unit}}
+            <InputNumber :min="0" :disabled="item.disabledCheckNum" @on-change="checkNumChange(props.row,index,$event)" v-model.number="item.checkNum" size="small" style="width:60px;"></InputNumber>{{props.row.unit}}
           </div>
         </template>
         </Table>
@@ -822,6 +822,16 @@
           if (res.code === 1000) {
             res.data.orderItems.map(el => {
               el.wareHouseNum = el.wareHouseProducts
+              //  不是多个库存添加disable
+              if(el.wareHouseProducts.length === 1){
+                el.wareHouseProducts.map(sub =>{
+                sub.disabledCheckNum = true;
+                })
+              }else{
+                el.wareHouseProducts.map(sub =>{
+                sub.disabledCheckNum = false;
+                })
+              }
             })
             this.checkOrderItem = Object.assign({}, res.data);
             this.checkOrderApi.id = res.data.id;
