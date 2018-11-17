@@ -65,7 +65,7 @@
                 <Button type="info" size="small" v-if="props.row.status === 5 && props.row.settlementStatus === 0 && props.row.hasRefund === 0" @click="returnBill(props.row)">退货</Button>
                 <Button type="info" size="small" v-if="props.row.status === 5 && props.row.settlementStatus === 0 && props.row.hasRefund === ''" @click="returnBill(props.row)">退货</Button>
                 <Button type="info" size="small" v-if="props.row.status === 5 && props.row.settlementStatus === 0 && props.row.hasRefund === 1" @click="edit(props.row)">编辑退货</Button>
-</template>
+          </template>
         </Table>
         <div class="paging">
           <Page class="page-count" size="small" @on-page-size-change="changeSize" show-sizer show-elevator :total="totalCount" show-total :current="pageApi.pageIndex" :page-size="pageApi.pageSize" @on-change="changePage"></Page>
@@ -231,88 +231,21 @@
         <Button @click="show = false">关闭</Button>
       </div>
     </Modal>
-    <Modal title="完成订单" width="1000" v-model="overShow" :mask-closable="false">
-      <div class="order-ok-header">请仔细核对订单中的产品实单数量、实单单价后进行确认</div>
-      <Table ref="overTable" disabled-hover border :columns="goodsHeader" :data="overApi.outItems" >
-        <!-- 实单数量 -->
-<template slot="realNum" slot-scope="props">
-  <Form :ref="'formRow'+props.idx" :model="props.row">
-    <FormItem prop="realNum" :rules="{required: true, message: '请输入数量', trigger: 'blur', type: 'number'}">
-      <InputNumber @on-change="numChange" :min="0" v-model.number="props.row.realNum" size="small" style="width:60px;"></InputNumber>{{props.row.unit}}
-    </FormItem>
-  </Form>
-</template>
-                              <!-- 实单单价 -->
-<template slot="realPrice" slot-scope="props">
-  <Form :ref="'formRow'+props.idx" :model="props.row">
-    <FormItem prop="realPrice" :rules="{required: true, message: '请输入单价', trigger: 'blur', type: 'number'}">
-      <InputNumber @on-change="numChange" :min="0" v-model.number="props.row.realPrice" size="small" style="width:60px;"></InputNumber>元/{{props.row.unit}}
-    </FormItem>
-  </Form>
-</template>
-      </Table>
-      <div class="add-fee page-inner">
-        <Button type="primary" @click="addFee" style="margin-bottom:20px;">添加其他费用</Button>
-        <div class="card-contnet">
-        <div class="table-contnet">
-          <Row class-name="head">
-            <Col class-name="col" span="4">费用名称</Col>
-            <Col class-name="col" span="4">金额</Col>
-            <Col class-name="col" span="4">数量</Col>
-            <Col class-name="col" span="4">小计</Col>
-            <Col class-name="col" span="4">备注</Col>
-            <Col class-name="col" span="4">操作</Col>
-          </Row>
-          <Row v-for="(item,index) in overApi.orderFees" :key="index">
-            <Col class-name="col" span="4" style="height: auto;overflow: inherit;">
-            <Select v-model="item.feeName" size="small" @on-change="feeNameSelect(index,$event)">
-                <Option v-for="(option,i) in feeList" :value="option.feeName" :disabled="option.disabled" :key="option.id">{{ option.feeName }}</Option>
-            </Select>
-            </Col>
-            <Col class-name="col" span="4">
-              <InputNumber :min="0" @on-change="numChange" v-model.number="item.feeAmount" size="small" style="width:80px;"></InputNumber>
-            </Col>
-            <Col class-name="col" span="4">
-              <InputNumber :min="0" @on-change="numChange" v-model.number="item.totalNum" size="small" style="width:80px;"></InputNumber>
-            </Col>
-            <Col class-name="col" span="4">
-              {{`￥${(item.feeAmount * item.totalNum).toFixed(2)}`}}
-            </Col>
-            <Col class-name="col" span="4">
-            <Input v-model="item.remark" placeholder="请输入" size="small"></Input>
-            </Col>
-            <Col class-name="col" span="4">
-            <Button type="error" size="small" @click="delRow(index,item)">删除</Button>
-            </Col>
-          </Row>
-          </Row>
-          <Row v-if="overApi.orderFees.length == 0">
-            <Col class-name="col" span="24">暂无费用</Col>
-          </Row>
-        </div>
-      </div>
-      </div>
-      <div class="price-total">费用合计：￥<span>{{orderTotalPrice}}</span></div>
-      <div slot="footer">
-        <Button type="primary" @click="overSubmit" :loading="loading">保存</Button>
-        <Button @click="overReset">取消</Button>
-      </div>
-    </Modal>
     <!-- 多仓确认订单分仓出库 -->
     <Modal title="确认订单" width="800" v-model="checkOrderShow" :mask-closable="false">
       <p class="check-warm">因检测到产品存在多个仓库，故需要进行分仓出库</p>
       <Table ref="checkOrderTable" disabled-hover border :columns="checkOrderHeader" :data="checkOrderApi.items" >
-          <!-- 实单数量 -->
+        <!-- 实单数量 -->
         <template slot="wareHouseNum" slot-scope="props">
           <div v-for="(item,index) in props.row.wareHouseNum">
             {{item.wareHouseName}}：{{item.num}}{{item.unit}}
           </div>
         </template>
-                  <!-- 实单单价 -->
+        <!-- 实单单价 -->
         <template slot="wareHouseProducts" slot-scope="props">
           <div v-for="(item,index) in props.row.wareHouseProducts" class="checkNum-item">
             {{item.wareHouseName}}：
-            <InputNumber :min="0" :disabled="item.disabledCheckNum" @on-change="checkNumChange(props.row,index,$event)" v-model.number="item.checkNum" size="small" style="width:60px;"></InputNumber>{{props.row.unit}}
+            <InputNumber :min="0" :disabled="item.disabledCheckNum" @on-change="checkNumChange($event)" @on-blur="checkNumBlur(props.row,index)" v-model.number="item.checkNum" size="small" style="width:80px;"></InputNumber>{{props.row.unit}}
           </div>
         </template>
         </Table>
@@ -361,7 +294,6 @@
         },
         detailItem: {},
         cancelShow: false,
-        overShow: false,
         act: false, // 更新渲染
         logList: [],
         overApi: {
@@ -390,76 +322,6 @@
         totalCount: 0,
         show: false,
         warmProductName: '',
-        formRow: {},
-        goodsHeader: [{
-          title: '产品名称',
-          key: 'productName',
-          maxWidth: 150
-        }, {
-          title: '所属分类',
-          key: 'productCategory',
-          maxWidth: 150
-        }, {
-          title: '单价',
-          key: 'price',
-          maxWidth: 100,
-          render: (h, params) => {
-            let str = `${params.row.price}元/${params.row.unit}`;
-            return h('div', str)
-          }
-        }, {
-          title: '下单数量',
-          key: 'num',
-          maxWidth: 100,
-          render: (h, params) => {
-            let str = `${params.row.num}${params.row.unit}`;
-            return h('div', str)
-          }
-        }, {
-          title: '实单数量',
-          key: 'realNum',
-          minWidth: 70,
-          render: (h, params) => {
-            this.overApi.outItems[params.index] = params.row
-            return h(
-              'div',
-              this.$refs.overTable.$scopedSlots.realNum({
-                row: params.row,
-                idx: params.row._index
-              })
-            )
-          }
-        }, {
-          title: '实单单价',
-          key: 'realPrice',
-          minWidth: 70,
-          render: (h, params) => {
-            this.overApi.outItems[params.index] = params.row
-            return h(
-              'div',
-              this.$refs.overTable.$scopedSlots.realPrice({
-                row: params.row,
-                idx: params.row._index
-              })
-            )
-          }
-        }, {
-          title: '金额',
-          key: 'totalPrice',
-          maxWidth: 100,
-          render: (h, params) => {
-            let str = `￥${params.row.totalPrice}`;
-            return h('div', str)
-          }
-        }, {
-          title: '实单金额',
-          key: 'realTotalPrice',
-          maxWidth: 100,
-          render: (h, params) => {
-            let str = `￥${(params.row.realPrice*params.row.realNum).toFixed(2)}`;
-            return h('div', str)
-          }
-        }],
         deliveryList: [],
         tableHeader: [{
           title: '订单编号',
@@ -638,7 +500,8 @@
               })
             )
           }
-        }]
+        }],
+        currentNum: 0
       }
     },
     computed: {
@@ -667,17 +530,6 @@
       },
       getId() {
         return this.$route.query.orderStatus;
-      },
-      isFeeOk() {
-        let isOk = true;
-        if (this.overApi.orderFees.length) {
-          this.overApi.orderFees.forEach(el => {
-            if (el.feeName === '') {
-              isOk = false;
-            }
-          })
-        }
-        return isOk;
       }
     },
     watch: {
@@ -692,20 +544,6 @@
       }
     },
     methods: {
-      numChange(data, eve) {
-        this.changeTotalPrice();
-      },
-      changeTotalPrice() {
-        let price1 = 0;
-        let price2 = 0;
-        this.overApi.outItems.map(item => {
-          price1 += item.realPrice * item.realNum
-        })
-        this.overApi.orderFees.map(el => {
-          price2 += el.feeAmount * el.totalNum
-        })
-        this.orderTotalPrice = (price1 + price2).toFixed(2);
-      },
       getList(params) {
         this.$http.post(this.$api.orderPage, params).then(res => {
           if (res.code === 1000) {
@@ -751,14 +589,6 @@
         }).then(res => {
           if (res.code === 1000) {
             this.detailItem = Object.assign({}, res.data);
-            if (key === 'over') { //完成订单
-              res.data.orderItem.map(el => {
-                el.realNum = el.num;
-                el.realPrice = el.realPrice;
-              })
-              this.overApi.outItems = [...res.data.orderItem];
-              this.changeTotalPrice();
-            }
           }
         })
       },
@@ -876,41 +706,6 @@
           this.$Message.error(`${this.warmProductName}分仓数量与下单数量不相等`)
         }
       },
-  
-      // 完成订单
-      overOrder(item) {
-        this.getItem(item, 'over')
-        this.overShow = true;
-        this.overApi.id = item.id;
-      },
-      // 确认完成订单
-      overSubmit() {
-        if (this.isFeeOk) {
-          this.loading = true;
-          let params = this.$clearData(this.overApi);
-          params.outItems = JSON.stringify(params.outItems)
-          params.orderFees = JSON.stringify(params.orderFees)
-          this.$http.post(this.$api.wareHouseOutfinishOut, params).then(res => {
-            if (res.code === 1000) {
-              this.overShow = false;
-              this.$Message.success('确认成功')
-              this.getList(this.pageFilter)
-              this.overApi.orderFees = [];
-              this.clearFee();
-            } else {
-              this.$Message.error(res.message)
-            }
-            this.loading = false;
-          })
-        } else {
-          this.$Message.error('其他费用名称不能为空')
-        }
-      },
-      overReset() {
-        this.overShow = false;
-        this.overApi.orderFees = [];
-        this.clearFee();
-      },
       getDelivery() {
         this.$http.post(this.$api.findAllDeliveryMan, {
           manType: 1
@@ -920,12 +715,16 @@
           }
         })
       },
-      checkNumChange(item, itemIndex, data) {
-          this.checkOrderApi.items.map((el, index) => {
-            if (el.id === item.id) {
-              this.checkOrderApi.items[index].wareHouseProducts[itemIndex].checkNum = data;
-            }
-          })
+      //  赋值当前输入的分仓出库数量
+      checkNumBlur(item, itemIndex){
+        this.checkOrderApi.items.map((el, index) => {
+          if (el.id === item.id) {
+            this.checkOrderApi.items[index].wareHouseProducts[itemIndex].checkNum = this.currentNum;
+          }
+        })
+      },
+      checkNumChange(data) {
+        this.currentNum = data;
       },
       // 重置其他费用不可选
       clearFee() {
@@ -942,38 +741,6 @@
             });
           }
         })
-      },
-      feeNameSelect(idx, eve) {
-        this.feeList.map(el => {
-          if (el.feeName === eve) {
-            el.disabled = true;
-            this.overApi.orderFees[idx].feeId = el.id;
-            this.overApi.orderFees[idx].feeAmount = el.feeAmount;
-          }
-        })
-        this.changeTotalPrice();
-      },
-      //  增加费用行
-      addFee() {
-        this.feeIndex++;
-        this.overApi.orderFees.push({
-          feeId: '',
-          feeName: '',
-          feeAmount: 0,
-          totalNum: 1,
-          amount: 0,
-          remark: ''
-        })
-      },
-      //  删除费用行
-      delRow(idx, item) {
-        this.overApi.orderFees.splice(idx, 1);
-        this.feeList.map(el => {
-          if (el.feeName === item.feeName) {
-            el.disabled = false;
-          }
-        })
-        this.changeTotalPrice();
       },
       //   新增退货单
       returnBill(item) {
