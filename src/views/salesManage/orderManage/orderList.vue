@@ -678,6 +678,7 @@
       cancelCheckOrder() {
         this.checkOrderShow = false
       },
+      //  检测出库数量
       checkNumOk(){
         let isOk = true;
         this.checkOrderApi.items.map(el =>{
@@ -810,6 +811,7 @@
 
 <style lang='less' scoped>
   @import url('../../../assets/less/base.less');
+  @deep: ~'>>>';
   .order-ok-header,
   .check-warm {
     margin-bottom: 15px;
@@ -876,5 +878,8 @@
   
   .checkNum-item {
     margin: 10px 0;
+    @{deep} .ivu-input-number-handler-wrap{
+      display: none;
+    }
   }
 </style>
