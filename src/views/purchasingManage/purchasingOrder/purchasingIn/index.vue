@@ -124,19 +124,6 @@
       itemId() {
         return this.$route.query.rkid
       },
-      isOk() {
-        let isOk = true;
-        this.baseApi.wareHouseInItem.map(el => {
-          if(el.items.length){
-            el.items.map(sub =>{
-              if (sub.cost === null) {
-                isOk = false
-              }
-            })
-          }
-        })
-        return isOk;
-      },
       hasWareHouse() {
         return this.wareHouseId != ''
       },
@@ -242,12 +229,27 @@
           }
         })
       },
+      //  验证入库数量、成本价不能为空
+      checkItems(){
+        let isOk = true;
+        this.baseApi.wareHouseInItem.map(el =>{
+          if(el.items.length){
+            el.items.map(sub =>{
+              if(sub.cost === null || sub.num === null){
+                isOk = false
+                console.log(sub.cost)
+              }
+            })
+          }
+        })
+        return isOk
+      },
       // 保存编辑
       save(status, name) {
         this.$refs[name].validate((valid) => {
           if (valid) {
             if (this.baseApi.wareHouseInItem.length > 0) {
-              if (this.isOk) {
+              if (this.checkItems()) {
                 const params = this.$clearData(this.baseApi);
                 params.wareHouseInItem = JSON.stringify(params.wareHouseInItem);
                 params.status = status;

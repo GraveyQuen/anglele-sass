@@ -24,7 +24,7 @@
           <Button size="small" @click="refresh" style="margin-left: 20px;" class="extra-button">刷新出库单</Button>
         </div>
         <Form :mode="orderApi" :label-width="100" inline>
-          <FormItem label="订单编号：">
+          <FormItem label="出库单编号：">
             <Input v-model="orderApi.id" placeholder="请输入" style="width: 200px;"></Input>
           </FormItem>
           <FormItem label="客户名称：">
@@ -86,12 +86,15 @@
           width: 60,
           align: 'center'
         }, {
-          title: '订单编号',
+          title: '出库单编号',
           key: 'id'
         }, {
           title: '客户名称',
           key: 'customerName'
         }, {
+          title: '仓库',
+          key: 'wareHouseName',
+        },{
           title: '下单时间',
           key: 'updateTime',
           render: (h, params) => {

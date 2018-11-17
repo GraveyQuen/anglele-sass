@@ -30,7 +30,7 @@
         </div>
       </div>
       <div class="order-main">
-        <div class="order-main-header"><span>退货总金额：￥{{orders.refundOrder.refundAmount}}</span>订单明细</div>
+        <div class="order-main-header"><span>退货总金额：￥{{orders.refundOrder.refundAmount}}</span>退货明细</div>
         <div class="order-main-content page-inner">
           <div class="card-contnet">
             <div class="table-contnet">

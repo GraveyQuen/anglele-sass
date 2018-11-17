@@ -16,7 +16,7 @@
         <Col span="8" class="row-span"> 备注：{{detail.order.remark !='' ? detail.order.remark : '暂无'}}
         </Col>
       </Row>
-      <div class="product-header"><span>退货总金额：￥{{detail.order.totalAmount}}</span>退货产品</div>
+      <div class="product-header"><span>退货总金额：￥{{detail.order.totalAmount}}</span>采购退货明细</div>
       <Table border :columns="goodsHeader" :data="detail.items"></Table>
     </Card>
   </div>
