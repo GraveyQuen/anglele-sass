@@ -206,7 +206,7 @@
       },
       findWareHouse() {
         this.$http.post(this.$api.findWareHouse).then(res => {
-          if (!this.isEdit) {
+          if (!this.isEdit && this.id === undefined) {
             this.dataApi.wareHouseId = res.data[0].id
           }
           this.wareHouseList = res.data;
@@ -287,7 +287,7 @@
               id: '',
               orderDate: this.dataApi.orderDate,
               refundOrderId: res.data.refundOrder.id,
-              wareHouseId: this.dataApi.wareHouseId,
+              wareHouseId: res.data.refundOrder.wareHouseId,
               provider: '',
               providerPhone: '',
               remark: res.data.refundOrder.remark,
@@ -304,7 +304,7 @@
       if(this.isEdit){
         this.getDetail();
       }else{
-        if(this.id != ''){
+        if(this.id != undefined){
           this.getRefund();
         }
       }

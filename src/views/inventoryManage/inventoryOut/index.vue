@@ -532,21 +532,16 @@
               this.loading = false;
             })
           } else {
-            this.$Message.error('表单验证失败');
+            this.$Message.error('请选择配送人');
           }
         })
       },
       // 打印出库单
       print(item) {
         const isMulti = item.multiWareHouseOutOrder === 1 ? true : false;
-        // if (isMulti) {
-          // this.printMethod(item.id)
-        // } else {
           this.printShow = true;
           this.printId = item.id;
-        // }
       },
-      // 关联多个出库单打印
       printMuti() {
         this.printMethod(this.printId);
       },
