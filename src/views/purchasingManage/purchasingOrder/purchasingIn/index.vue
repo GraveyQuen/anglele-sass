@@ -237,7 +237,6 @@
             el.items.map(sub =>{
               if(sub.cost === null || sub.num === null){
                 isOk = false
-                console.log(sub.cost)
               }
             })
           }

@@ -13,18 +13,18 @@
         </FormItem>
         <FormItem label="状态：">
           <Select v-model="pageApi.status" style="width: 200px;">
-                                  <Option v-for="(item,index) in orderStatus" :value="item.value" :key="index">{{ item.name }}</Option>
-                                </Select>
+                                    <Option v-for="(item,index) in orderStatus" :value="item.value" :key="index">{{ item.name }}</Option>
+                                  </Select>
         </FormItem>
-          <FormItem label="仓库名称：">
-            <Select v-model="pageApi.wareHouseId" style="width: 180px;">
-                              <Option v-for="(item,index) in storeList" :value="item.id" :key="index">{{ item.name }}</Option>
-                            </Select>
-          </FormItem>
+        <FormItem label="仓库名称：">
+          <Select v-model="pageApi.wareHouseId" style="width: 180px;">
+                                <Option v-for="(item,index) in storeList" :value="item.id" :key="index">{{ item.name }}</Option>
+                              </Select>
+        </FormItem>
         <FormItem label="配送人：">
           <Select v-model="pageApi.deliveryManId" style="width: 200px;">
-                                <Option v-for="(item,index) in deliveryList" :value="item.id" :key="index">{{ item.name }}</Option>
-                              </Select>
+                                  <Option v-for="(item,index) in deliveryList" :value="item.id" :key="index">{{ item.name }}</Option>
+                                </Select>
         </FormItem>
         <FormItem label="最近更新人：">
           <Input v-model="pageApi.updateUser" placeholder="请输入" style="width: 200px;"></Input>
@@ -40,11 +40,11 @@
         <Table width="100%" ref="orderTable" :columns="tableHeader" border :data="list">
           <!-- 操作 -->
           <template slot="action" slot-scope="props">
-                                    <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看明细</Button>
-                                    <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1" @click="confirm(props.row)">确认</Button>
-                                    <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 2" @click="out(false,props.row)">出库</Button>
-                                    <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 3" @click="out(true,props.row)">完成出库</Button>
-                                    <Button type="info" size="small" v-if="props.row.status != 9" @click="print(props.row)">打印</Button>
+                                      <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看明细</Button>
+                                      <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1" @click="confirm(props.row)">确认</Button>
+                                      <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 2" @click="out(false,props.row)">出库</Button>
+                                      <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 3" @click="out(true,props.row)">完成出库</Button>
+                                      <Button type="info" size="small" v-if="props.row.status != 9" @click="print(props.row)">打印</Button>
 </template>
         </Table>
         <div class="paging">
@@ -86,23 +86,23 @@
           </Form>
           <Table ref="overTable" disabled-hover border :columns="goodsHeader" :data="outApi.outItems" >
           <!-- 实单数量 -->
-          <template slot="realNum" slot-scope="props">
-            <Form :ref="'formRow'+props.idx" :model="props.row">
-              <FormItem prop="realNum" :rules="{required: true, message: '请输入数量', trigger: 'blur', type: 'number'}">
-                <InputNumber :min="0" v-model.number="props.row.realNum" size="small" style="width:60px;"></InputNumber>{{props.row.unit}}
-              </FormItem>
-            </Form>
-          </template>
+<template slot="realNum" slot-scope="props">
+  <Form :ref="'formRow'+props.idx" :model="props.row">
+    <FormItem prop="realNum" :rules="{required: true, message: '请输入数量', trigger: 'blur', type: 'number'}">
+      <InputNumber :min="0" v-model.number="props.row.realNum" size="small" style="width:60px;"></InputNumber>{{props.row.unit}}
+    </FormItem>
+  </Form>
+</template>
         <!-- 实单单价 -->
-          <template slot="realPrice" slot-scope="props">
-            <Form :ref="'formRow'+props.idx" :model="props.row">
-              <FormItem prop="realPrice" :rules="{required: true, message: '请输入单价', trigger: 'blur', type: 'number'}">
-                <InputNumber :min="0" v-model.number="props.row.realPrice" size="small" style="width:60px;"></InputNumber>元/{{props.row.unit}}
-              </FormItem>
-            </Form>
-          </template>
+<template slot="realPrice" slot-scope="props">
+  <Form :ref="'formRow'+props.idx" :model="props.row">
+    <FormItem prop="realPrice" :rules="{required: true, message: '请输入单价', trigger: 'blur', type: 'number'}">
+      <InputNumber :min="0" v-model.number="props.row.realPrice" size="small" style="width:60px;"></InputNumber>元/{{props.row.unit}}
+    </FormItem>
+  </Form>
+</template>
         </Table>
-              <div class="add-fee page-inner">
+        <div class="add-fee page-inner">
         <Button type="primary" @click="addFee" style="margin-bottom:20px;">添加其他费用</Button>
         <div class="card-contnet">
         <div class="table-contnet">
@@ -331,7 +331,7 @@
           title: '送货地址',
           key: 'address',
           minWidth: 180
-        },{
+        }, {
           title: '仓库',
           key: 'wareHouseName',
           minWidth: 120
@@ -402,8 +402,8 @@
           wareHouseId: this.pageApi.wareHouseId
         }
       },
-      role(){
-        return this.$store.state.base ?  this.$store.state.base.loginInfo.currentRoleCode : '';
+      role() {
+        return this.$store.state.base ? this.$store.state.base.loginInfo.currentRoleCode : '';
       }
     },
     watch: {
@@ -415,6 +415,9 @@
           this.getList(this.pageFilter);
         }, 200),
         deep: true
+      },
+      role(val){
+        this.printMore = val === 'ADMIN' ? 1 : 2;
       }
     },
     methods: {
@@ -449,19 +452,19 @@
         this.pageApi.pageSize = size;
       },
       // 出库单详情
-      getItem(isEdit,item) {
+      getItem(isEdit, item) {
         this.$http.post(this.$api.wareHouseOutDetail, {
           id: item.id
         }).then(res => {
           if (res.code === 1000) {
             this.detailItem = Object.assign({}, res.data)
-            res.data.wareHouseOutItems.map(el =>{
-              if(el.realNum === ''){
+            res.data.wareHouseOutItems.map(el => {
+              if (el.realNum === '') {
                 el.realNum = el.num;
               }
             })
             this.outApi.outItems = [...res.data.wareHouseOutItems];
-            if(isEdit){
+            if (isEdit) {
               this.outApi.deliveryManId = res.data.deliveryMan.id;
               this.outApi.orderFees = [...res.data.orderFeeList]
             }
@@ -493,9 +496,9 @@
         })
       },
       // 出库 isEdit  出库or完成出库
-      out(isEdit,item) {
+      out(isEdit, item) {
         this.isEdit = isEdit;
-        this.getItem(isEdit,item)
+        this.getItem(isEdit, item)
         this.outApi.id = item.id;
         this.outShow = true;
       },
@@ -517,7 +520,7 @@
             const saveUrl = this.isEdit ? this.$api.wareHouseOutfinishOut : this.$api.wareHouseOutproductOut
             this.$http.post(saveUrl, params).then(res => {
               if (res.code === 1000) {
-                this.$Message.success(this.isEdit ? '完成出库':'出库成功')
+                this.$Message.success(this.isEdit ? '完成出库' : '出库成功')
                 this.getList(this.pageFilter);
                 this.outShow = false;
                 this.outApi.id = '';
@@ -538,9 +541,8 @@
       },
       // 打印出库单
       print(item) {
-        const isMulti = item.multiWareHouseOutOrder === 1 ? true : false;
-          this.printShow = true;
-          this.printId = item.id;
+        this.printShow = true;
+        this.printId = item.id;
       },
       printMuti() {
         this.printMethod(this.printId);
@@ -567,20 +569,16 @@
         }).then(res => {
           if (res.code === 1000) {
             this.printCancel();
-            window.open(res.data, '_blank')
             this.$Spin.hide();
+            window.open(res.data, '_blank')
           }
         })
       },
       //  取消打印
-      printCancel(){
+      printCancel() {
         this.printShow = false;
         this.withReal = 0;
-        if(this.role != 'ADMIN'){
-          this.printMore = 2;
-        }else{
-          this.printMore = 1
-        }
+        this.printMore = this.role === 'ADMIN' ? 1 : 2;
       },
       getDelivery() {
         this.$http.post(this.$api.findAllDeliveryMan, {
@@ -644,18 +642,13 @@
             this.storeList = res.data;
           }
         })
-      },
+      }
     },
     created() {
       this.getList(this.pageFilter);
       this.getDelivery();
       this.getFee();
       this.getWareHouse();
-      if(this.role != 'ADMIN'){
-        this.printMore = 2;
-      }else{
-        this.printMore = 1;
-      }
     }
   }
 </script>
@@ -665,6 +658,7 @@
   .spin-icon-load {
     animation: ani-demo-spin 1s linear infinite;
   }
+  
   .add-fee {
     padding-top: 20px;
   }
