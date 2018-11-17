@@ -204,7 +204,7 @@
         this.$http.post(this.$api.findPurchaseOrderList, params).then(res => {
           if (res.code === 1000) {
             res.data.data.map(el =>{
-              el.wareHouse = JSON.parse(el.wareHouse)
+              el.wareHouse = el.wareHouse !='' ? JSON.parse(el.wareHouse) : []
             })
             this.list = res.data.data;
             this.totalCount = res.data.totalCount;

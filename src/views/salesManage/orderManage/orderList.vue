@@ -72,7 +72,7 @@
         </div>
       </div>
     </Card>
-    <Modal title="取消订单" width="500" v-model="cancelShow" :mask-closable="false">
+    <Modal title="取消订单" width="500" v-model="cancelShow" :mask-closable="false" @on-cancel="cancelReset('formCancel')">
       <Form ref="formCancel" :model="cancelApi" :rules="cancelRule" :label-width="100">
         <FormItem label="取消原因：" prop="cancelReason">
           <Input v-model="cancelApi.cancelReason" placeholder="请输入..."></Input>
@@ -794,7 +794,7 @@
             params.id = this.detailItem.id;
             this.$http.post(this.$api.orderCancel, params).then(res => {
               if (res.code === 1000) {
-                this.cancelShow = false;
+                this.cancelReset('formCancel');
                 this.getList(this.pageFilter);
                 this.$Message.success('取消成功');
               } else {
@@ -807,11 +807,11 @@
           }
         })
       },
-      //  取消取消订单
+      //  取消订单
       cancelReset(name) {
         this.cancelApi.cancelReason = '';
         this.cancelShow = false,
-          this.loading = false;
+        this.loading = false;
         this.$refs[name].resetFields();
       },
       //  确认订单      
