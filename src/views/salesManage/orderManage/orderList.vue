@@ -245,7 +245,7 @@
         <template slot="wareHouseProducts" slot-scope="props">
           <div v-for="(item,index) in props.row.wareHouseProducts" class="checkNum-item">
             {{item.wareHouseName}}：
-            <InputNumber :min="0" :disabled="item.disabledCheckNum" @on-change="checkNumChange($event)" @on-blur="checkNumBlur(props.row,index)" v-model.number="item.checkNum" size="small" style="width:80px;"></InputNumber>{{props.row.unit}}
+            <InputNumber :min="0" :disabled="item.disabledCheckNum" @on-change="checkNumChange(index,$event)" @on-blur="checkNumBlur(props.row,index)" v-model.number="item.checkNum" size="small" style="width:80px;"></InputNumber>{{props.row.unit}}
           </div>
         </template>
         </Table>
@@ -501,7 +501,8 @@
             )
           }
         }],
-        currentNum: 0
+        currentNum: 0,
+        currentIndex: 0
       }
     },
     computed: {
@@ -717,13 +718,16 @@
       },
       //  赋值当前输入的分仓出库数量
       checkNumBlur(item, itemIndex){
-        this.checkOrderApi.items.map((el, index) => {
-          if (el.id === item.id) {
-            this.checkOrderApi.items[index].wareHouseProducts[itemIndex].checkNum = this.currentNum;
-          }
-        })
+        if(itemIndex === this.currentIndex){
+          this.checkOrderApi.items.map((el, index) => {
+            if (el.id === item.id) {
+              this.checkOrderApi.items[index].wareHouseProducts[itemIndex].checkNum = this.currentNum;
+            }
+          })
+        }
       },
-      checkNumChange(data) {
+      checkNumChange(index,data) {
+        this.currentIndex = index;
         this.currentNum = data;
       },
       // 重置其他费用不可选

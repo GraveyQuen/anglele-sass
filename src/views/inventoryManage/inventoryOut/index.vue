@@ -653,6 +653,8 @@
       this.getWareHouse();
       if(this.role != 'ADMIN'){
         this.printMore = 2;
+      }else{
+        this.printMore = 1;
       }
     }
   }
