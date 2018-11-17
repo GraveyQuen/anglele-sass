@@ -127,7 +127,7 @@
                 <Col class-name="col" span="4">{{item.price}}元/{{item.unit}}</Col>
                 <Col class-name="col" :span="detailItem.order.status === 5 ? 4 : 8" style="height: auto;overflow: inherit;">
                 {{item.num}}{{item.unit}}
-                <Tooltip placement="top">
+                <Tooltip placement="top" v-if="detailItem.order.status != 1">
                     <Button size="small">明细</Button>
                     <div slot="content">
                   <div class="Tooltip" v-for="(sub,idx) in item.wareHouseOutItems" :key="idx">{{sub.wareHouseName}}：{{sub.num}}{{sub.unit}}</div>
