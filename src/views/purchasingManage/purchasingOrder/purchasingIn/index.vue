@@ -7,11 +7,6 @@
           <FormItem label="开单日期：">
             <DatePicker type="date" placeholder="选择日期" placement="bottom-end" v-model="baseApi.newOrderDate" style="width: 200px"></DatePicker>
           </FormItem>
-          <FormItem label="仓库名称：" prop="wareHouseId">
-            <Select v-model="baseApi.wareHouseId" style="width: 180px;">
-              <Option v-for="(item,index) in storeList" :value="item.id" :key="index">{{ item.name }}</Option>
-            </Select>
-          </FormItem>
           <FormItem label="入库类型：" prop="inType">
             <Select v-model="baseApi.inType" style="width: 180px;">
               <Option v-for="(item,index) in [{id:1,name: '采购入库'},{id:2,name: '退货入库'},{id:3,name:'其他入库'}]" :value="item.id" :key="index">{{ item.name }}</Option>
@@ -28,35 +23,37 @@
           </FormItem>
         </Form>
       </div>
-      <div class="goods-info">
-        <div class="add-goods">
-          <Button type="primary" @click="chooseProducts">选择产品</Button>
-        </div>
-        <Table ref="goodsTable" border :columns="goodsHeader" :data="goodsList" style="max-width: 752px;">
-          <!-- 入库数量 -->
-          <template slot="num" slot-scope="props">
-                  <Form :ref="'formRow'+props.idx" :model="props.row">
-                    <FormItem prop="num" :rules="{required: true, message: '请输入数量', trigger: 'blur',type: 'number'}">
-                      <InputNumber :min="0" v-model.number="props.row.num" size="small" style="width:60px;"></InputNumber>{{props.row.unit}}
-                    </FormItem>
-                  </Form>
-</template>
-          <!-- 成本价 -->
-<template slot="cost" slot-scope="props">
-  <Form :model="props.row">
-    <FormItem>
-      <InputNumber :min="0" v-model.number="props.row.cost" size="small" style="width:60px;"></InputNumber>元/{{props.row.unit}}
-    </FormItem>
-  </Form>
-  </Form>
-</template>
-           <!-- 操作 -->
-<template slot="action" slot-scope="props">
-  <Poptip @on-ok="delRow(props.idx)" confirm title="确认删除此条产品？" transfer>
-    <Button type="warning" size="small">删除</Button>
-  </Poptip>
-</template>
-        </Table>
+      <div class="goods-info page-inner">
+          <div class="card-contnet">
+            <div class="table-contnet">
+              <Row class-name="head">
+                <Col class-name="col" span="5">产品名称</Col>
+                <Col class-name="col" span="5">所属分类</Col>
+                <Col class-name="col" span="5">入库数量</Col>
+                <Col class-name="col" span="5">成本价</Col>
+                <Col class-name="col" span="4">操作</Col>
+              </Row>
+              <Row v-for="(item,index) in baseApi.wareHouseInItem" :key="index">
+                <Row>
+                  <Col span="24" class="wareHouseName">{{item.wareHouseName}} <Button style="margin-left:20px;" size="small" type="primary" @click="chooseProducts(index,item)">选择产品</Button></Col>
+                </Row>
+                <Row v-for="(sub,idx) in item.items" :key="idx">
+                <Col class-name="col" span="5">{{sub.name}}</Col>
+                <Col class-name="col" span="5">{{sub.categoryName}}</Col>
+                <Col class-name="col" span="5">
+                  <InputNumber :min="0"  v-model.number="sub.num" size="small" style="width:80px;"></InputNumber>{{sub.unit}}
+                </Col>
+                <Col class-name="col" span="5">
+                  <InputNumber :min="0" v-model.number="sub.cost" size="small" style="width:80px;"></InputNumber>元/{{sub.unit}}
+                </Col>
+                <Col class-name="col" span="4">
+                  <Button type="primary" size="small" @click="delRow(index,idx)">删除</Button>
+                </Col>
+                </Row>
+              </Row>
+              </Row>
+            </div>
+          </div>
       </div>
       <div class="bottom-options">
         <div class="btn-block">
@@ -71,7 +68,7 @@
       </div>
     </Card>
     <Modal title="选择产品" width="800" v-model="show" :mask-closable="false">
-      <selectGoods v-if="show" @on-select="onselect" :checkList="goodsList" :wareHouseId="baseApi.wareHouseId" :hasSelect="productIds"></selectGoods>
+      <selectGoods v-if="show" @on-select="onselect" :checkList="goodsList" :wareHouseId="wareHouseId" :hasSelect="productIds"></selectGoods>
       <div slot="footer">
         <Button type="primary" @click="chooseGoods">选择</Button>
         <Button @click="resetGoods">取消</Button>
@@ -89,7 +86,6 @@
     data() {
       return {
         baseApi: {
-          wareHouseId: '',
           remark: '',
           newOrderDate: '',
           inType: 1,
@@ -100,11 +96,6 @@
         },
         detailItem: {},
         baseRule: {
-          wareHouseId: [{
-            required: true,
-            message: '不能为空',
-            trigger: 'change'
-          }],
           inType: [{
             required: true,
             message: '不能为空',
@@ -119,54 +110,8 @@
         goodsList: [],
         act: false, // 用于触发渲染
         storeList: [],
-        goodsHeader: [{
-          title: '产品名称',
-          key: 'name',
-          maxWidth: 150
-        }, {
-          title: '所属分类',
-          key: 'categoryName',
-          maxWidth: 150
-        }, {
-          title: '入库数量',
-          key: 'nums',
-          maxWidth: 140,
-          render: (h, params) => {
-            this.goodsList[params.index] = params.row
-            return h(
-              'div',
-              this.$refs.goodsTable.$scopedSlots.num({
-                row: params.row,
-                idx: params.row._index
-              })
-            )
-          }
-        }, {
-          title: '成本价',
-          key: 'cost',
-          maxWidth: 130,
-          render: (h, params) => {
-            return h(
-              'div',
-              this.$refs.goodsTable.$scopedSlots.cost({
-                row: params.row,
-                idx: params.row._index
-              })
-            )
-          }
-        }, {
-          title: '操作',
-          key: 'action',
-          maxWidth: 180,
-          render: (h, params) => {
-            return h(
-              'div',
-              this.$refs.goodsTable.$scopedSlots.action({
-                idx: params.row._index
-              })
-            )
-          }
-        }]
+        wareHouseId: '',
+        currentIndex: 0
       }
     },
     computed: {
@@ -181,15 +126,19 @@
       },
       isOk() {
         let isOk = true;
-        this.goodsList.map(el => {
-          if (el.num === null) {
-            isOk = false
+        this.baseApi.wareHouseInItem.map(el => {
+          if(el.items.length){
+            el.items.map(sub =>{
+              if (sub.cost === null) {
+                isOk = false
+              }
+            })
           }
         })
         return isOk;
       },
       hasWareHouse() {
-        return this.baseApi.wareHouseId != ''
+        return this.wareHouseId != ''
       },
       productIds() {
         let arr = [];
@@ -206,14 +155,12 @@
         }
       },
       'detailItem' (val) {
-        let arr = [];
         val.purchaseOrderItems.map(el => {
           el.items.map(sub => {
             sub.cost = null;
-            arr.push(sub)
           })
         })
-        this.goodsList = [...arr]
+        this.baseApi.wareHouseInItem = [...val.purchaseOrderItems]
       }
     },
     methods: {
@@ -234,7 +181,6 @@
         }).then(res => {
           if (res.code === 1000) {
             this.baseApi = {
-              wareHouseId: res.data.wareHouseId,
               remark: res.data.remark,
               newOrderDate: new Date(Date.parse(res.data.newOrderDate.replace(/-/g, "/"))),
               inType: res.data.inType,
@@ -242,16 +188,18 @@
               driverPhone: res.data.driverPhone,
               status: res.data.status
             }
-            let arr = [];
             res.data.wareHouseInItems.map(el => {
               el.name = el.productName;
               el.categoryName = el.productCategory;
             })
-            this.goodsList = [...res.data.wareHouseInItems]
+            this.baseApi.wareHouseInItem = [...res.data.wareHouseInItems]
           }
         })
       },
-      chooseProducts() {
+      chooseProducts(index,item) {
+        this.currentIndex = index;
+        this.wareHouseId = item.wareHouseId;
+        this.goodsList = [...item.items];
         if (this.hasWareHouse) {
           this.show = true;
         } else {
@@ -261,7 +209,7 @@
       // 选择产品
       chooseGoods() {
         if (this.selectGoods.length > 0) {
-          this.goodsList = [...this.selectGoods];
+          this.baseApi.wareHouseInItem[this.currentIndex].items = [...this.selectGoods];
           this.show = false;
         } else {
           this.$Message.error('请选择产品')
@@ -272,8 +220,8 @@
         this.show = false;
       },
       //  删除行
-      delRow(idx) {
-        this.goodsList.splice(idx, 1)
+      delRow(index,idx) {
+        this.baseApi.wareHouseInItem[index].items.splice(idx, 1)
         this.$nextTick(() => {
           this.act = !this.act
         })
@@ -282,13 +230,6 @@
       getWareHouse() {
         this.$http.post(this.$api.findWareHouse).then(res => {
           if (res.code === 1000) {
-            // if (!this.isEdit) {
-            //   res.data.map((el, index) => {
-            //     if (index === 0) {
-            //       this.baseApi.wareHouseId = el.id;
-            //     }
-            //   })
-            // }
             this.storeList = res.data;
           }
         })
@@ -305,10 +246,10 @@
       save(status, name) {
         this.$refs[name].validate((valid) => {
           if (valid) {
-            if (this.goodsList.length > 0) {
+            if (this.baseApi.wareHouseInItem.length > 0) {
               if (this.isOk) {
                 const params = this.$clearData(this.baseApi);
-                params.wareHouseInItem = JSON.stringify(this.goodsList);
+                params.wareHouseInItem = JSON.stringify(params.wareHouseInItem);
                 params.status = status;
                 params.newOrderDate = params.newOrderDate != '' ? this.date : '';
                 params.purchaseOrderId = this.itemId;
@@ -352,14 +293,12 @@
           id: this.itemId
         }).then(res => {
           if (res.code === 1000) {
-            let arr = [];
             res.data.purchaseOrderItems.map(el => {
               el.items.map(sub => {
                 sub.name = sub.productName;
                 sub.categoryName = sub.productCategory
               })
             })
-            this.baseApi.wareHouseId = JSON.parse(res.data.purchaseOrder.wareHouse)[0].id;
             this.detailItem = Object.assign({}, res.data)
           }
         })
@@ -383,6 +322,30 @@
 </script>
 
 <style lang='less' scoped>
+  @import url('../../../../assets/less/base.less');
+  .order-main {
+    margin-top: 20px;
+    .order-main-header {
+      height: 46px;
+      line-height: 46px;
+      background-color: #f8f8f9;
+      padding: 0 15px;
+      margin-bottom: 15px;
+      font-weight: 700;
+      span {
+        float: right;
+      }
+    }
+    .order-row-col {
+      margin-bottom: 10px;
+    }
+  }
+  .wareHouseName{
+    text-align: left;
+    padding-left: 20px;
+    border-bottom: 1px solid #e8eaec;
+    border-right: 1px solid #e8eaec
+  }
   .openBill {
     .goods-list {
       margin-bottom: 15px;
