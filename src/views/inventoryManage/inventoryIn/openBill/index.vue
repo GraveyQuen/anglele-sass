@@ -31,6 +31,7 @@
       <div class="goods-info">
         <div class="add-goods">
           <Button type="primary" @click="chooseProducts">选择产品</Button>
+          <span class="total-count">成本价小计：{{allCostPrice}}元</span>
         </div>
         <Table ref="goodsTable" border :columns="goodsHeader" :data="goodsList" style="max-width: 752px;">
           <!-- 入库数量 -->
@@ -45,7 +46,7 @@
           <template slot="cost" slot-scope="props">
             <Form :model="props.row">
               <FormItem>
-                <InputNumber :min="0" v-model.number="props.row.cost" size="small" style="width:60px;"></InputNumber>元/{{props.row.unit}}
+                <InputNumber :min="0" v-model.number="props.row.cost" @on-change="costPrice" size="small" style="width:60px;"></InputNumber>元/{{props.row.unit}}
               </FormItem>
             </Form>
             </Form>
@@ -165,7 +166,8 @@
               })
             )
           }
-        }]
+        }],
+        allCostPrice: 0
       }
     },
     computed: {
@@ -203,6 +205,13 @@
       }
     },
     methods: {
+      costPrice(){
+        let price = 0;
+        this.goodsList.map(el =>{
+          price += el.cost;
+        })
+        this.allCostPrice =  price.toFixed(2);
+      },
       // 返回
       goback() {
         this.$router.go(-1);
@@ -355,5 +364,9 @@
         margin-right: 20px;
       }
     }
+  }
+  .total-count{
+    display: inline-block;
+    margin-left: 20px;
   }
 </style>
