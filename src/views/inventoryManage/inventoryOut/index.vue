@@ -13,18 +13,18 @@
         </FormItem>
         <FormItem label="状态：">
           <Select v-model="pageApi.status" style="width: 200px;">
-                                    <Option v-for="(item,index) in orderStatus" :value="item.value" :key="index">{{ item.name }}</Option>
-                                  </Select>
+                                      <Option v-for="(item,index) in orderStatus" :value="item.value" :key="index">{{ item.name }}</Option>
+                                    </Select>
         </FormItem>
         <FormItem label="仓库名称：">
           <Select v-model="pageApi.wareHouseId" style="width: 180px;">
-                                <Option v-for="(item,index) in storeList" :value="item.id" :key="index">{{ item.name }}</Option>
-                              </Select>
+                                  <Option v-for="(item,index) in storeList" :value="item.id" :key="index">{{ item.name }}</Option>
+                                </Select>
         </FormItem>
         <FormItem label="配送人：">
           <Select v-model="pageApi.deliveryManId" style="width: 200px;">
-                                  <Option v-for="(item,index) in deliveryList" :value="item.id" :key="index">{{ item.name }}</Option>
-                                </Select>
+                                    <Option v-for="(item,index) in deliveryList" :value="item.id" :key="index">{{ item.name }}</Option>
+                                  </Select>
         </FormItem>
         <FormItem label="最近更新人：">
           <Input v-model="pageApi.updateUser" placeholder="请输入" style="width: 200px;"></Input>
@@ -40,11 +40,11 @@
         <Table width="100%" ref="orderTable" :columns="tableHeader" border :data="list">
           <!-- 操作 -->
           <template slot="action" slot-scope="props">
-                                      <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看明细</Button>
-                                      <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1" @click="confirm(props.row)">确认</Button>
-                                      <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 2" @click="out(false,props.row)">出库</Button>
-                                      <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 3" @click="out(true,props.row)">完成出库</Button>
-                                      <Button type="info" size="small" v-if="props.row.status != 9" @click="print(props.row)">打印</Button>
+                                        <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看明细</Button>
+                                        <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1" @click="confirm(props.row)">确认</Button>
+                                        <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 2" @click="out(false,props.row)">出库</Button>
+                                        <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 3" @click="out(true,props.row)">完成出库</Button>
+                                        <Button type="info" size="small" v-if="props.row.status != 9" @click="print(props.row)">打印</Button>
 </template>
         </Table>
         <div class="paging">
@@ -89,7 +89,7 @@
 <template slot="realNum" slot-scope="props">
   <Form :ref="'formRow'+props.idx" :model="props.row">
     <FormItem prop="realNum" :rules="{required: true, message: '请输入数量', trigger: 'blur', type: 'number'}">
-      <InputNumber :min="0" v-model.number="props.row.realNum" size="small" style="width:60px;"></InputNumber>{{props.row.unit}}
+      <InputNumber :min="0" v-model.number="props.row.realNum" @on-change="handleTotalPrice" size="small" style="width:60px;"></InputNumber>{{props.row.unit}}
     </FormItem>
   </Form>
 </template>
@@ -97,7 +97,7 @@
 <template slot="realPrice" slot-scope="props">
   <Form :ref="'formRow'+props.idx" :model="props.row">
     <FormItem prop="realPrice" :rules="{required: true, message: '请输入单价', trigger: 'blur', type: 'number'}">
-      <InputNumber :min="0" v-model.number="props.row.realPrice" size="small" style="width:60px;"></InputNumber>元/{{props.row.unit}}
+      <InputNumber :min="0" v-model.number="props.row.realPrice" @on-change="handleTotalPrice" size="small" style="width:60px;"></InputNumber>元/{{props.row.unit}}
     </FormItem>
   </Form>
 </template>
@@ -121,10 +121,10 @@
             </Select>
             </Col>
             <Col class-name="col" span="4">
-              <InputNumber :min="0"v-model.number="item.feeAmount" size="small" style="width:80px;"></InputNumber>
+              <InputNumber :min="0" v-model.number="item.feeAmount" @on-change="handleTotalPrice" size="small" style="width:80px;"></InputNumber>
             </Col>
             <Col class-name="col" span="4">
-              <InputNumber :min="0" v-model.number="item.totalNum" size="small" style="width:80px;"></InputNumber>
+              <InputNumber :min="0" v-model.number="item.totalNum" @on-change="handleTotalPrice" size="small" style="width:80px;"></InputNumber>
             </Col>
             <Col class-name="col" span="4">
               {{`￥${(item.feeAmount * item.totalNum).toFixed(2)}`}}
@@ -141,6 +141,7 @@
             <Col class-name="col" span="24">暂无费用</Col>
           </Row>
         </div>
+        <div class="totalPrice">总金额：{{totalPrice}}元</div>
       </div>
       </div>
       <div slot="footer">
@@ -383,7 +384,8 @@
         feeIndex: 0,
         feeList: [],
         isEdit: false,
-        withReal: 0
+        withReal: 0,
+        totalPrice: 0
       }
     },
     computed: {
@@ -416,11 +418,23 @@
         }, 200),
         deep: true
       },
-      role(val){
+      role(val) {
         this.printMore = val === 'ADMIN' ? 1 : 2;
       }
     },
     methods: {
+      //  计算订单总金额
+      handleTotalPrice(){
+        let price1 = 0;
+        let price2 = 0;
+        this.outApi.orderFees.forEach(el => {
+          price2 += Number((el.feeAmount * el.totalNum))
+        })
+        this.outApi.outItems.map(el => {
+          price1 += Number((el.realPrice * el.realNum))
+        })
+        this.totalPrice =  (price1 + price2).toFixed(2);
+      },
       resetFilter() {
         this.pageApi = {
           id: '',
@@ -468,6 +482,7 @@
               this.outApi.deliveryManId = res.data.deliveryMan.id;
               this.outApi.orderFees = [...res.data.orderFeeList]
             }
+            this.handleTotalPrice();
           }
         })
       },
@@ -634,6 +649,7 @@
             this.outApi.orderFees[idx].feeAmount = el.feeAmount;
           }
         })
+        this.handleTotalPrice();
       },
       // 所有仓库
       getWareHouse() {
@@ -657,6 +673,13 @@
   @import url('../../../assets/less/base.less');
   .spin-icon-load {
     animation: ani-demo-spin 1s linear infinite;
+  }
+  
+  .totalPrice {
+    text-align: right;
+    padding-top: 20px;
+    font-size: 14px;
+    font-weight: 700;
   }
   
   .add-fee {
