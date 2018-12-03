@@ -33,10 +33,10 @@
               <Table ref="goodsTable" border :columns="goodsHeader" :data="goodsList" style="max-width: 752px;">
                 <!-- 下单数量 -->
                 <template slot="num" slot-scope="props">
-                  <Form :ref="'formRow'+props.idx" :model="props.row">
+                  <Form :ref="'formRow'+props.idx" :model="props.row" @submit.native.prevent>
                     <FormItem prop="num" :rules="{required: true, message: '请输入数量', trigger: 'blur',type:'number'}">
                       <!-- <Input v-model.number="props.row.num" size="small" placeholder="请输入" style="width:80px;"></Input> -->
-                      <InputNumber :min="0" v-model.number="props.row.num" size="small" style="width:80px;"></InputNumber>{{props.row.unit}}
+                      <InputNumber :min="0" v-model.number="props.row.num" size="small" style="width:70px;"></InputNumber>{{props.row.unit}}
                     </FormItem>
                   </Form>
 </template>
@@ -122,6 +122,15 @@
                 idx: params.row._index
               })
             )
+          }
+        }, {
+          title: '下单金额',
+          key: 'nums',
+          maxWidth: 140,
+          render: (h, params) => {
+            let str = params.row.price != null && params.row.num != null ? '￥'+(params.row.price*params.row.num).toFixed(2):'￥0.00'
+            return h(
+              'div',str)
           }
         }, {
           title: '操作',

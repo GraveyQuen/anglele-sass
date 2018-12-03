@@ -9,8 +9,8 @@
           </FormItem>
           <FormItem label="入库类型：" prop="inType">
             <Select v-model="baseApi.inType" style="width: 180px;">
-              <Option v-for="(item,index) in [{id:1,name: '采购入库'},{id:2,name: '退货入库'},{id:3,name:'其他入库'}]" :value="item.id" :key="index">{{ item.name }}</Option>
-            </Select>
+                <Option v-for="(item,index) in [{id:1,name: '采购入库'},{id:2,name: '退货入库'},{id:3,name:'其他入库'}]" :value="item.id" :key="index">{{ item.name }}</Option>
+              </Select>
           </FormItem>
           <FormItem label="送货人：">
             <Input v-model="baseApi.driver" placeholder="请输入" style="width: 180px;"></Input>
@@ -24,46 +24,51 @@
         </Form>
       </div>
       <div class="goods-info page-inner">
-          <div class="card-contnet">
-            <div class="table-contnet">
-              <Row class-name="head">
-                <Col class-name="col" span="5">产品名称</Col>
-                <Col class-name="col" span="5">所属分类</Col>
-                <Col class-name="col" span="5">入库数量</Col>
-                <Col class-name="col" span="5">成本价</Col>
-                <Col class-name="col" span="4">操作</Col>
+        <div class="card-contnet">
+          <div class="table-contnet">
+            <Row class-name="head">
+              <Col class-name="col" span="5">产品名称</Col>
+              <Col class-name="col" span="5">所属分类</Col>
+              <Col class-name="col" span="5">入库数量</Col>
+              <Col class-name="col" span="3">成本价</Col>
+              <Col class-name="col" span="3">小计</Col>
+              <Col class-name="col" span="3">操作</Col>
+            </Row>
+            <Row v-for="(item,index) in baseApi.wareHouseInItem" :key="index">
+              <Row>
+                <Col span="24" class="wareHouseName">{{item.wareHouseName}}
+                <Button style="margin-left:20px;" size="small" type="primary" @click="chooseProducts(index,item)">选择产品</Button>
+                </Col>
               </Row>
-              <Row v-for="(item,index) in baseApi.wareHouseInItem" :key="index">
-                <Row>
-                  <Col span="24" class="wareHouseName">{{item.wareHouseName}} <Button style="margin-left:20px;" size="small" type="primary" @click="chooseProducts(index,item)">选择产品</Button></Col>
-                </Row>
-                <Row v-for="(sub,idx) in item.items" :key="idx">
+              <Row v-for="(sub,idx) in item.items" :key="idx">
                 <Col class-name="col" span="5">{{sub.name}}</Col>
                 <Col class-name="col" span="5">{{sub.categoryName}}</Col>
                 <Col class-name="col" span="5">
-                  <InputNumber :min="0"  v-model.number="sub.num" size="small" style="width:80px;"></InputNumber>{{sub.unit}}
+                  <InputNumber :min="0" @on-change="inpuChange" v-model.number="sub.num" size="small" style="width:80px;"></InputNumber>{{sub.unit}}
                 </Col>
-                <Col class-name="col" span="5">
-                  <InputNumber :min="0" v-model.number="sub.cost" size="small" style="width:80px;"></InputNumber>元/{{sub.unit}}
+                <Col class-name="col" span="3">
+                <InputNumber :min="0" @on-change="inpuChange" v-model.number="sub.cost" size="small" style="width:80px;"></InputNumber>元/{{sub.unit}}
                 </Col>
-                <Col class-name="col" span="4">
-                  <Button type="primary" size="small" @click="delRow(index,idx)">删除</Button>
+                <Col class-name="col" span="3"> {{sub.num != null && sub.cost != null ? (sub.cost * sub.num).toFixed(2)+'元':'0.00元'}}
                 </Col>
-                </Row>
+                <Col class-name="col" span="3">
+                <Button type="primary" size="small" @click="delRow(index,idx)">删除</Button>
+                </Col>
               </Row>
-              </Row>
-            </div>
+            </Row>
+            </Row>
           </div>
+        </div>
       </div>
       <div class="bottom-options">
         <div class="btn-block">
-        <Button type="primary" @click="save(1,'baseForm')">保存</Button>
+          <Button type="primary" @click="save(1,'baseForm')">保存</Button>
         </div>
         <div class="btn-block">
-        <Button type="warning" @click="save(0,'baseForm')">暂存</Button>
+          <Button type="warning" @click="save(0,'baseForm')">暂存</Button>
         </div>
         <div class="btn-block">
-        <Button @click="goback">返回</Button>
+          <Button @click="goback">返回</Button>
         </div>
       </div>
     </Card>
@@ -183,7 +188,7 @@
           }
         })
       },
-      chooseProducts(index,item) {
+      chooseProducts(index, item) {
         this.currentIndex = index;
         this.wareHouseId = item.wareHouseId;
         this.goodsList = [...item.items];
@@ -207,7 +212,7 @@
         this.show = false;
       },
       //  删除行
-      delRow(index,idx) {
+      delRow(index, idx) {
         this.baseApi.wareHouseInItem[index].items.splice(idx, 1)
         this.$nextTick(() => {
           this.act = !this.act
@@ -230,12 +235,12 @@
         })
       },
       //  验证入库数量、成本价不能为空
-      checkItems(){
+      checkItems() {
         let isOk = true;
-        this.baseApi.wareHouseInItem.map(el =>{
-          if(el.items.length){
-            el.items.map(sub =>{
-              if(sub.cost === null || sub.num === null){
+        this.baseApi.wareHouseInItem.map(el => {
+          if (el.items.length) {
+            el.items.map(sub => {
+              if (sub.cost === null || sub.num === null) {
                 isOk = false
               }
             })
@@ -304,6 +309,12 @@
           }
         })
       },
+      inpuChange() {
+        this.baseApi.wareHouseInItem = [...this.baseApi.wareHouseInItem];
+        this.$nextTick(() => {
+          this.act = !this.act;
+        })
+      }
     },
     created() {
       this.getWareHouse();
@@ -341,12 +352,14 @@
       margin-bottom: 10px;
     }
   }
-  .wareHouseName{
+  
+  .wareHouseName {
     text-align: left;
     padding-left: 20px;
     border-bottom: 1px solid #e8eaec;
     border-right: 1px solid #e8eaec
   }
+  
   .openBill {
     .goods-list {
       margin-bottom: 15px;

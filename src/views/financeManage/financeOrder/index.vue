@@ -53,7 +53,7 @@
           <Button type="primary" @click="unsettledAction(1)">批量结算</Button>
         </div>
         <allTable :lists="list" v-show="pageApi.tab === 1"></allTable>
-        <unsettledTable :lists="list" v-show="pageApi.tab === 2" @on-change="unsettledChange"></unsettledTable>
+        <unsettledTable :lists="list" v-show="pageApi.tab === 2" @on-change="unsettledChange" :selected="settleApi.orderIds"></unsettledTable>
         <preSettledTable :lists="list" v-show="pageApi.tab === 3" @on-cancel="cancelSettle"></preSettledTable>
         <settledTable :lists ="list" v-show="pageApi.tab === 4" @on-cancel="cancelSettle"></settledTable>
         <div class="paging">
@@ -241,10 +241,17 @@
       },
       changePage(page) {
         this.pageApi.pageIndex = page;
+        // this.isUnsettled()
       },
       changeSize(size){
         this.pageApi.pageSize = size;
+        // this.isUnsettled()
       },
+      //  是否有选择预结算订单
+      // isUnsettled(){
+      //   console.log(this.settleApi.orderIds)
+      //   this.settleApi.orderIds = [...this.settleApi.orderIds]
+      // },
       /// 取消结算 刷新列表
       cancelSettle() {
         this.getList(this.pageFilter)

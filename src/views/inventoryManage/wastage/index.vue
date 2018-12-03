@@ -75,7 +75,7 @@
             </template>
                             <!-- 损失数量 -->
             <template slot="num" slot-scope="props">
-              <Form :ref="'formRow'+props.idx" :model="props.row">
+              <Form :ref="'formRow'+props.idx" :model="props.row" @submit.native.prevent>
                 <FormItem prop="num" :rules="{required: true, message: '请输入数量', trigger: 'blur',type: 'number'}">
                   <!-- <Input v-model="props.row.num" size="small" style="width:60px;" placeholder="请输入"></Input> -->
                   <InputNumber :min="0" v-model.number="props.row.num" size="small" style="width:60px;"></InputNumber>{{props.row.unit}}

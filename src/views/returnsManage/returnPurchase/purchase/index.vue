@@ -40,7 +40,7 @@
 </template>
             <!-- 退货数量 -->
 <template slot="refundNum" slot-scope="props">
-  <Form :ref="'formRow'+props.idx" :model="props.row">
+  <Form :ref="'formRow'+props.idx" :model="props.row" @submit.native.prevent>
     <FormItem prop="refundNum" :rules="{required: true, message: '请输入数量', trigger: 'blur',type: 'number'}">
       <InputNumber :min="0" v-model.number="props.row.refundNum" size="small" style="width:60px;"></InputNumber>{{props.row.unit}}
     </FormItem>

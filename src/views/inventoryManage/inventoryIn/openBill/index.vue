@@ -31,20 +31,20 @@
       <div class="goods-info">
         <div class="add-goods">
           <Button type="primary" @click="chooseProducts">选择产品</Button>
-          <span class="total-count">成本价小计：{{allCostPrice}}元</span>
+          <span class="total-count">成本价总计：{{allCostPrice}}元</span>
         </div>
         <Table ref="goodsTable" border :columns="goodsHeader" :data="goodsList" style="max-width: 752px;">
           <!-- 入库数量 -->
           <template slot="num" slot-scope="props">
-            <Form :ref="'formRow'+props.idx" :model="props.row">
+            <Form :ref="'formRow'+props.idx" :model="props.row" @submit.native.prevent>
               <FormItem prop="num" :rules="{required: true, message: '请输入数量', trigger: 'blur',type: 'number'}">
-                <InputNumber :min="0" v-model.number="props.row.num" size="small" style="width:60px;"></InputNumber>{{props.row.unit}}
+                <InputNumber :min="0" v-model.number="props.row.num"  @on-change="costPrice" size="small" style="width:60px;"></InputNumber>{{props.row.unit}}
               </FormItem>
             </Form>
           </template>
           <!-- 成本价 -->
           <template slot="cost" slot-scope="props">
-            <Form :model="props.row">
+            <Form :model="props.row" @submit.native.prevent>
               <FormItem>
                 <InputNumber :min="0" v-model.number="props.row.cost" @on-change="costPrice" size="small" style="width:60px;"></InputNumber>元/{{props.row.unit}}
               </FormItem>
@@ -155,6 +155,14 @@
             )
           }
         }, {
+          title: '小计',
+          key: 'totaoCost',
+          maxWidth: 130,
+          render: (h, params) => {
+           let str = params.row.num!= null && params.row.cost != null ? (Number(params.row.num)*Number(params.row.cost)).toFixed(2) : 0.00;
+           return h('div',`￥${str}`)
+          }
+        }, {
           title: '操作',
           key: 'action',
           maxWidth: 180,
@@ -167,7 +175,7 @@
             )
           }
         }],
-        allCostPrice: 0
+        allCostPrice: 0.00
       }
     },
     computed: {
@@ -208,7 +216,7 @@
       costPrice(){
         let price = 0;
         this.goodsList.map(el =>{
-          price += el.cost;
+          price += (el.cost * el.num);
         })
         this.allCostPrice =  price.toFixed(2);
       },
@@ -241,6 +249,7 @@
               el.name = el.productName;
               el.categoryName = el.productCategory;
               el.cost = el.cost != '' ? el.cost : null;
+              el.totalCost = 0;
             })
             this.goodsList = [...res.data.wareHouseInItems]
           }
@@ -256,7 +265,7 @@
       // 选择产品
       chooseGoods() {
         if (this.selectGoods.length > 0) {
-          this.goodsList = [...this.selectGoods];
+          this.goodsList = [...this.selectGoods]
           this.show = false;
         } else {
           this.$Message.error('请选择产品')

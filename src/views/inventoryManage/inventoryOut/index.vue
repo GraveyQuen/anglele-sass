@@ -87,15 +87,15 @@
           <Table ref="overTable" disabled-hover border :columns="goodsHeader" :data="outApi.outItems" >
           <!-- 实单数量 -->
 <template slot="realNum" slot-scope="props">
-  <Form :ref="'formRow'+props.idx" :model="props.row">
+  <Form :ref="'formRow'+props.idx" :model="props.row" @submit.native.prevent>
     <FormItem prop="realNum" :rules="{required: true, message: '请输入数量', trigger: 'blur', type: 'number'}">
       <InputNumber :min="0" v-model.number="props.row.realNum" @on-change="handleTotalPrice" size="small" style="width:60px;"></InputNumber>{{props.row.unit}}
     </FormItem>
   </Form>
 </template>
         <!-- 实单单价 -->
-<template slot="realPrice" slot-scope="props">
-  <Form :ref="'formRow'+props.idx" :model="props.row">
+<template slot="realPrice" slot-scope="props" >
+  <Form :ref="'formRow'+props.idx" :model="props.row" @submit.native.prevent>
     <FormItem prop="realPrice" :rules="{required: true, message: '请输入单价', trigger: 'blur', type: 'number'}">
       <InputNumber :min="0" v-model.number="props.row.realPrice" @on-change="handleTotalPrice" size="small" style="width:60px;"></InputNumber>元/{{props.row.unit}}
     </FormItem>

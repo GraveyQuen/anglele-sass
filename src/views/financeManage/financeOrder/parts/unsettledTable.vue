@@ -3,7 +3,7 @@
     <Table width="100%" ref="settledTable" border :columns="tableHeader" :data="lists" @on-selection-change="selectRow">
       <!-- 操作 -->
       <template slot="action" slot-scope="props">
-            <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看</Button>
+              <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看</Button>
 </template>
     </Table>
         <Modal title="订单详情" width="1000" v-model="show" :mask-closable="false">
@@ -28,7 +28,8 @@
     props: {
       lists: {
         type: Array
-      }
+      },
+      selected: Array
     },
     data() {
       return {
@@ -121,17 +122,18 @@
     },
     watch: {
       lists(val) {
-        this.$refs.settledTable.selectAll(false);
+        // this.$refs.settledTable.selectAll(false);
       }
     },
     methods: {
       selectRow(data) {
-        let arr = [];
+        var arr = [];
         data.map(el => {
           arr.push(el.id)
         })
         this.$emit('on-change', arr)
       },
+
       detail(item) {
         this.show = true;
         this.$http.post(this.$api.findOneOrder, {
