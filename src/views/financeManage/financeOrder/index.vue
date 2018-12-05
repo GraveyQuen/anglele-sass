@@ -31,8 +31,8 @@
         </FormItem>
         <FormItem label="状态：" v-if="pageApi.tab === 1">
           <Select v-model="pageApi.settlementStatus" style="width: 200px;">
-              <Option v-for="(item,index) in orderStatus" :value="item.id" :key="index">{{ item.name }}</Option>
-            </Select>
+                <Option v-for="(item,index) in orderStatus" :value="item.id" :key="index">{{ item.name }}</Option>
+              </Select>
         </FormItem>
         <FormItem :label="pageApi.tab === 3 ? '预结算时间：':'结算时间：'" v-if="pageApi.tab === 3 || pageApi.tab === 4">
           <DatePicker type="daterange" placement="bottom-end" v-model="dateValue2" placeholder="选择日期" style="width: 200px"></DatePicker>
@@ -58,7 +58,7 @@
         <allTable :lists="list" v-show="pageApi.tab === 1"></allTable>
         <unsettledTable :lists="list" v-show="pageApi.tab === 2" @on-change="unsettledChange" :selected="settleApi.orderIds"></unsettledTable>
         <preSettledTable :lists="list" v-show="pageApi.tab === 3" @on-cancel="cancelSettle"></preSettledTable>
-        <settledTable :lists ="list" v-show="pageApi.tab === 4" @on-cancel="cancelSettle"></settledTable>
+        <settledTable :lists="list" v-show="pageApi.tab === 4" @on-cancel="cancelSettle"></settledTable>
         <div class="paging">
           <Page class="page-count" size="small" @on-page-size-change="changeSize" show-sizer show-elevator :total="totalCount" show-total :current="pageApi.pageIndex" :page-size="pageApi.pageSize" @on-change="changePage"></Page>
         </div>
@@ -115,28 +115,36 @@
           name: '全部',
           router: {
             path: '/financeManage/financeOrder',
-            query: {status: 1}
+            query: {
+              status: 1
+            }
           }
         }, {
           id: 2,
           name: '未结算',
           router: {
             path: '/financeManage/financeOrder',
-            query: {status: 2}
+            query: {
+              status: 2
+            }
           }
         }, {
           id: 3,
           name: '预结算',
           router: {
             path: '/financeManage/financeOrder',
-            query: {status: 3}
+            query: {
+              status: 3
+            }
           }
         }, {
           id: 4,
           name: '已结算',
           router: {
             path: '/financeManage/financeOrder',
-            query: {status: 4}
+            query: {
+              status: 4
+            }
           }
         }],
         orderStatus: [{
@@ -181,10 +189,10 @@
           productName: this.pageApi.productName
         }
       },
-      getStatus(){
-        if(this.$route.query.status){
+      getStatus() {
+        if (this.$route.query.status) {
           return Number(this.$route.query.status)
-        }else{
+        } else {
           return 1;
         };
       }
@@ -199,9 +207,9 @@
         }, 200),
         deep: true
       },
-      getStatus(val){
+      getStatus(val) {
         this.pageApi.tab = val;
-        if(this.settleApi.orderIds.length){
+        if (this.settleApi.orderIds.length) {
           this.settleApi.orderIds = [];
         }
       }
@@ -238,14 +246,11 @@
       //   this.pageApi.tab = tab;
       // },
       getList(params) {
-        if(this.settleApi.orderIds.length){
-          this.settleApi.orderIds = [];
-        }
         this.$http.post(this.$api.settlementPage, params).then(res => {
           if (res.code === 1000) {
-            let ress = res.data.page.data.map(el =>{
-              this.settleApi.orderIds.map(item =>{
-                if(el.id === item){
+            let ress = res.data.page.data.map(el => {
+              this.settleApi.orderIds.map(item => {
+                if (el.id === item) {
                   el._checked = true;
                 }
               })
@@ -261,12 +266,12 @@
         this.pageApi.pageIndex = page;
         this.isUnsettled()
       },
-      changeSize(size){
+      changeSize(size) {
         this.pageApi.pageSize = size;
         this.isUnsettled()
       },
       //  是否有选择预结算订单
-      isUnsettled(){
+      isUnsettled() {
         this.settleApi.orderIds = [...this.settleApi.orderIds]
       },
       /// 取消结算 刷新列表
@@ -296,7 +301,7 @@
               if (res.code === 1000) {
                 this.settleApi.orderIds = [];
                 this.$Message.success(`批量${data === 1 ? '结算成功':'预结算成功'}`);
-                if(this.pageApi.pageIndex !== 1){
+                if (this.pageApi.pageIndex !== 1) {
                   this.pageApi.pageIndex = 1
                 }
                 this.getList(this.pageFilter);
