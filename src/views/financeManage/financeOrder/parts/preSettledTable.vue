@@ -14,6 +14,7 @@
         <div v-for="(items ,idx) in list" :key="idx">
           <div class="settle-info">
             <Button type="warning" class="okSettled" size="small" @click="okSettled(items)">完成结算</Button>
+            <Button type="warning" class="okSettled" style="margin-left:10px;" size="small" @click="cancelSettled(true,items)">批量取消</Button>
             <Button type="warning" class="okSettled" style="margin-left:10px;" size="small" @click="print(items)">打印</Button>
             <span class="cell pointer" @click="toggleItem(items,idx)"><Icon :type="items.isShow ? 'ios-arrow-down':'ios-arrow-forward'" /></span>
             <span class="cell">预结算单号：{{items.id}}</span>
@@ -29,7 +30,7 @@
               <Col class-name="col" span="3">￥{{item.realAmount}}</Col>
               <Col class-name="col" span="3">{{item.settlementStatus | settlementStatus}}</Col>
               <Col class-name="col" span="3">
-              <Button type="success" size="small" style="margin-right:8px;" @click="cancelSettled(item)">取消结算</Button>
+              <Button type="success" size="small" style="margin-right:8px;" @click="cancelSettled(false,item)">取消结算</Button>
               <Button type="success" size="small" @click="detail(item)">查看</Button>
               </Col>
             </div>
@@ -101,14 +102,22 @@
         })
       },
       // 取消结算
-      cancelSettled(item) {
+      cancelSettled(isPl, item) {
         this.$Modal.confirm({
           title: '取消结算确认',
           content: `是否确认取消结算？`,
           onOk: () => {
-            this.$http.post(this.$api.settleCancel, {
-              orderId: item.id
-            }).then(res => {
+            let params = {}
+            if (isPl) {
+              let ids = [];
+              item.orders.forEach(el => {
+                ids.push(el.id);
+              })
+              params.orderId = ids.toString();
+            } else {
+              params.orderId = item.id;
+            }
+            this.$http.post(this.$api.settleCancel, params).then(res => {
               if (res.code === 1000) {
                 this.$emit('on-cancel', !this.isCancel)
               } else {
