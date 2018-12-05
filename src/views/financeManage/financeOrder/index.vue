@@ -2,11 +2,14 @@
   <div class="page-inner">
     <Card :bordered="true" dis-hover title="订单管理">
       <Form :mode="pageApi" :label-width="110" inline>
-        <FormItem label="订单单号：">
+        <FormItem label="订单编号：">
           <Input v-model="pageApi.orderId" placeholder="请输入" style="width: 200px;"></Input>
         </FormItem>
         <FormItem label="客户名称：">
           <Input v-model="pageApi.customerName" placeholder="请输入" style="width: 200px;"></Input>
+        </FormItem>
+        <FormItem label="产品名称：">
+          <Input v-model="pageApi.productName" placeholder="请输入" style="width: 200px;"></Input>
         </FormItem>
         <FormItem label="下单时间：">
           <DatePicker type="daterange" placement="bottom-end" v-model="dateValue1" placeholder="选择日期" style="width: 200px"></DatePicker>
@@ -86,6 +89,7 @@
           tab: 1,
           orderId: '',
           customerName: '',
+          productName: '',
           createTimeBegin: '',
           createTimeEnd: '',
           amountBegin: null,
@@ -174,6 +178,7 @@
           settlementTimeEnd: this.dateValue2[1] != '' ? this.dateValue2[1].getTime() : '',
           settlementAmountBegin: this.pageApi.settlementAmountBegin,
           settlementAmountEnd: this.pageApi.settlementAmountEnd,
+          productName: this.pageApi.productName
         }
       },
       getStatus(){
@@ -196,6 +201,9 @@
       },
       getStatus(val){
         this.pageApi.tab = val;
+        if(this.settleApi.orderIds.length){
+          this.settleApi.orderIds = [];
+        }
       }
     },
     methods: {
@@ -219,7 +227,8 @@
           settlementAmountBegin: null,
           settlementAmountEnd: null,
           settlementTimeBegin: '',
-          settlementTimeEnd: ''
+          settlementTimeEnd: '',
+          productName: ''
         }
         this.dateValue = ['', '']
         this.dateValue1 = ['', '']
@@ -229,6 +238,9 @@
       //   this.pageApi.tab = tab;
       // },
       getList(params) {
+        if(this.settleApi.orderIds.length){
+          this.settleApi.orderIds = [];
+        }
         this.$http.post(this.$api.settlementPage, params).then(res => {
           if (res.code === 1000) {
             let ress = res.data.page.data.map(el =>{
