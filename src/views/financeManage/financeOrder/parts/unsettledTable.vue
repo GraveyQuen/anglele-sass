@@ -1,9 +1,9 @@
 <template>
   <div class="tables">
-    <Table width="100%" ref="settledTable" border :columns="tableHeader" :data="lists" @on-selection-change="selectRow">
+    <Table width="100%" ref="settledTable" border :columns="tableHeader" @on-select-all-cancel="cancelAllRow" @on-select-cancel="cancelRow" :data="lists" @on-select="changeSingleRow" @on-select-all="changeSingleRow">
       <!-- 操作 -->
       <template slot="action" slot-scope="props">
-              <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看</Button>
+                  <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看</Button>
 </template>
     </Table>
         <Modal title="订单详情" width="1000" v-model="show" :mask-closable="false">
@@ -117,23 +117,43 @@
           }
         }],
         detailItem: {},
-        show: false
+        show: false,
+        selectedList: []
       }
     },
     watch: {
       lists(val) {
         // this.$refs.settledTable.selectAll(false);
-      }
+        this.selectedList = [...this.selected]
+      },
     },
     methods: {
-      selectRow(data) {
-        var arr = [];
+      //  全选、单个选中
+      changeSingleRow(data, row) {
+        let arr = [];
+        let newArr = [];
         data.map(el => {
           arr.push(el.id)
         })
-        this.$emit('on-change', arr)
+        newArr = [...arr, ...this.selectedList]
+        this.$emit('on-change', new Set(newArr))
       },
-
+      //  取消单个选中
+      cancelRow(data, row) {
+        let rowId = row.id;
+        let res = this.selected.filter(item => item != rowId);
+        this.$emit('on-change', new Set(res))
+      },
+      //  取消全选
+      cancelAllRow(data) {
+        if (!data.length) {
+          let res = [...this.selected]
+          this.lists.map(el => {
+            res.splice(res.findIndex(item => item === el.id), 1);
+          })
+          this.$emit('on-change', new Set(res))
+        }
+      },
       detail(item) {
         this.show = true;
         this.$http.post(this.$api.findOneOrder, {

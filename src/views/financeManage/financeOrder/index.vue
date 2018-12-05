@@ -231,27 +231,32 @@
       getList(params) {
         this.$http.post(this.$api.settlementPage, params).then(res => {
           if (res.code === 1000) {
-            this.list = res.data.page.data.map(el =>{
+            let ress = res.data.page.data.map(el =>{
+              this.settleApi.orderIds.map(item =>{
+                if(el.id === item){
+                  el._checked = true;
+                }
+              })
               el.isShow = true;
               return el;
             });
+            this.list = [...ress];
             this.totalCount = res.data.page.totalCount;
           }
         })
       },
       changePage(page) {
         this.pageApi.pageIndex = page;
-        // this.isUnsettled()
+        this.isUnsettled()
       },
       changeSize(size){
         this.pageApi.pageSize = size;
-        // this.isUnsettled()
+        this.isUnsettled()
       },
       //  是否有选择预结算订单
-      // isUnsettled(){
-      //   console.log(this.settleApi.orderIds)
-      //   this.settleApi.orderIds = [...this.settleApi.orderIds]
-      // },
+      isUnsettled(){
+        this.settleApi.orderIds = [...this.settleApi.orderIds]
+      },
       /// 取消结算 刷新列表
       cancelSettle() {
         this.getList(this.pageFilter)
@@ -279,6 +284,9 @@
               if (res.code === 1000) {
                 this.settleApi.orderIds = [];
                 this.$Message.success(`批量${data === 1 ? '结算成功':'预结算成功'}`);
+                if(this.pageApi.pageIndex !== 1){
+                  this.pageApi.pageIndex = 1
+                }
                 this.getList(this.pageFilter);
               } else {
                 this.$Message.error(res.message);

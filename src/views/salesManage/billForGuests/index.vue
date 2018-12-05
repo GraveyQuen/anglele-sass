@@ -4,8 +4,8 @@
       <Form :label-width="100" style="max-width: 900px;" inline>
         <FormItem label="选择客户：">
           <Select v-model="dataApi.customerId" filterable remote clearable :remote-method="remote" :loading="loading" style="width:300px;">
-              <Option v-for="(option, index) in customerList" :value="option.id" :key="index">{{option.name}}</Option>
-            </Select>
+                <Option v-for="(option, index) in customerList" :value="option.id" :key="index">{{option.name}}</Option>
+              </Select>
         </FormItem>
         <div class="other-info-wrapper" v-if="hasCustonmer">
           <div class="other-info">
@@ -33,19 +33,19 @@
               <Table ref="goodsTable" border :columns="goodsHeader" :data="goodsList" style="max-width: 752px;">
                 <!-- 下单数量 -->
                 <template slot="num" slot-scope="props">
-                  <Form :ref="'formRow'+props.idx" :model="props.row" @submit.native.prevent>
-                    <FormItem prop="num" :rules="{required: true, message: '请输入数量', trigger: 'blur',type:'number'}">
-                      <!-- <Input v-model.number="props.row.num" size="small" placeholder="请输入" style="width:80px;"></Input> -->
-                      <InputNumber :min="0" v-model.number="props.row.num" size="small" style="width:70px;"></InputNumber>{{props.row.unit}}
-                    </FormItem>
-                  </Form>
-</template>
-              <!-- 操作 -->
-<template slot="action" slot-scope="props">
-  <Poptip @on-ok="delRow(props.idx)" confirm title="确认删除此条产品？" transfer>
-    <Button type="warning" size="small">删除</Button>
-  </Poptip>
-</template>
+                    <Form :ref="'formRow'+props.idx" :model="props.row" @submit.native.prevent>
+                      <FormItem prop="num" :rules="{required: true, message: '请输入数量', trigger: 'blur',type:'number'}">
+                        <!-- <Input v-model.number="props.row.num" size="small" placeholder="请输入" style="width:80px;"></Input> -->
+                        <InputNumber :min="0" v-model.number="props.row.num" size="small" style="width:60px;"></InputNumber>{{props.row.unit}}
+                      </FormItem>
+                    </Form>
+                </template>
+                <!-- 操作 -->
+                <template slot="action" slot-scope="props">
+                  <Poptip @on-ok="delRow(props.idx)" confirm title="确认删除此条产品？" transfer>
+                    <Button type="warning" size="small">删除</Button>
+                  </Poptip>
+                </template>
             </Table>
           </div>
           <div class="btns">
@@ -128,9 +128,9 @@
           key: 'nums',
           maxWidth: 140,
           render: (h, params) => {
-            let str = params.row.price != null && params.row.num != null ? '￥'+(params.row.price*params.row.num).toFixed(2):'￥0.00'
+            let str = params.row.price != null && params.row.num != null ? '￥' + (params.row.price * params.row.num).toFixed(2) : '￥0.00'
             return h(
-              'div',str)
+              'div', str)
           }
         }, {
           title: '操作',
