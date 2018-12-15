@@ -58,9 +58,11 @@
       industryStatus
     },
     data() {
-      return {}
+      return {
+      }
     },
-    methods: {}
+    methods: {
+    }
   }
 </script>
 
