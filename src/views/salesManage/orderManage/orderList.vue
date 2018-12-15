@@ -23,23 +23,23 @@
         </FormItem>
         <FormItem label="下单方式：">
           <Select v-model="pageApi.orderType" style="width: 200px;">
-                        <Option v-for="(item,index) in [{value: 1,name:'客户下单'},{value: 2,name: '代客下单'}]" :value="item.value" :key="index">{{ item.name }}</Option>
-                      </Select>
+                          <Option v-for="(item,index) in [{value: 1,name:'客户下单'},{value: 2,name: '代客下单'}]" :value="item.value" :key="index">{{ item.name }}</Option>
+                        </Select>
         </FormItem>
         <FormItem label="是否有其他费用：">
           <Select v-model="pageApi.hasFee" style="width: 200px;">
-                        <Option v-for="(item,index) in [{value: 0,name:'无回收费用'},{value: 1,name: '未回收完成'},{value: 2,name: '回收完成'}]" :value="item.value" :key="index">{{ item.name }}</Option>
-                      </Select>
+                          <Option v-for="(item,index) in [{value: 0,name:'无回收费用'},{value: 1,name: '未回收完成'},{value: 2,name: '回收完成'}]" :value="item.value" :key="index">{{ item.name }}</Option>
+                        </Select>
         </FormItem>
         <FormItem label="配送人：">
           <Select v-model="pageApi.deliveryManId" style="width: 200px;">
-                        <Option v-for="(item,index) in deliveryList" :value="item.id" :key="index">{{ item.name }}</Option>
-                      </Select>
+                          <Option v-for="(item,index) in deliveryList" :value="item.id" :key="index">{{ item.name }}</Option>
+                        </Select>
         </FormItem>
         <FormItem label="状态：">
           <Select v-model="pageApi.status" style="width: 200px;">
-                        <Option v-for="(item,index) in orderStatus" :value="item.value" :key="index">{{ item.name }}</Option>
-                      </Select>
+              <Option v-for="(item,index) in orderStatus" :value="item.value" :key="index">{{ item.name }}</Option>
+            </Select>
         </FormItem>
         <FormItem label="下单日期：">
           <DatePicker type="daterange" placement="bottom-start" v-model="dateValue" placeholder="选择日期" style="width: 200px"></DatePicker>
@@ -51,21 +51,24 @@
           <DatePicker type="daterange" placement="bottom-start" v-model="dateValue2" placeholder="选择日期" style="width: 200px"></DatePicker>
         </FormItem>
         <FormItem>
-          <Button type="warning" @click.native="resetFilter">清除筛选</Button>
+          <Button type="warning" @click="resetFilter">清除筛选</Button>
+        </FormItem>
+        <FormItem>
+          <Button type="warning" v-show="old && pageApi.status === 5" @click="exportExcel">导出</Button>
         </FormItem>
       </Form>
       <div class="card-contnet">
         <Table width="100%" ref="orderTable" :columns="tableHeader" border :data="list">
           <!-- 操作 -->
           <template slot="action" slot-scope="props">
-                <!-- <Button type="warning" size="small" style="margin-right:8px;" v-if="props.row.status === 4" @click="overOrder(props.row)">完成订单</Button> -->
-                <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看订单</Button>
-                <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1" @click="confirm(props.row)">确认订单</Button>
-                <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1 || props.row.status === 2 || props.row.status === 3 || props.row.status === 4" @click="cancelOrder(props.row)">取消订单</Button>
-                <Button type="info" size="small" v-if="props.row.status === 5 && props.row.settlementStatus === 0 && props.row.hasRefund === 0" @click="returnBill(props.row)">退货</Button>
-                <Button type="info" size="small" v-if="props.row.status === 5 && props.row.settlementStatus === 0 && props.row.hasRefund === ''" @click="returnBill(props.row)">退货</Button>
-                <Button type="info" size="small" v-if="props.row.status === 5 && props.row.settlementStatus === 0 && props.row.hasRefund === 1" @click="edit(props.row)">编辑退货</Button>
-          </template>
+                  <!-- <Button type="warning" size="small" style="margin-right:8px;" v-if="props.row.status === 4" @click="overOrder(props.row)">完成订单</Button> -->
+                  <Button type="success" size="small" style="margin-right:8px;" @click="detail(props.row)">查看订单</Button>
+                  <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1" @click="confirm(props.row)">确认订单</Button>
+                  <Button type="info" size="small" style="margin-right:8px;" v-if="props.row.status === 1 || props.row.status === 2 || props.row.status === 3 || props.row.status === 4" @click="cancelOrder(props.row)">取消订单</Button>
+                  <Button type="info" size="small" v-if="props.row.status === 5 && props.row.settlementStatus === 0 && props.row.hasRefund === 0" @click="returnBill(props.row)">退货</Button>
+                  <Button type="info" size="small" v-if="props.row.status === 5 && props.row.settlementStatus === 0 && props.row.hasRefund === ''" @click="returnBill(props.row)">退货</Button>
+                  <Button type="info" size="small" v-if="props.row.status === 5 && props.row.settlementStatus === 0 && props.row.hasRefund === 1" @click="edit(props.row)">编辑退货</Button>
+</template>
         </Table>
         <div class="paging">
           <Page class="page-count" size="small" @on-page-size-change="changeSize" show-sizer show-elevator :total="totalCount" show-total :current="pageApi.pageIndex" :page-size="pageApi.pageSize" @on-change="changePage"></Page>
@@ -238,19 +241,19 @@
     <Modal title="确认订单" width="800" v-model="checkOrderShow" :mask-closable="false">
       <p class="check-warm">因检测到产品存在多个仓库，故需要进行分仓出库</p>
       <Table ref="checkOrderTable" disabled-hover border :columns="checkOrderHeader" :data="checkOrderApi.items" >
-        <!-- 实单数量 -->
-        <template slot="wareHouseNum" slot-scope="props">
-          <div v-for="(item,index) in props.row.wareHouseNum">
-            {{item.wareHouseName}}：{{item.num}}{{item.unit}}
-          </div>
-        </template>
-        <!-- 实单单价 -->
-        <template slot="wareHouseProducts" slot-scope="props">
-          <div v-for="(item,index) in props.row.wareHouseProducts" class="checkNum-item">
-            {{item.wareHouseName}}：
-            <InputNumber :min="0" :disabled="item.disabledCheckNum" @on-change="checkNumChange(index,$event)" @on-blur="checkNumBlur(props.row,index)" v-model.number="item.checkNum" size="small" style="width:80px;"></InputNumber>{{props.row.unit}}
-          </div>
-        </template>
+      <!-- 实单数量 -->
+      <template slot="wareHouseNum" slot-scope="props">
+        <div v-for="(item,index) in props.row.wareHouseNum">
+          {{item.wareHouseName}}：{{item.num}}{{item.unit}}
+        </div>
+      </template>
+      <!-- 实单单价 -->
+      <template slot="wareHouseProducts" slot-scope="props">
+        <div v-for="(item,index) in props.row.wareHouseProducts" class="checkNum-item">
+          {{item.wareHouseName}}：
+          <InputNumber :min="0" :disabled="item.disabledCheckNum" @on-change="checkNumChange(index,$event)" @on-blur="checkNumBlur(props.row,index)" v-model.number="item.checkNum" size="small" style="width:80px;"></InputNumber>{{props.row.unit}}
+        </div>
+      </template>
         </Table>
         <div slot="footer">
           <Button type="primary" @click="saveCheckOrder" :loading="loading">保存</Button>
@@ -505,7 +508,12 @@
           }
         }],
         currentNum: 0,
-        currentIndex: 0
+        currentIndex: 0,
+        exportApi: {
+          startCreateTime: '',
+          endCreateTime: '',
+          deliveryManId: ''
+        }
       }
     },
     computed: {
@@ -645,7 +653,7 @@
       cancelReset(name) {
         this.cancelApi.cancelReason = '';
         this.cancelShow = false,
-        this.loading = false;
+          this.loading = false;
         this.$refs[name].resetFields();
       },
       //  确认订单      
@@ -657,13 +665,13 @@
             res.data.orderItems.map(el => {
               el.wareHouseNum = el.wareHouseProducts
               //  不是多个库存添加disable
-              if(el.wareHouseProducts.length === 1){
-                el.wareHouseProducts.map(sub =>{
-                sub.disabledCheckNum = true;
+              if (el.wareHouseProducts.length === 1) {
+                el.wareHouseProducts.map(sub => {
+                  sub.disabledCheckNum = true;
                 })
-              }else{
-                el.wareHouseProducts.map(sub =>{
-                sub.disabledCheckNum = false;
+              } else {
+                el.wareHouseProducts.map(sub => {
+                  sub.disabledCheckNum = false;
                 })
               }
             })
@@ -679,14 +687,14 @@
         this.checkOrderShow = false
       },
       //  检测出库数量
-      checkNumOk(){
+      checkNumOk() {
         let isOk = true;
-        this.checkOrderApi.items.map(el =>{
+        this.checkOrderApi.items.map(el => {
           let total = 0;
-          el.wareHouseProducts.map(sub =>{
+          el.wareHouseProducts.map(sub => {
             total += sub.checkNum;
           })
-          if(el.num != total){
+          if (el.num != total) {
             this.warmProductName = el.productName;
             isOk = false
           }
@@ -695,19 +703,19 @@
       },
       //  保存确认订单
       saveCheckOrder() {
-        if(this.checkNumOk()){
-        const params = this.$clearData(this.checkOrderApi);
-        params.items = JSON.stringify(params.items)
-        this.$http.post(this.$api.checkOrder, params).then(res => {
-          if (res.code === 1000) {
-            this.getList(this.pageFilter);
-            this.$Message.success('订单确认成功');
-            this.checkOrderShow = false;
-          } else {
-            this.$Message.error(res.message);
-          }
-        })
-        }else{
+        if (this.checkNumOk()) {
+          const params = this.$clearData(this.checkOrderApi);
+          params.items = JSON.stringify(params.items)
+          this.$http.post(this.$api.checkOrder, params).then(res => {
+            if (res.code === 1000) {
+              this.getList(this.pageFilter);
+              this.$Message.success('订单确认成功');
+              this.checkOrderShow = false;
+            } else {
+              this.$Message.error(res.message);
+            }
+          })
+        } else {
           this.$Message.error(`${this.warmProductName}分仓数量与下单数量不相等`)
         }
       },
@@ -721,8 +729,8 @@
         })
       },
       //  赋值当前输入的分仓出库数量
-      checkNumBlur(item, itemIndex){
-        if(itemIndex === this.currentIndex){
+      checkNumBlur(item, itemIndex) {
+        if (itemIndex === this.currentIndex) {
           this.checkOrderApi.items.map((el, index) => {
             if (el.id === item.id) {
               this.checkOrderApi.items[index].wareHouseProducts[itemIndex].checkNum = this.currentNum;
@@ -730,7 +738,7 @@
           })
         }
       },
-      checkNumChange(index,data) {
+      checkNumChange(index, data) {
         this.currentIndex = index;
         this.currentNum = data;
       },
@@ -766,6 +774,35 @@
           query: {
             id: item.id
           }
+        })
+      },
+      // 导出
+      exportExcel() {
+        this.$Spin.show({
+          render: (h) => {
+            return h('div', [
+              h('Icon', {
+                'class': 'spin-icon-load',
+                props: {
+                  type: 'ios-loading',
+                  size: 18
+                }
+              }),
+              h('div', '正在生成导出订单...')
+            ])
+          }
+        });
+        let params = this.$clearData(this.exportApi);
+        params.startCreateTime = this.dateValue[0] != '' ? this.dateValue[0].getTime() : '';
+        params.endCreateTime = this.dateValue[1] != '' ? this.dateValue[1].getTime() : '';
+        params.deliveryManId = this.pageApi.deliveryManId;
+        this.$http.post(this.$api.exportOrderExcel, params).then(res => {
+          if (res.code === 1000) {
+            window.open(res.data, '_blank')
+          }else{
+            this.$Message.error(res.message)
+          }
+          this.$Spin.hide();
         })
       }
     },
@@ -878,7 +915,7 @@
   
   .checkNum-item {
     margin: 10px 0;
-    @{deep} .ivu-input-number-handler-wrap{
+    @{deep} .ivu-input-number-handler-wrap {
       display: none;
     }
   }

@@ -56,6 +56,9 @@
         <FormItem label="名称：" prop="name">
           <Input v-model="dataApi.name" placeholder="请输入..."></Input>
         </FormItem>
+        <FormItem label="名称简称：">
+          <Input v-model="dataApi.tags" placeholder="请输入"></Input>
+        </FormItem>
         <FormItem label="所属分类：" prop="categoryId">
           <Select v-model="dataApi.categoryId">
             <Option v-for="(item,index) in categoryList" :value="item.id" :key="index">{{ item.name }}</Option>
@@ -176,6 +179,7 @@
         editItem: {},
         dataApi: {
           name: '',
+          tags: '',
           categoryId: '',
           status: 1,
           productImg: '',
@@ -471,6 +475,7 @@
           this.editItem = item || {};
           this.dataApi = {
             name: item.name,
+            tags: item.tags,
             categoryId: item.categoryId,
             status: item.status,
             productImg: item.productImg,
@@ -485,6 +490,7 @@
         } else {
           this.dataApi = {
             name: '',
+            tags: '',
             categoryId: '',
             status: 1,
             productImg: '',

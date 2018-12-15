@@ -442,6 +442,13 @@ export const wareHouseOrderPage1 = '/sys/wareHouseOut/page1'
 
 
 /**
+ * 历史订单导出
+ */
+export const exportOrderExcel = '/sys/order/orderExcel'
+
+
+
+/**
  * 出库单详情
  */
 export const wareHouseOutDetail = '/sys/wareHouseOut/detail'

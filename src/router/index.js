@@ -5,7 +5,6 @@ import {
   Modal
 } from 'iview'
 import routes from './routers'
-import { format } from 'url';
 
 Vue.use(Router);
 
