@@ -93,6 +93,7 @@ export default {
     border-radius: 2px;
     background-color: #f7f4f4;
     &:hover {
+      color: #23D5C0;
     }
   }
   .ac-item-count {
