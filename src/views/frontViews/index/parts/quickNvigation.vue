@@ -2,7 +2,7 @@
   <div class="qn-container">
     <div class="qn-item-group open">
       <div class="qn-ac-items">
-        <a class="ac-item" :href='"tencent://message/?uin=3252645503&amp;Site=&amp;Menu=yes"'>
+        <a class="ac-item" :href='"http://wpa.qq.com/msgrd?v=3&uin=1485585629&site=qq&menu=yes"'>
           <span class="iconfont ang-wodekefu"></span>
           <div class="ac-item-desc">在线客服</div>
         </a>
